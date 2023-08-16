@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7b87b8f755ae404ea2d2a8559d4e577, type: 3}
+  m_Name: Mahou
+  m_EditorClassIdentifier: 
+  animator: {fileID: 22100000, guid: 1a604967618534a40b48fee83eaaa156, type: 2}
+  baseSpeed: 0
+  cooldownAttack: 0
+  cooldownSpecial: 0
+  projectile1: {fileID: 7021703367820326000, guid: 55c658de3f65e0547ae50c649e161b1d, type: 3}
+  projectile2: {fileID: 7021703367820326000, guid: a6f234fbb72ad6e44ac8a4f09a448619, type: 3}
+  projectile3: {fileID: 7021703367820326000, guid: 9a10ea3abb2c5c7489f6c305207ffb8b, type: 3}
