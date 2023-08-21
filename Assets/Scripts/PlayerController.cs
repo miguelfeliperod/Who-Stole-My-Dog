@@ -153,7 +153,7 @@ public class PlayerController : MonoBehaviour
 
         currentChargedTime += Time.deltaTime;
         chargingVFX.SetBool("isCharged", currentChargedTime >= shot3MinimumChargeTime);
-        walkNormalVFX.enabled = move.IsPressed() && IsGrounded();
+        walkNormalVFX.enabled = move.IsPressed() && IsGrounded() && rigidBody.velocity.x > 0.1f;
 
         darkComboTimer += Time.deltaTime;
     }
@@ -243,7 +243,7 @@ public class PlayerController : MonoBehaviour
                     attackRange + (bonusDarkAttackRangePerHit * darkAttackCount), enemyLayer);
                 foreach (Collider2D enemy in darkHitEnemies)
                 {
-                    enemy.GetComponentInParent<BaseEnemy>().TakeDamage(baseAttackDamage + darkAttackCount);
+                    enemy.GetComponentInParent<BaseEnemy>().TakeDamage(baseAttackDamage + darkAttackCount, Form.Dark);
                 }
                 switch (darkAttackCount)
                 {
@@ -478,7 +478,7 @@ public class PlayerController : MonoBehaviour
         return true;
     }
 
-    void TakeDamage(int lostLifeValue)
+    public void TakeDamage(int lostLifeValue)
     {
         if (isInvencible || !IsAlive) return;
         currentHP -= lostLifeValue;

@@ -20,6 +20,10 @@ public class FormUI : MonoBehaviour
 
         UpdateAllBars();
     }
+    private void OnEnable()
+    {
+        UpdateAllBars();
+    }
 
     public void UpdateAllBars()
     {
