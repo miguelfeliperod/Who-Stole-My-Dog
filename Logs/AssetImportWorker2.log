@@ -1,0 +1,358 @@
+Using pre-set license
+Built from '2021.3/staging' branch; Version is '2021.3.19f1 (c9714fde33b6) revision 13201743'; Using compiler version '192829333'; Build Type 'Release'
+OS: 'Windows 10  (10.0.19044) 64bit Professional' Language: 'pt' Physical Memory: 15308 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 1
+
+COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\2021.3.19f1\Editor\Unity.exe
+-adb2
+-batchMode
+-noUpm
+-name
+AssetImportWorker2
+-projectPath
+D:/My project
+-logFile
+Logs/AssetImportWorker2.log
+-srvPort
+56912
+Successfully changed project path to: D:/My project
+D:/My project
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gfx=262144"
+Player connection [29976] Host "[IP] 192.168.0.243 [Port] 0 [Flags] 2 [Guid] 1766330261 [EditorId] 1766330261 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-O3D52S7) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
+
+Player connection [29976] Host "[IP] 192.168.0.243 [Port] 0 [Flags] 2 [Guid] 1766330261 [EditorId] 1766330261 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-O3D52S7) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
+
+Refreshing native plugins compatible for Editor in 271.92 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 2021.3.19f1 (c9714fde33b6)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2021.3.19f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path D:/My project/Assets
+GfxDevice: creating device client; threaded=0; jobified=0
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: AMD Radeon(TM) RX Vega 11 Graphics (ID=0x15dd)
+    Vendor:   ATI
+    VRAM:     7654 MB
+    Driver:   31.0.12002.92
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2021.3.19f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2021.3.19f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/2021.3.19f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56876
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.3.19f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.3.19f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.018717 seconds.
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 438.89 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  2.843 seconds
+Domain Reload Profiling:
+	ReloadAssembly (2844ms)
+		BeginReloadAssembly (195ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (0ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (2ms)
+		EndReloadAssembly (1944ms)
+			LoadAssemblies (189ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (724ms)
+			ReleaseScriptCaches (0ms)
+			RebuildScriptCaches (88ms)
+			SetupLoadedEditorAssemblies (1005ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (27ms)
+				SetLoadedEditorAssemblies (1ms)
+				RefreshPlugins (439ms)
+				BeforeProcessingInitializeOnLoad (4ms)
+				ProcessInitializeOnLoadAttributes (401ms)
+				ProcessInitializeOnLoadMethodAttributes (134ms)
+				AfterProcessingInitializeOnLoad (0ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (0ms)
+Platform modules already initialized, skipping
+Registering precompiled user dll's ...
+Registered in 0.010955 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image D:\My project\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
+Symbol file LoadedFromMemory doesn't match image D:\My project\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 303.46 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  4.948 seconds
+Domain Reload Profiling:
+	ReloadAssembly (4951ms)
+		BeginReloadAssembly (251ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (14ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (1ms)
+			CreateAndSetChildDomain (39ms)
+		EndReloadAssembly (4448ms)
+			LoadAssemblies (210ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (948ms)
+			ReleaseScriptCaches (3ms)
+			RebuildScriptCaches (898ms)
+			SetupLoadedEditorAssemblies (2014ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (20ms)
+				SetLoadedEditorAssemblies (1ms)
+				RefreshPlugins (304ms)
+				BeforeProcessingInitializeOnLoad (346ms)
+				ProcessInitializeOnLoadAttributes (1090ms)
+				ProcessInitializeOnLoadMethodAttributes (237ms)
+				AfterProcessingInitializeOnLoad (17ms)
+				EditorAssembliesLoaded (1ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (18ms)
+Platform modules already initialized, skipping
+========================================================================
+Worker process is ready to serve import requests
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.34 seconds
+Refreshing native plugins compatible for Editor in 3.01 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 6328 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 59 unused Assets / (1.3 MB). Loaded Objects now: 6806.
+Memory consumption went from 270.6 MB to 269.3 MB.
+Total: 13.213600 ms (FindLiveObjects: 1.420400 ms CreateObjectMapping: 2.646700 ms MarkObjects: 8.384400 ms  DeleteObjects: 0.760700 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 247659.507705 seconds.
+  path: Assets/Prefab/shot.prefab
+  artifactKey: Guid(8959d383b4053ef45b1ed6850d87f6d6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefab/shot.prefab using Guid(8959d383b4053ef45b1ed6850d87f6d6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ada9e517a0bc6ab04fb97a41169df0c3') in 0.770812 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000170 seconds.
+  path: Assets/Prefab/shot2.prefab
+  artifactKey: Guid(a6f234fbb72ad6e44ac8a4f09a448619) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefab/shot2.prefab using Guid(a6f234fbb72ad6e44ac8a4f09a448619) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '214d98d22e4551e994327d1df0718fdb') in 0.087732 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 3.932099 seconds.
+  path: Assets/Prefab/shot1.prefab
+  artifactKey: Guid(55c658de3f65e0547ae50c649e161b1d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefab/shot1.prefab using Guid(55c658de3f65e0547ae50c649e161b1d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8b427d381b72141d66bb3b9492397f07') in 0.035834 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 8.589069 seconds.
+  path: Assets/Prefab/shot2.prefab
+  artifactKey: Guid(a6f234fbb72ad6e44ac8a4f09a448619) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefab/shot2.prefab using Guid(a6f234fbb72ad6e44ac8a4f09a448619) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '70ec3d7a5f17064ddbe7a889e6de9fff') in 0.023490 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.714202 seconds.
+  path: Assets/Prefab/shot2.prefab
+  artifactKey: Guid(a6f234fbb72ad6e44ac8a4f09a448619) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefab/shot2.prefab using Guid(a6f234fbb72ad6e44ac8a4f09a448619) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '908e3701b99117e001b72d135dcf8dee') in 0.022996 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 1.955899 seconds.
+  path: Assets/Prefab/shot2.prefab
+  artifactKey: Guid(a6f234fbb72ad6e44ac8a4f09a448619) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefab/shot2.prefab using Guid(a6f234fbb72ad6e44ac8a4f09a448619) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6001c618633d79d358ad5b3e846eb326') in 0.023992 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 3.598740 seconds.
+  path: Assets/Prefab/shot2.prefab
+  artifactKey: Guid(a6f234fbb72ad6e44ac8a4f09a448619) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefab/shot2.prefab using Guid(a6f234fbb72ad6e44ac8a4f09a448619) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '98070db940a3dcae8a64ec5b8ff94981') in 0.018053 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 14.297270 seconds.
+  path: Assets/Prefab/shot2.prefab
+  artifactKey: Guid(a6f234fbb72ad6e44ac8a4f09a448619) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefab/shot2.prefab using Guid(a6f234fbb72ad6e44ac8a4f09a448619) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c39378904ced1d9b69d674d28575b633') in 0.019635 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 1.507295 seconds.
+  path: Assets/Prefab/shot2.prefab
+  artifactKey: Guid(a6f234fbb72ad6e44ac8a4f09a448619) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefab/shot2.prefab using Guid(a6f234fbb72ad6e44ac8a4f09a448619) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bab22b6bce9d9b0201f84eca68d13fd9') in 0.028081 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 2.088683 seconds.
+  path: Assets/Prefab/shot2.prefab
+  artifactKey: Guid(a6f234fbb72ad6e44ac8a4f09a448619) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefab/shot2.prefab using Guid(a6f234fbb72ad6e44ac8a4f09a448619) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cfa3e884f3dfc7fd6df0de7c878ff156') in 0.028198 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 2.068235 seconds.
+  path: Assets/Prefab/shot2.prefab
+  artifactKey: Guid(a6f234fbb72ad6e44ac8a4f09a448619) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefab/shot2.prefab using Guid(a6f234fbb72ad6e44ac8a4f09a448619) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '000c86349380e4b7473c9f039b853cde') in 0.022855 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 15.985354 seconds.
+  path: Assets/VFX/shot1spark.vfx
+  artifactKey: Guid(878d2fed99324a645a07de657ae5a3f7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/VFX/shot1spark.vfx using Guid(878d2fed99324a645a07de657ae5a3f7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bb0805b2aa82ba1d5bbaf63b9384977c') in 0.090354 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 6.524718 seconds.
+  path: Assets/VFX/shot1spark 1.vfx
+  artifactKey: Guid(227f86f32fdc1974baf4ceadb93d9e1d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/VFX/shot1spark 1.vfx using Guid(227f86f32fdc1974baf4ceadb93d9e1d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2271c3b5025bfcc366a519020a17933d') in 0.879231 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 4.222673 seconds.
+  path: Assets/VFX/shot2spark.vfx
+  artifactKey: Guid(227f86f32fdc1974baf4ceadb93d9e1d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/VFX/shot2spark.vfx using Guid(227f86f32fdc1974baf4ceadb93d9e1d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1dc3e4b4d9606dfdc1e276a513e50067') in 0.322625 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 9.849765 seconds.
+  path: Assets/VFX/shot1spark.vfx
+  artifactKey: Guid(878d2fed99324a645a07de657ae5a3f7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/VFX/shot1spark.vfx using Guid(878d2fed99324a645a07de657ae5a3f7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '65fd4bc1376805c569fdba56930a3269') in 0.021256 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 35.031154 seconds.
+  path: Assets/VFX/shot2spark.vfx
+  artifactKey: Guid(227f86f32fdc1974baf4ceadb93d9e1d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/VFX/shot2spark.vfx using Guid(227f86f32fdc1974baf4ceadb93d9e1d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5ee37ff6d989949fd8c4428844b52910') in 0.313108 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 99.416945 seconds.
+  path: Assets/Prefab/shot1.prefab
+  artifactKey: Guid(55c658de3f65e0547ae50c649e161b1d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefab/shot1.prefab using Guid(55c658de3f65e0547ae50c649e161b1d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'aea08d4dfca979413d3ca85d39aa7a7b') in 0.025945 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 2.865887 seconds.
+  path: Assets/Prefab/shot3.prefab
+  artifactKey: Guid(9a10ea3abb2c5c7489f6c305207ffb8b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefab/shot3.prefab using Guid(9a10ea3abb2c5c7489f6c305207ffb8b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a1d8493e0bc991d73b237779033d1eab') in 0.036762 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 24.198686 seconds.
+  path: Assets/Prefab/shot2.prefab
+  artifactKey: Guid(a6f234fbb72ad6e44ac8a4f09a448619) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefab/shot2.prefab using Guid(a6f234fbb72ad6e44ac8a4f09a448619) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b587284b52fada51a2fdd0b6ac5ef04b') in 0.035912 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 25.120639 seconds.
+  path: Assets/Prefab/shot2.prefab
+  artifactKey: Guid(a6f234fbb72ad6e44ac8a4f09a448619) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefab/shot2.prefab using Guid(a6f234fbb72ad6e44ac8a4f09a448619) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '84dbc65da1644f366c6bac8bacde8cb5') in 0.031238 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 15.912849 seconds.
+  path: Assets/VFX/shot2spark.vfx
+  artifactKey: Guid(227f86f32fdc1974baf4ceadb93d9e1d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/VFX/shot2spark.vfx using Guid(227f86f32fdc1974baf4ceadb93d9e1d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '21ccd9296e50f9ec2681fe34f03fb7cb') in 0.024494 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 3.859052 seconds.
+  path: Assets/VFX/shot2spark 1.vfx
+  artifactKey: Guid(4428582fdda466e4496364c95fa536ec) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/VFX/shot2spark 1.vfx using Guid(4428582fdda466e4496364c95fa536ec) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8ea2cc4f5dcadcc69ce28f13bcc29659') in 1.091135 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 2.603804 seconds.
+  path: Assets/VFX/shot3spark.vfx
+  artifactKey: Guid(4428582fdda466e4496364c95fa536ec) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/VFX/shot3spark.vfx using Guid(4428582fdda466e4496364c95fa536ec) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6f1170b9579fde8a170b3d1f36a9874b') in 0.261744 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 74.751279 seconds.
+  path: Assets/VFX/shot2spark.vfx
+  artifactKey: Guid(227f86f32fdc1974baf4ceadb93d9e1d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/VFX/shot2spark.vfx using Guid(227f86f32fdc1974baf4ceadb93d9e1d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0d8a6451f2fe8838a113d1db93b16018') in 0.239427 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 7.420612 seconds.
+  path: Assets/VFX/shot2spark.vfx
+  artifactKey: Guid(227f86f32fdc1974baf4ceadb93d9e1d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/VFX/shot2spark.vfx using Guid(227f86f32fdc1974baf4ceadb93d9e1d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c05a9029d7b52ae21b9261b609299d78') in 0.229538 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 3.847952 seconds.
+  path: Assets/VFX/shot2spark.vfx
+  artifactKey: Guid(227f86f32fdc1974baf4ceadb93d9e1d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/VFX/shot2spark.vfx using Guid(227f86f32fdc1974baf4ceadb93d9e1d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '27332036b952e032156b76db1f447a78') in 0.235209 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 14.770017 seconds.
+  path: Assets/VFX/shot2spark.vfx
+  artifactKey: Guid(227f86f32fdc1974baf4ceadb93d9e1d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/VFX/shot2spark.vfx using Guid(227f86f32fdc1974baf4ceadb93d9e1d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '35f0266e2ee4df392507bbb1ccd39a87') in 0.347963 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 5.071505 seconds.
+  path: Assets/VFX/shot2spark.vfx
+  artifactKey: Guid(227f86f32fdc1974baf4ceadb93d9e1d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/VFX/shot2spark.vfx using Guid(227f86f32fdc1974baf4ceadb93d9e1d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2f9f9d16053b4268c4b50efe8a65a603') in 0.272931 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 9.740165 seconds.
+  path: Assets/VFX/shot2spark.vfx
+  artifactKey: Guid(227f86f32fdc1974baf4ceadb93d9e1d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/VFX/shot2spark.vfx using Guid(227f86f32fdc1974baf4ceadb93d9e1d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ef5b5f5da88dc2ff049a4cd57ee6006d') in 0.250306 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 77.657997 seconds.
+  path: Assets/VFX/shot3spark.vfx
+  artifactKey: Guid(4428582fdda466e4496364c95fa536ec) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/VFX/shot3spark.vfx using Guid(4428582fdda466e4496364c95fa536ec) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6c16a6a7ea517d75980673828dfe0ba9') in 0.022291 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 46.943272 seconds.
+  path: Assets/VFX/shot3spark.vfx
+  artifactKey: Guid(4428582fdda466e4496364c95fa536ec) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/VFX/shot3spark.vfx using Guid(4428582fdda466e4496364c95fa536ec) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd6d193abc20491767258ef4521585429') in 0.023930 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 274.984722 seconds.
+  path: Assets/VFX/shot3spark.vfx
+  artifactKey: Guid(4428582fdda466e4496364c95fa536ec) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/VFX/shot3spark.vfx using Guid(4428582fdda466e4496364c95fa536ec) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '620f341357fd90bae07e1cd904a3d7da') in 0.378014 seconds 
