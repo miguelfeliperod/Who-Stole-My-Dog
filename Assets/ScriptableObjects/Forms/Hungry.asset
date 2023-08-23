@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7b87b8f755ae404ea2d2a8559d4e577, type: 3}
   m_Name: Hungry
   m_EditorClassIdentifier: 
-  animator: {fileID: 22100000, guid: 1a604967618534a40b48fee83eaaa156, type: 2}
+  animator: {fileID: 22100000, guid: 143e0ba0731c97446971fd2f1c82d878, type: 2}
   baseSpeed: 0
   cooldownAttack: 0
   cooldownSpecial: 0
+  projectile1: {fileID: 0}
+  projectile2: {fileID: 0}
+  projectile3: {fileID: 0}

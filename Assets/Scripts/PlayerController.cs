@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
 
     int playerLayerID;
     int enemyLayerID;
+    bool isGroundedLastValue = true;
+    [SerializeField] LayerMask groundLayer;
 
     [Header("BODY COMPONENTS")]
     [Space(25.0f)]
@@ -143,6 +145,7 @@ public class PlayerController : MonoBehaviour
         uiManager = GameManager.Instance.uiManager;
         playerLayerID = LayerMask.NameToLayer("Player");
         enemyLayerID = LayerMask.NameToLayer("Enemy");
+        SetPlayerForm(Form.Hungry);
     }
 
     void Update()
@@ -153,7 +156,7 @@ public class PlayerController : MonoBehaviour
 
         currentChargedTime += Time.deltaTime;
         chargingVFX.SetBool("isCharged", currentChargedTime >= shot3MinimumChargeTime);
-        walkNormalVFX.enabled = move.IsPressed() && IsGrounded() && rigidBody.velocity.x > 0.1f;
+        walkNormalVFX.enabled = move.IsPressed() && IsGrounded() && Mathf.Abs(rigidBody.velocity.x) > 0.1f;
 
         darkComboTimer += Time.deltaTime;
     }
@@ -458,10 +461,14 @@ public class PlayerController : MonoBehaviour
 
     bool IsGrounded()
     {
-        var resultCenter = Physics2D.Raycast(transform.position + new Vector3(0, - characterCollider.size.y/2 - 0.1f), Vector2.down, 0.01f);
-        var resultLeft = Physics2D.Raycast(transform.position + new Vector3(0.2f, -characterCollider.size.y/2 - 0.1f), Vector2.down, 0.01f);
-        var resultRight = Physics2D.Raycast(transform.position + new Vector3(- 0.2f, -characterCollider.size.y/2 - 0.1f), Vector2.down, 0.01f);
-        return (resultCenter.transform != null || resultLeft.transform != null || resultRight.transform != null) && rigidBody.velocity.y == 0;
+        var resultCenter = Physics2D.Raycast(transform.position + new Vector3(0, - characterCollider.size.y/2 - 0.1f), Vector2.down, 0.4f, groundLayer);
+        var resultLeft = Physics2D.Raycast(transform.position + new Vector3(0.2f, -characterCollider.size.y/2 - 0.1f), Vector2.down, 0.4f, groundLayer);
+        var resultRight = Physics2D.Raycast(transform.position + new Vector3(- 0.2f, -characterCollider.size.y/2 - 0.1f), Vector2.down, 0.4f, groundLayer);
+        bool isGroundedNewValue =  (resultCenter.transform != null || resultLeft.transform != null || resultRight.transform != null) && rigidBody.velocity.y == 0;
+
+        if (!isGroundedLastValue && isGroundedNewValue) landingNormalVFX.Play();
+        isGroundedLastValue = isGroundedNewValue;
+            return isGroundedNewValue;
     }
 
     void SetSpriteFlipState(float speed)
