@@ -13,5 +13,15 @@ MonoBehaviour:
   m_Name: Normal
   m_EditorClassIdentifier: 
   animator: {fileID: 9100000, guid: 19f69c9601c5bc743a1f0582f6cc0408, type: 2}
-  cooldownAttack: 0
-  cooldownSpecial: 0
+  baseAcceleration: 1
+  maxSpeed: 7
+  jumpForce: 20
+  cooldownAttack: 0.2
+  cooldownSpecial: 2
+  manaRegenRate: 0.005
+  hungryDepletionRate: 0.002
+  attackMPCost: 2
+  specialMPCost: 4
+  projectile1: {fileID: 0}
+  projectile2: {fileID: 0}
+  projectile3: {fileID: 0}

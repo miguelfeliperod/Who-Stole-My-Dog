@@ -66,7 +66,7 @@ public class UIManager : MonoBehaviour
     }
 
     public void PlayFadeIn(Color targetColor, float duration = 1)
-    {
+    { 
         StartCoroutine(FadeIn(targetColor, duration));
     }
 

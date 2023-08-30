@@ -13,9 +13,15 @@ MonoBehaviour:
   m_Name: Mahou
   m_EditorClassIdentifier: 
   animator: {fileID: 22100000, guid: 1a604967618534a40b48fee83eaaa156, type: 2}
-  baseSpeed: 0
-  cooldownAttack: 0
+  baseAcceleration: 0.8
+  maxSpeed: 6
+  jumpForce: 20
+  cooldownAttack: 0.3
   cooldownSpecial: 0
+  manaRegenRate: 0.01
+  hungryDepletionRate: 0.001
+  attackMPCost: 2
+  specialMPCost: 3
   projectile1: {fileID: 7021703367820326000, guid: 55c658de3f65e0547ae50c649e161b1d, type: 3}
   projectile2: {fileID: 7021703367820326000, guid: a6f234fbb72ad6e44ac8a4f09a448619, type: 3}
   projectile3: {fileID: 7021703367820326000, guid: 9a10ea3abb2c5c7489f6c305207ffb8b, type: 3}

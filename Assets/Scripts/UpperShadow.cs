@@ -10,7 +10,7 @@ public class UpperShadow : MonoBehaviour
         upperShadowSprite = GetComponent<SpriteRenderer>();
     }
 
-    void Update()
+    void LateUpdate()
     {
         upperShadowSprite.sprite = originalSprite.sprite;
         upperShadowSprite.flipX = originalSprite.flipX;

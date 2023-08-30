@@ -89,7 +89,7 @@ public class DialogueEvent : MonoBehaviour
 
     IEnumerator ShowDialogueBox()
     {
-        StartCoroutine(ContinuousBlockMovement(startAwaitTime));
+        StartCoroutine(ContinuousBlockStateMovement(startAwaitTime));
         yield return new WaitForSeconds(startAwaitTime);
         gameManager.dialogueManager.gameObject.SetActive(true);
         characterFace.gameObject.SetActive(false);
@@ -110,12 +110,12 @@ public class DialogueEvent : MonoBehaviour
         yield return null;
     }
 
-    IEnumerator ContinuousBlockMovement(float duration)
+    IEnumerator ContinuousBlockStateMovement(float duration, bool state = true)
     {
         float elapsedTime = 0;
         while (elapsedTime < duration)
         {
-            gameManager.playerController.IsMovementBlocked = true;
+            gameManager.playerController.IsMovementBlocked = state;
             elapsedTime += Time.deltaTime;
             yield return null;
         }
@@ -134,7 +134,7 @@ public class DialogueEvent : MonoBehaviour
         }
         gameManager.dialogueManager.gameObject.SetActive(false);
         yield return new WaitForSeconds(finishAwaitTime);
-        gameManager.playerController.IsMovementBlocked = false;
+        StartCoroutine(ContinuousBlockStateMovement(0.5f, false));
         characterFace.gameObject.SetActive(false);
         nextDialogue.Dispose();
         Destroy(gameObject, 0.5f);

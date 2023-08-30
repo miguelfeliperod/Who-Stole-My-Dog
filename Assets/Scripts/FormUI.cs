@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.VFX;
 
 public class FormUI : MonoBehaviour
 {
     [SerializeField] Image hpBar;
     [SerializeField] Image mpBar;
     [SerializeField] Image hungryBar;
+    [SerializeField] VisualEffect vfx;
 
     PlayerController playerController;
 
@@ -23,6 +25,10 @@ public class FormUI : MonoBehaviour
     private void OnEnable()
     {
         UpdateAllBars();
+        if (playerController.CurrentForm == Form.Hungry)
+            vfx.enabled = true;
+        else
+            vfx.enabled = false;
     }
 
     public void UpdateAllBars()
@@ -32,7 +38,24 @@ public class FormUI : MonoBehaviour
         UpdateHungryBar();
     }
 
-    void UpdateHPBar() => hpBar.fillAmount = (float) playerController.CurrentHP/ PlayerController.MAX_HP;
-    void UpdateMPBar() => mpBar.fillAmount = (float) playerController.CurrentMP / PlayerController.MAX_MP;
-    void UpdateHungryBar() => hungryBar.fillAmount = (float) playerController.CurrentHungry / PlayerController.MAX_HUNGRY;
+    void UpdateHPBar()
+    {
+        if (playerController.CurrentForm == Form.Mahou)
+            hpBar.fillAmount = (int)playerController.CurrentHP / PlayerController.MAX_HP;
+        else
+            hpBar.fillAmount = (float)playerController.CurrentHP / PlayerController.MAX_HP;
+    }
+    void UpdateMPBar() {
+        if (playerController.CurrentForm == Form.Mahou)
+            mpBar.fillAmount = (int)playerController.CurrentMP / PlayerController.MAX_MP;
+        else
+            mpBar.fillAmount = (float)playerController.CurrentMP / PlayerController.MAX_MP;
+    }
+    void UpdateHungryBar()
+    {
+        if (playerController.CurrentForm == Form.Mahou)
+            hungryBar.fillAmount = (int)playerController.CurrentHungry / PlayerController.MAX_HUNGRY;
+        else
+            hungryBar.fillAmount = (float)playerController.CurrentHungry / PlayerController.MAX_HUNGRY;
+    }
 }

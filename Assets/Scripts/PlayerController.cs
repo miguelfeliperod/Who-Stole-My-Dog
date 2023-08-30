@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -27,6 +28,8 @@ public class PlayerController : MonoBehaviour
     [Space(25.0f)]
     [Header("FORMS COMPONENTS")]
     [Space(25.0f)]
+
+    PlayerForm currentPlayerForm;
     [SerializeField] PlayerForm normalForm;
     [SerializeField] PlayerForm mahouForm;
     [SerializeField] PlayerForm darkForm;
@@ -38,18 +41,23 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform attackPoint;
     [SerializeField] Vector3 normalAttackPointOffset;
     [SerializeField] Vector3 darkAttackPointOffset;
+    [SerializeField] Vector3 hungryAttackPointOffset;
+    [SerializeField] Vector3 hungryFireballPointOffset;
     [SerializeField] int darkAttackCount;
     [SerializeField] float attackRange;
     [SerializeField] float bonusDarkAttackRangePerHit;
+    [SerializeField] float hungryAttackRange;
     [SerializeField] LayerMask enemyLayer;
     [SerializeField] Transform rightShotSource;
     [SerializeField] Transform leftShotSource;
-    bool attackIsPressed;
+    [SerializeField] Transform fireballLeftSource;
+    [SerializeField] Transform fireballRightSource;
+
+    float currentChargedTime;
 
     [Space(25.0f)]
-    [Header("COOLDOWNS")]
+    [Header("TIMERS AND COOLDOWNS")]
     [Space(25.0f)]
-    float currentChargedTime;
     [SerializeField] float shot2MinimumChargeTime;
     [SerializeField] float shot3MinimumChargeTime;
     float darkComboTimer;
@@ -70,6 +78,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] VisualEffect deathNormalVFX;
     [SerializeField] VisualEffect landingNormalVFX;
     [SerializeField] VisualEffect chargingVFX;
+    [SerializeField] VisualEffect hungryHit;
+    [SerializeField] VisualEffect hungryWalk;
     public VisualEffect ChargingVFX
     {
         set { chargingVFX = value; }
@@ -79,9 +89,6 @@ public class PlayerController : MonoBehaviour
     [Space(25.0f)]
     [Header("PHYSIC VALUES")]
     [Space(25.0f)]
-    [SerializeField] float horizontalBaseAcceleration;
-    [SerializeField] float jumpForce;
-    [SerializeField] float maxSpeed;
     [SerializeField] Vector2 darkDodgeImpulseValue;
 
     [Space(25.0f)]
@@ -100,11 +107,11 @@ public class PlayerController : MonoBehaviour
     [Space(25.0f)]
     [Header("IMMUTABLE CHARACTER STATS")]
     [Space(25.0f)]
-    public static int MAX_HP = 20;
-    public static int MAX_MP = 16;
-    public static int MAX_HUNGRY = 13;
+    public static float MAX_HP = 20;
+    public static float MAX_MP = 16;
+    public static float MAX_HUNGRY = 13;
 
-    [SerializeField] float manaRegenTime;
+    
     [SerializeField] float hungryDepletionTime;
     [SerializeField] int sushiStock;
     public int SushiStock => sushiStock;
@@ -117,6 +124,12 @@ public class PlayerController : MonoBehaviour
     [Space(25.0f)]
     [SerializeField] Form currentForm;
     public Form CurrentForm => currentForm;
+
+    [SerializeField] float jumpForce;
+    [SerializeField] float horizontalBaseAcceleration;
+    [SerializeField] float maxSpeed;
+    [SerializeField] float manaRegenTime;
+
     [SerializeField] bool isInvencible = false;
     [SerializeField] bool isMovementBlocked = false;
     public bool IsMovementBlocked { 
@@ -124,14 +137,15 @@ public class PlayerController : MonoBehaviour
         set { isMovementBlocked = value; } 
     }
     bool IsAlive => currentHP > 0;
-    [SerializeField] int currentHP;
-    [SerializeField] int currentMP;
-    [SerializeField] int currentHungry;
+
+    [SerializeField] float currentHP;
+    [SerializeField] float currentMP;
+    [SerializeField] float currentHungry;
     [SerializeField] int baseAttackDamage;
 
-    public int CurrentHP => currentHP;
-    public int CurrentMP => currentMP;
-    public int CurrentHungry => currentHungry;
+    public float CurrentHP => currentHP;
+    public float CurrentMP => currentMP;
+    public float CurrentHungry => currentHungry;
 
     void Awake()
     {
@@ -154,11 +168,24 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("vSpeed", rigidBody.velocity.y);
         animator.SetBool("isGrounded", IsGrounded());
 
-        currentChargedTime += Time.deltaTime;
-        chargingVFX.SetBool("isCharged", currentChargedTime >= shot3MinimumChargeTime);
+        if (currentForm == Form.Mahou)
+        {
+            currentChargedTime += Time.deltaTime;
+            chargingVFX.SetBool("isCharged", currentChargedTime >= shot3MinimumChargeTime);
+        }
         walkNormalVFX.enabled = move.IsPressed() && IsGrounded() && Mathf.Abs(rigidBody.velocity.x) > 0.1f;
 
         darkComboTimer += Time.deltaTime;
+        if (MAX_MP > currentMP)
+            RegenMp(currentPlayerForm.manaRegenRate);
+
+        if (currentHungry > 0)
+            ConsumeHungry(currentPlayerForm.hungryDepletionRate);
+
+        if (currentHungry <= 0)
+        {
+            Starve();
+        }
     }
 
     void OnEnable()
@@ -213,34 +240,40 @@ public class PlayerController : MonoBehaviour
 
     void Attack(InputAction.CallbackContext context)
     {
+        chargingVFX.Stop();
         if (isMovementBlocked) return;
+        if (!ConsumeMp(currentPlayerForm.attackMPCost)) return;
         switch (currentForm)
         {
             case Form.Normal:
-                StartCoroutine(BlockMovementForTime(0.2f));
+                StartCoroutine(BlockMovementForTime(currentPlayerForm.cooldownAttack));
                 animator.Play("NormalHit");
-                Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(new Vector2 (
+                Collider2D[] normalHitEnemies = Physics2D.OverlapCircleAll(new Vector2 (
                     attackPoint.position.x + (sprite.flipX ? -normalAttackPointOffset.x : normalAttackPointOffset.x), 
                     attackPoint.position.y + normalAttackPointOffset.y),
                     attackRange, enemyLayer);
-                foreach (Collider2D enemy in hitEnemies)
+                foreach (Collider2D enemy in normalHitEnemies)
                 {
                     enemy.GetComponentInParent<BaseEnemy>().TakeDamage(baseAttackDamage);
                 }
                 break;
             case Form.Mahou:
-                StartCoroutine(BlockMovementForTime(0.3f));
+                StartCoroutine(BlockMovementForTime(currentPlayerForm.cooldownAttack));
+                GameObject shotObject = GetShot();
                 if (sprite.flipX)
-                    Instantiate(GetShot(), leftShotSource.position, leftShotSource.rotation);
+                    Instantiate(shotObject, leftShotSource.position, leftShotSource.rotation);
                 else
-                    Instantiate(GetShot(), rightShotSource.position, rightShotSource.rotation);
+                    Instantiate(shotObject, rightShotSource.position, rightShotSource.rotation);
                 animator.Play("NormalHit");
-                chargingVFX.enabled = false;
+                if(shotObject == mahouForm.projectile3)
+                {
+                    ConsumeMp(currentPlayerForm.specialMPCost);
+                }
                 break;
             case Form.Dark:
                 if (darkComboTimer > darkComboTimerLimit || move.IsPressed() || !IsGrounded())
                     darkAttackCount = 0;
-                StartCoroutine(BlockMovementForTime(0.12f));
+                StartCoroutine(BlockMovementForTime(currentPlayerForm.cooldownAttack));
                 Collider2D[] darkHitEnemies = Physics2D.OverlapCircleAll(attackPoint.position +
                     (sprite.flipX ? -darkAttackPointOffset : darkAttackPointOffset),
                     attackRange + (bonusDarkAttackRangePerHit * darkAttackCount), enemyLayer);
@@ -267,7 +300,19 @@ public class PlayerController : MonoBehaviour
                 }
                 break;
             case Form.Hungry:
+                StartCoroutine(BlockMovementForTime(currentPlayerForm.cooldownAttack));
                 animator.Play("NormalHit");
+                hungryHit.SetBool("isFlipped", sprite.flipX);
+                hungryHit.SetVector3("positionOffset", sprite.flipX ? - hungryAttackPointOffset : hungryAttackPointOffset);
+                hungryHit.Play();
+                Collider2D[] hungryHitEnemies = Physics2D.OverlapCircleAll(new Vector2(
+                    attackPoint.position.x + (sprite.flipX ? -hungryAttackPointOffset.x : hungryAttackPointOffset.x),
+                    attackPoint.position.y + hungryAttackPointOffset.y),
+                    hungryAttackRange, enemyLayer);
+                foreach (Collider2D enemy in hungryHitEnemies)
+                {
+                    enemy.GetComponentInParent<BaseEnemy>().TakeDamage(baseAttackDamage,Form.Hungry);
+                }
                 break;
         }
     }
@@ -277,15 +322,17 @@ public class PlayerController : MonoBehaviour
         currentChargedTime = 0;
         chargingVFX.SetBool("isCharged", false);
         if (currentForm != Form.Mahou) return;
-        chargingVFX.enabled = true;
+        chargingVFX.Play();
     }
 
     void Special(InputAction.CallbackContext context)
     {
         if (isMovementBlocked) return;
+
         switch (currentForm)
         {
             case Form.Normal:
+                if (!ConsumeMp(currentPlayerForm.specialMPCost)) return;
                 if (!ConsumeFood(1)) return;
                 animator.Play("NormalSpecial");
                 StartCoroutine(BlockMovementForTime(2f));
@@ -294,11 +341,15 @@ public class PlayerController : MonoBehaviour
                 Attack(context);
                 break;
             case Form.Dark:
+                if (!ConsumeMp(currentPlayerForm.specialMPCost)) return;
                 if (!IsGrounded()) return;
                 StartCoroutine(DodgeRoll());
                 animator.Play("NormalSpecial");
                 break;
             case Form.Hungry:
+                if (!ConsumeMp(currentPlayerForm.specialMPCost)) return;
+                StartCoroutine(BlockMovementForTime(1f));
+                StartCoroutine(DelayedFireball(0.7f));
                 animator.Play("NormalSpecial");
                 break;
         }
@@ -313,6 +364,15 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(darkDodgeInvencibilityDuration);
         Physics2D.IgnoreLayerCollision(playerLayerID, enemyLayerID, false);
         isInvencible = false;
+    }
+
+    IEnumerator DelayedFireball(float delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
+        if (sprite.flipX)
+            Instantiate(hungryForm.projectile1, fireballLeftSource.position, fireballLeftSource.rotation);
+        else
+            Instantiate(hungryForm.projectile1, fireballRightSource.position, fireballRightSource.rotation);
     }
 
     GameObject GetShot()
@@ -342,11 +402,6 @@ public class PlayerController : MonoBehaviour
         SetPlayerForm(Form.Dark);
     }
 
-    void ChangeFormHungry(InputAction.CallbackContext context)
-    {
-        SetPlayerForm(Form.Hungry);
-    }
-
     public void GetFood(int quantity)
     {
         sushiStock += quantity;
@@ -364,18 +419,59 @@ public class PlayerController : MonoBehaviour
     {
         if (!CheckSushiStock(quantity)) return false;
         sushiStock--;
-        currentHP += 3;
+        RegenHp(3);
+        RegenHungry(3);
+        return true;
+    }
+
+    void ConsumeHp(float quantity)
+    {
+        currentHP = Mathf.Max(currentHP - quantity, 0);
+        uiManager.UpdateUIValues();
+        uiManager.UpdateFormUI();
+    }
+
+    void RegenHp(float quantity)
+    {
+        currentHP = Mathf.Min(currentHP+ quantity, MAX_HP);
+        uiManager.UpdateUIValues();
+        uiManager.UpdateFormUI();
+    }
+
+    bool ConsumeMp(float expendedManaValue)
+    {
+        if (currentMP < expendedManaValue)
+            return false;
+        currentMP -= expendedManaValue;
         uiManager.UpdateUIValues();
         uiManager.UpdateFormUI();
         return true;
     }
 
-    void ConsumeMp(int quantity)
+    void RegenMp(float quantity)
     {
-        currentMP--;
-        currentHP += 3;
+        currentMP = Mathf.Min(currentMP + quantity, MAX_MP); 
         uiManager.UpdateUIValues();
         uiManager.UpdateFormUI();
+    }
+
+    void ConsumeHungry(float quantity)
+    {
+        currentHungry = Mathf.Max(currentHungry - quantity, 0);
+        uiManager.UpdateUIValues();
+        uiManager.UpdateFormUI();
+    }
+
+    void RegenHungry(float quantity)
+    {
+        currentHungry = Mathf.Min(currentHungry + quantity, MAX_HUNGRY);
+        uiManager.UpdateUIValues();
+        uiManager.UpdateFormUI();
+    }
+
+    void Starve()
+    {
+        SetPlayerForm(Form.Hungry);
     }
 
     void OnDisable()
@@ -385,9 +481,8 @@ public class PlayerController : MonoBehaviour
 
     void SetPlayerForm(Form form)
     {
-        chargingVFX.enabled = false;
+        chargingVFX.Stop();
         if (currentForm == form) return;
-        currentForm = form;
         StartCoroutine(BlockMovementForTime(1.1f));
         switch (form)
         {
@@ -395,24 +490,38 @@ public class PlayerController : MonoBehaviour
                 animator.runtimeAnimatorController = normalForm.animator;
                 animator.Play("NormalTransform");
                 StartCoroutine(BlinkShadowColor(Color.white, 0.4f, 0.2f));
+                hungryWalk.gameObject.SetActive(false);
+                currentPlayerForm = normalForm;
                 break;
             case Form.Mahou:
                 animator.runtimeAnimatorController = mahouForm.animator;
                 animator.Play("NormalTransform");
                 StartCoroutine(BlinkShadowColor(Color.white, 0.4f, 0.2f));
+                hungryWalk.gameObject.SetActive(false);
+                currentPlayerForm = mahouForm;
                 break;
             case Form.Dark:
                 animator.runtimeAnimatorController = darkForm.animator;
                 animator.Play("NormalTransform");
                 StartCoroutine(BlinkShadowColor(Color.white, 0.4f, 0.2f));
+                hungryWalk.gameObject.SetActive(false);
+                currentPlayerForm = darkForm;
                 break;
             case Form.Hungry:
                 animator.runtimeAnimatorController = hungryForm.animator;
                 animator.Play("NormalTransform");
                 StartCoroutine(BlinkShadowColor(Color.white, 0.4f, 0.2f));
+                hungryWalk.gameObject.SetActive(true);
+                currentPlayerForm = hungryForm;
                 break;
         }
-        StartCoroutine(SetUIForm(0.7f));
+        currentForm = form;
+        jumpForce = currentPlayerForm.jumpForce;
+        horizontalBaseAcceleration = currentPlayerForm.baseAcceleration;
+        maxSpeed = currentPlayerForm.maxSpeed;
+        manaRegenTime = currentPlayerForm.manaRegenRate;
+
+        StartCoroutine(SetUIForm(0));
     }
 
     IEnumerator BlockMovementForTime(float duration)
@@ -422,41 +531,35 @@ public class PlayerController : MonoBehaviour
         isMovementBlocked = false;
     }
 
-    IEnumerator SetUIForm(float duration)
+    IEnumerator SetUIForm(float delay)
     {
-        yield return new WaitForSeconds(duration);
+        yield return new WaitForSeconds(delay);
         uiManager.DisableAllFormUI();
         uiManager.EnableFormUI(currentForm);
     }
 
     void FixedUpdate()
     {
+        if (currentForm == Form.Hungry)
+            SetHungryWalkVfx();
+
         if (isMovementBlocked) { return; }
 
-        var movement = move.ReadValue<float>();
+        float movement = move.ReadValue<float>();
         rigidBody.velocity = (new Vector2(Mathf.Clamp(rigidBody.velocity.x + (movement * horizontalBaseAcceleration),-maxSpeed, maxSpeed), rigidBody.velocity.y));
         SetSpriteFlipState(movement);
         
         walkNormalVFX.SetGradient("GroundDustColor", dustRunGradient);
     }
 
-    private Color GetGroundColorPoint()
+    void SetHungryWalkVfx()
     {
-        RaycastHit2D raycast = Physics2D.Raycast(getGroundColorPoint.position, Vector3.forward);
-        if (raycast.transform == null) return Color.gray;
-        
-        var spriteRenderer = raycast.transform.GetComponent<SpriteRenderer>();
-        if (spriteRenderer == null) return Color.gray;
-        
-        if (spriteRenderer.sprite.texture != null)
-        {
-            var image = spriteRenderer.sprite.texture;
-            return new Color(
-                image.GetPixel(image.width / 2, image.height - 1).r,
-                image.GetPixel(image.width / 2, image.height - 1).g,
-                image.GetPixel(image.width / 2, image.height - 1).b);
-        }
-        return Color.gray;
+        print(Mathf.Abs(rigidBody.velocity.x));
+        hungryWalk.SetBool("isFlipped", sprite.flipX);
+        if (IsGrounded() && Mathf.Abs(rigidBody.velocity.x) > 0.3f)
+            hungryWalk.Play();
+        else
+            hungryWalk.Stop();
     }
 
     bool IsGrounded()
@@ -478,18 +581,10 @@ public class PlayerController : MonoBehaviour
         walkNormalVFX.SetBool("FlipSprite", sprite.flipX);
     }
 
-    bool SpendMana(int expendedManaValue) {
-        if (currentMP < expendedManaValue)
-            return false;
-        currentMP -= expendedManaValue;
-        return true;
-    }
-
     public void TakeDamage(int lostLifeValue)
     {
         if (isInvencible || !IsAlive) return;
-        currentHP -= lostLifeValue;
-        gameManager.uiManager.UpdateFormUI();
+        ConsumeHp(lostLifeValue);
 
         if (currentHP <= 0)
             StartCoroutine(Die());
@@ -573,5 +668,25 @@ public class PlayerController : MonoBehaviour
             rigidBody.AddForce(new Vector2(10f, 5f), ForceMode2D.Impulse);
         else
             rigidBody.AddForce(new Vector2(-10f, 5f), ForceMode2D.Impulse);
+    }
+
+
+    private Color GetGroundColorPoint()
+    {
+        RaycastHit2D raycast = Physics2D.Raycast(getGroundColorPoint.position, Vector3.forward);
+        if (raycast.transform == null) return Color.gray;
+
+        var spriteRenderer = raycast.transform.GetComponent<SpriteRenderer>();
+        if (spriteRenderer == null) return Color.gray;
+
+        if (spriteRenderer.sprite.texture != null)
+        {
+            var image = spriteRenderer.sprite.texture;
+            return new Color(
+                image.GetPixel(image.width / 2, image.height - 1).r,
+                image.GetPixel(image.width / 2, image.height - 1).g,
+                image.GetPixel(image.width / 2, image.height - 1).b);
+        }
+        return Color.gray;
     }
 }

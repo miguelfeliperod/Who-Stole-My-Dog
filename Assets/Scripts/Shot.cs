@@ -11,6 +11,7 @@ public class Shot : MonoBehaviour
     [SerializeField] LayerMask enemyLayer;
     VisualEffect effect;
     public int damage;
+    public bool destroyOnContact = true;
 
     void Start()
     {
@@ -37,7 +38,8 @@ public class Shot : MonoBehaviour
     {
         if ((1 << collision.gameObject.layer & enemyLayer) != 0){
             collision.gameObject.GetComponentInParent<BaseEnemy>().TakeDamage(damage, Form.Mahou);
-            Destroy(gameObject, 0.01f);
+            if(destroyOnContact)
+                Destroy(gameObject, 0.01f);
         }
     }
 }

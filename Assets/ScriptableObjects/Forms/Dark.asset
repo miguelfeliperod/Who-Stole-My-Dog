@@ -13,9 +13,15 @@ MonoBehaviour:
   m_Name: Dark
   m_EditorClassIdentifier: 
   animator: {fileID: 22100000, guid: fbea0f592f381ca4e9b4da864b16093d, type: 2}
-  baseSpeed: 0
-  cooldownAttack: 0
+  baseAcceleration: 2
+  maxSpeed: 9
+  jumpForce: 22
+  cooldownAttack: 0.15
   cooldownSpecial: 0
+  manaRegenRate: 0.005
+  hungryDepletionRate: 0.001
+  attackMPCost: 2
+  specialMPCost: 5
   projectile1: {fileID: 0}
   projectile2: {fileID: 0}
   projectile3: {fileID: 0}

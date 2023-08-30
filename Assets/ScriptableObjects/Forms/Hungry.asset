@@ -13,9 +13,15 @@ MonoBehaviour:
   m_Name: Hungry
   m_EditorClassIdentifier: 
   animator: {fileID: 22100000, guid: 143e0ba0731c97446971fd2f1c82d878, type: 2}
-  baseSpeed: 0
-  cooldownAttack: 0
-  cooldownSpecial: 0
-  projectile1: {fileID: 0}
-  projectile2: {fileID: 0}
-  projectile3: {fileID: 0}
+  baseAcceleration: 3
+  maxSpeed: 12
+  jumpForce: 25
+  cooldownAttack: 0.5
+  cooldownSpecial: 1
+  manaRegenRate: 0.01
+  hungryDepletionRate: 0
+  attackMPCost: 3
+  specialMPCost: 6
+  projectile1: {fileID: 4897529045712276143, guid: 5c925cbedeec9f24a826304d421db2af, type: 3}
+  projectile2: {fileID: 4897529045712276143, guid: 5c925cbedeec9f24a826304d421db2af, type: 3}
+  projectile3: {fileID: 4897529045712276143, guid: 5c925cbedeec9f24a826304d421db2af, type: 3}
