@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public PlayerController playerController;
     public UIManager uiManager;
     public DialogueManager dialogueManager;
+    public FadeManager fadeManager;
 
     void Awake()
     {
@@ -14,6 +15,7 @@ public class GameManager : MonoBehaviour
             Destroy(this);
         else
             instance = this;
+        fadeManager = FindObjectOfType<FadeManager>();
     }
 
     void Start()

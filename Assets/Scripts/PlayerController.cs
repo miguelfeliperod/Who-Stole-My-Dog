@@ -554,7 +554,6 @@ public class PlayerController : MonoBehaviour
 
     void SetHungryWalkVfx()
     {
-        print(Mathf.Abs(rigidBody.velocity.x));
         hungryWalk.SetBool("isFlipped", sprite.flipX);
         if (IsGrounded() && Mathf.Abs(rigidBody.velocity.x) > 0.3f)
             hungryWalk.Play();
@@ -565,8 +564,8 @@ public class PlayerController : MonoBehaviour
     bool IsGrounded()
     {
         var resultCenter = Physics2D.Raycast(transform.position + new Vector3(0, - characterCollider.size.y/2 - 0.1f), Vector2.down, 0.4f, groundLayer);
-        var resultLeft = Physics2D.Raycast(transform.position + new Vector3(0.2f, -characterCollider.size.y/2 - 0.1f), Vector2.down, 0.4f, groundLayer);
-        var resultRight = Physics2D.Raycast(transform.position + new Vector3(- 0.2f, -characterCollider.size.y/2 - 0.1f), Vector2.down, 0.4f, groundLayer);
+        var resultLeft = Physics2D.Raycast(transform.position + new Vector3(0.28f, -characterCollider.size.y/2 - 0.1f), Vector2.down, 0.4f, groundLayer);
+        var resultRight = Physics2D.Raycast(transform.position + new Vector3(- 0.28f, -characterCollider.size.y/2 - 0.1f), Vector2.down, 0.4f, groundLayer);
         bool isGroundedNewValue =  (resultCenter.transform != null || resultLeft.transform != null || resultRight.transform != null) && rigidBody.velocity.y == 0;
 
         if (!isGroundedLastValue && isGroundedNewValue) landingNormalVFX.Play();

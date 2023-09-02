@@ -63,6 +63,7 @@
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\BearShot.cs" />
     <Compile Include="Assets\Scripts\Shot.cs" />
+    <Compile Include="Assets\Scripts\StitchEnemy.cs" />
     <Compile Include="Assets\Scripts\DummyEnemy.cs" />
     <Compile Include="Assets\DobbyProjectile.cs" />
     <Compile Include="Assets\Controlls\PlayerControlls.cs" />
@@ -78,7 +79,10 @@
     <Compile Include="Assets\Scripts\DobbyEnemy.cs" />
     <Compile Include="Assets\Scripts\Form.cs" />
     <Compile Include="Assets\Scripts\IEnemy.cs" />
+    <Compile Include="Assets\MenuController.cs" />
     <Compile Include="Assets\Scripts\FormUI.cs" />
+    <Compile Include="Assets\Fireball.cs" />
+    <Compile Include="Assets\FadeManager.cs" />
     <Compile Include="Assets\Scripts\DialogueEvent.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
   </ItemGroup>

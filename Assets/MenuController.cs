@@ -1,9 +1,11 @@
+using System.Collections;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour
 {
+    [SerializeField] FadeManager fadeManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,8 +20,13 @@ public class MenuController : MonoBehaviour
 
     public void OnStartButtonClick()
     {
-        SceneManager.LoadScene("Blank");
-        GameManager.Instance.uiManager.PlayFadeOut(1);
+        fadeManager.PlayFadeIn(Color.black, 1);
+        StartCoroutine(LoadScene(2));
+    }
+
+    IEnumerator LoadScene(float delayTime) {
+        yield return new WaitForSeconds(delayTime);
+        SceneManager.LoadSceneAsync("Level1");
     }
 
 }
