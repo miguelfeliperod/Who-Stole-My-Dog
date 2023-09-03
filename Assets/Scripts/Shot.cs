@@ -4,16 +4,16 @@ using UnityEngine.VFX;
 
 public class Shot : MonoBehaviour
 {
-    Rigidbody2D rigidbody2;
+    public Rigidbody2D rigidbody2;
     SpriteRenderer spriteRenderer;
     [SerializeField] float horizontalSpeed;
-    CircleCollider2D circleCollider;
-    [SerializeField] LayerMask enemyLayer;
+    [SerializeField] LayerMask targetLayer;
     VisualEffect effect;
     public int damage;
     public bool destroyOnContact = true;
+    [SerializeField] float aliveTime = 1.2f;
 
-    void Start()
+     void Start()
     {
         bool isFlipped = GameManager.Instance.playerController.Sprite.flipX;
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -30,13 +30,13 @@ public class Shot : MonoBehaviour
 
     IEnumerator AutoDestroy()
     {
-        yield return new WaitForSeconds(1.2f);
+        yield return new WaitForSeconds(aliveTime);
         Destroy(gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if ((1 << collision.gameObject.layer & enemyLayer) != 0){
+        if ((1 << collision.gameObject.layer & targetLayer) != 0){
             collision.gameObject.GetComponentInParent<BaseEnemy>().TakeDamage(damage, Form.Mahou);
             if(destroyOnContact)
                 Destroy(gameObject, 0.01f);

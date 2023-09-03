@@ -27,12 +27,12 @@ public class DobbyProjectile : MonoBehaviour
         horizontalSpeed = projectileHorizontalForce;
         verticalSpeed = projectileVerticalSpeed;
         speedRange = projectileForceRange;
-        rigidbody2d.Sleep();
+        rigidbody2d.gravityScale = 0;
     }
 
     public void StartMove()
     {
-        rigidbody2d.WakeUp();
+        rigidbody2d.gravityScale = 1;
         StartCoroutine(AutoDestroy());
         rigidbody2d.AddForce(new Vector2(
              isFlipped

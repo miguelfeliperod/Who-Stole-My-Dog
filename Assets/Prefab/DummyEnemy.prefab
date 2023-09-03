@@ -186,10 +186,14 @@ MonoBehaviour:
   attackRate: 0.3
   attackPower: 0
   boxCollider: {fileID: 0}
+  rigidbody2d: {fileID: 0}
   animator: {fileID: 0}
   damageVFX: {fileID: 0}
   sprite: {fileID: 0}
   shadow: {fileID: 0}
+  weaknessDamageList: 
+  resistanceDamageList: 
+  imunityDamageList: 
 --- !u!1 &4715913736661773360
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,7 +268,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 7482667652216324306, guid: 4bb0c38b54b1e94439da848d9e870984, type: 3}
   m_Color: {r: 1, g: 0.8213235, b: 0.7122642, a: 1}
   m_FlipX: 0
@@ -395,7 +399,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

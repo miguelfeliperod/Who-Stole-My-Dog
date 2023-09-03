@@ -186,6 +186,7 @@ MonoBehaviour:
   attackRate: 7
   attackPower: 0
   boxCollider: {fileID: 0}
+  rigidbody2d: {fileID: 0}
   animator: {fileID: 0}
   damageVFX: {fileID: 0}
   sprite: {fileID: 0}
@@ -269,7 +270,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 1378330913, guid: af70f01fd11bed746b6d4773ef44a84b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -400,7 +401,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0

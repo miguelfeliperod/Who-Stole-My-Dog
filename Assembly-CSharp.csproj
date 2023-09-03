@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{32C3BDE6-E125-3128-82C1-25D0441455A3}</ProjectGuid>
+    <ProjectGuid>{B215705B-F658-D46A-30C1-0F65FF0EC95E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -58,13 +58,16 @@
   <ItemGroup>
     <Compile Include="Assets\Controlls\DialogueControlls.cs" />
     <Compile Include="Assets\Scripts\BearEnemy.cs" />
+    <Compile Include="Assets\Tomato.cs" />
     <Compile Include="Assets\Scripts\BaseEnemy.cs" />
     <Compile Include="Assets\Scripts\OctopusEnemy.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\BearShot.cs" />
     <Compile Include="Assets\Scripts\Shot.cs" />
+    <Compile Include="Assets\Metro.cs" />
     <Compile Include="Assets\Scripts\StitchEnemy.cs" />
     <Compile Include="Assets\Scripts\DummyEnemy.cs" />
+    <Compile Include="Assets\ButterflyEnemy.cs" />
     <Compile Include="Assets\DobbyProjectile.cs" />
     <Compile Include="Assets\Controlls\PlayerControlls.cs" />
     <Compile Include="Assets\Scripts\DialogueManager.cs" />
@@ -81,10 +84,15 @@
     <Compile Include="Assets\Scripts\IEnemy.cs" />
     <Compile Include="Assets\MenuController.cs" />
     <Compile Include="Assets\Scripts\FormUI.cs" />
+    <Compile Include="Assets\MetroShooter.cs" />
     <Compile Include="Assets\Fireball.cs" />
+    <Compile Include="Assets\BossController.cs" />
     <Compile Include="Assets\FadeManager.cs" />
     <Compile Include="Assets\Scripts\DialogueEvent.cs" />
+    <Compile Include="Assets\CocoonEnemy.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\NumberButton.cs" />
+    <Compile Include="Assets\NumberManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

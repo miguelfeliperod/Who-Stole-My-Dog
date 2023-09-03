@@ -128,9 +128,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float jumpForce;
     [SerializeField] float horizontalBaseAcceleration;
     [SerializeField] float maxSpeed;
-    [SerializeField] float manaRegenTime;
 
     [SerializeField] bool isInvencible = false;
+    [SerializeField] bool isDodging = false;
+    public bool IsDodging => isDodging;
     [SerializeField] bool isMovementBlocked = false;
     public bool IsMovementBlocked { 
         get => isMovementBlocked; 
@@ -357,6 +358,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator DodgeRoll()
     {
+        isDodging = true;
         isInvencible = true;
         Physics2D.IgnoreLayerCollision(playerLayerID, enemyLayerID, true);
         StartCoroutine(BlockMovementForTime(darkDodgeInvencibilityDuration));
@@ -364,6 +366,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(darkDodgeInvencibilityDuration);
         Physics2D.IgnoreLayerCollision(playerLayerID, enemyLayerID, false);
         isInvencible = false;
+        isDodging = false;
     }
 
     IEnumerator DelayedFireball(float delayTime)
@@ -519,7 +522,6 @@ public class PlayerController : MonoBehaviour
         jumpForce = currentPlayerForm.jumpForce;
         horizontalBaseAcceleration = currentPlayerForm.baseAcceleration;
         maxSpeed = currentPlayerForm.maxSpeed;
-        manaRegenTime = currentPlayerForm.manaRegenRate;
 
         StartCoroutine(SetUIForm(0));
     }
@@ -548,17 +550,16 @@ public class PlayerController : MonoBehaviour
         float movement = move.ReadValue<float>();
         rigidBody.velocity = (new Vector2(Mathf.Clamp(rigidBody.velocity.x + (movement * horizontalBaseAcceleration),-maxSpeed, maxSpeed), rigidBody.velocity.y));
         SetSpriteFlipState(movement);
-        
         walkNormalVFX.SetGradient("GroundDustColor", dustRunGradient);
     }
 
     void SetHungryWalkVfx()
     {
-        hungryWalk.SetBool("isFlipped", sprite.flipX);
         if (IsGrounded() && Mathf.Abs(rigidBody.velocity.x) > 0.3f)
             hungryWalk.Play();
         else
             hungryWalk.Stop();
+        hungryWalk.SetBool("isFlipped", sprite.flipX);
     }
 
     bool IsGrounded()
@@ -598,6 +599,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator Die() 
     {
         isMovementBlocked = true;
+        rigidBody.Sleep();
         animator.enabled = false;
         StartCoroutine(LerpShadowColor(receiveDamageColor, 0.3f));
         yield return new WaitForSeconds(0.2f);

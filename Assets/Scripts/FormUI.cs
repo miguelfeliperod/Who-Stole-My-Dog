@@ -12,7 +12,7 @@ public class FormUI : MonoBehaviour
     PlayerController playerController;
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         playerController = GameManager.Instance.playerController;
 
@@ -22,8 +22,10 @@ public class FormUI : MonoBehaviour
 
         UpdateAllBars();
     }
+
     private void OnEnable()
     {
+        playerController = GameManager.Instance == null ? FindObjectOfType<PlayerController>() : GameManager.Instance.playerController;
         UpdateAllBars();
         if (playerController.CurrentForm == Form.Hungry)
             vfx.enabled = true;

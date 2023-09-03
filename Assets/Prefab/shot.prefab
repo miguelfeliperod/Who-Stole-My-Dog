@@ -48,10 +48,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   horizontalSpeed: 14
-  enemyLayer:
+  targetLayer:
     serializedVersion: 2
     m_Bits: 64
   damage: 1
+  destroyOnContact: 1
 --- !u!50 &4897529045712276140
 Rigidbody2D:
   serializedVersion: 4

@@ -1,14 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.VFX;
 
 public abstract class BaseEnemy : MonoBehaviour, IEnemy
 {
     public int maxHp;
-    int currentHp;
+    public int currentHp;
     public float attackRate;
     public float attackPower;
     public BoxCollider2D boxCollider;
@@ -21,7 +19,7 @@ public abstract class BaseEnemy : MonoBehaviour, IEnemy
     public List<Form> resistanceDamageList;
     public List<Form> imunityDamageList;
 
-    private void Awake()
+    public virtual void Awake()
     {
         boxCollider = GetComponentInChildren<BoxCollider2D>();
         animator = GetComponentInChildren<Animator>();
@@ -53,7 +51,7 @@ public abstract class BaseEnemy : MonoBehaviour, IEnemy
         }
     }
 
-    private IEnumerator BlinkShadowColor(Color targetColor, float duration)
+    public IEnumerator BlinkShadowColor(Color targetColor, float duration)
     {
         shadow.color = targetColor;
         yield return new WaitForSeconds(duration);

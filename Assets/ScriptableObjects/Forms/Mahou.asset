@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Mahou
   m_EditorClassIdentifier: 
   animator: {fileID: 22100000, guid: 1a604967618534a40b48fee83eaaa156, type: 2}
-  baseAcceleration: 0.8
-  maxSpeed: 6
+  baseAcceleration: 1.2
+  maxSpeed: 6.5
   jumpForce: 20
   cooldownAttack: 0.3
   cooldownSpecial: 0

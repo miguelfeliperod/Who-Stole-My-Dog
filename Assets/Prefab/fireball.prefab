@@ -248,7 +248,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   horizontalSpeed: 15
-  enemyLayer:
+  targetLayer:
     serializedVersion: 2
     m_Bits: 64
   damage: 4
