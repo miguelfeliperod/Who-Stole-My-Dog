@@ -83,7 +83,9 @@
     <Compile Include="Assets\Scripts\Form.cs" />
     <Compile Include="Assets\Scripts\IEnemy.cs" />
     <Compile Include="Assets\MenuController.cs" />
+    <Compile Include="Assets\NumberManager.cs" />
     <Compile Include="Assets\Scripts\FormUI.cs" />
+    <Compile Include="Assets\NumberButton.cs" />
     <Compile Include="Assets\MetroShooter.cs" />
     <Compile Include="Assets\Fireball.cs" />
     <Compile Include="Assets\BossController.cs" />
@@ -91,8 +93,6 @@
     <Compile Include="Assets\Scripts\DialogueEvent.cs" />
     <Compile Include="Assets\CocoonEnemy.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
-    <Compile Include="Assets\NumberButton.cs" />
-    <Compile Include="Assets\NumberManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

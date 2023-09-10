@@ -567,7 +567,7 @@ public class PlayerController : MonoBehaviour
         var resultCenter = Physics2D.Raycast(transform.position + new Vector3(0, - characterCollider.size.y/2 - 0.1f), Vector2.down, 0.4f, groundLayer);
         var resultLeft = Physics2D.Raycast(transform.position + new Vector3(0.28f, -characterCollider.size.y/2 - 0.1f), Vector2.down, 0.4f, groundLayer);
         var resultRight = Physics2D.Raycast(transform.position + new Vector3(- 0.28f, -characterCollider.size.y/2 - 0.1f), Vector2.down, 0.4f, groundLayer);
-        bool isGroundedNewValue =  (resultCenter.transform != null || resultLeft.transform != null || resultRight.transform != null) && rigidBody.velocity.y == 0;
+        bool isGroundedNewValue =  (resultCenter.transform != null || resultLeft.transform != null || resultRight.transform != null) && Mathf.Abs(rigidBody.velocity.y) <= 0.01;
 
         if (!isGroundedLastValue && isGroundedNewValue) landingNormalVFX.Play();
         isGroundedLastValue = isGroundedNewValue;
