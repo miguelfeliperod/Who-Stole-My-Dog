@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: DialogueSequence
   m_EditorClassIdentifier: 
   dialogueList:
-  - characterImage: {fileID: -253784780, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
-    characterImageTalking: {fileID: 1686271307, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+  - characterImage: {fileID: 1610715235, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+    characterImageTalking: {fileID: -1881606921, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
     text: 'Teste1 Teste1 Teste1 Teste1 Teste1 Teste1 Teste1 Teste1 Teste1 Teste1
       Teste1 Teste1 Teste1 Teste1 Teste1 Teste1 Teste1 Teste1 '
-  - characterImage: {fileID: 1211380877, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
-    characterImageTalking: {fileID: -2071318330, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+  - characterImage: {fileID: -757245302, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+    characterImageTalking: {fileID: -107979338, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
     text: Teste2 Teste2Teste2Teste2Teste2Teste2Teste2Teste2Teste2Teste2Teste2Teste2Teste2Teste2Teste2
-  - characterImage: {fileID: -1638413245, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
-    characterImageTalking: {fileID: 1905827802, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+  - characterImage: {fileID: -473607882, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+    characterImageTalking: {fileID: -1144624466, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
     text: 'Teste3 Teste3 Teste3 Teste3 Teste3 Teste3 Teste3 Teste3 Teste3 Teste3
       Teste3 Teste3 '

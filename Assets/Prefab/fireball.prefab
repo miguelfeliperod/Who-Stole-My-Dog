@@ -247,9 +247,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72d66adb779e43c49b04aa70931e1c91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rigidbody2: {fileID: 0}
   horizontalSpeed: 15
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
   damage: 4
   destroyOnContact: 0
+  aliveTime: 5

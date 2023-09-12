@@ -558,9 +558,21 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2049035599925358006, guid: 8097784e04fed8d4ebd13991219b5f0b, type: 3}
+      propertyPath: sfxSlider
+      value: 
+      objectReference: {fileID: 559981454}
+    - target: {fileID: 2049035599925358006, guid: 8097784e04fed8d4ebd13991219b5f0b, type: 3}
       propertyPath: configMenu
       value: 
       objectReference: {fileID: 320584522}
+    - target: {fileID: 2049035599925358006, guid: 8097784e04fed8d4ebd13991219b5f0b, type: 3}
+      propertyPath: musicSlider
+      value: 
+      objectReference: {fileID: 705660666}
+    - target: {fileID: 2049035599925358006, guid: 8097784e04fed8d4ebd13991219b5f0b, type: 3}
+      propertyPath: masterSlider
+      value: 
+      objectReference: {fileID: 1548735742}
     - target: {fileID: 2049035599925358006, guid: 8097784e04fed8d4ebd13991219b5f0b, type: 3}
       propertyPath: OSTComponents
       value: 
@@ -1290,7 +1302,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 1647615046}
   m_HandleRect: {fileID: 1403769788}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.0001
   m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 0
@@ -1379,9 +1391,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Music
-
-'
+  m_text: Musica
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c0987e93d03349440b9781dd23a8ec23, type: 2}
   m_sharedMaterial: {fileID: 8315602756792974276, guid: c0987e93d03349440b9781dd23a8ec23, type: 2}
@@ -1542,7 +1552,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 1991191405}
   m_HandleRect: {fileID: 860653493}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.0001
   m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 0
@@ -1922,7 +1932,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -163, y: -48}
+  m_AnchoredPosition: {x: -241, y: -48}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &957837230
@@ -1945,7 +1955,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -620172181, guid: ce08b8bc8f3a85c439a740a5bd11de41, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -2629,6 +2639,7 @@ GameObject:
   - component: {fileID: 1222229516}
   - component: {fileID: 1222229518}
   - component: {fileID: 1222229517}
+  - component: {fileID: 1222229519}
   m_Layer: 0
   m_Name: Luna
   m_TagString: Untagged
@@ -2653,8 +2664,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 85, y: -63}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 49, y: -77}
+  m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1222229517
 MonoBehaviour:
@@ -2669,16 +2680,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -23897786, guid: 9b43328bcfb812a49bf6a3fb69795dd3, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -2694,6 +2705,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1222229515}
   m_CullTransparentMesh: 1
+--- !u!95 &1222229519
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1222229515}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ec84706074fb5304ab7f18799793276f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &1241585712
 GameObject:
   m_ObjectHideFlags: 0
@@ -3235,7 +3266,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 997715137}
   m_HandleRect: {fileID: 110882483}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.0001
   m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 0
@@ -3723,7 +3754,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 235, y: -26}
+  m_AnchoredPosition: {x: 308, y: -26}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1855617335
@@ -3746,7 +3777,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 1009066487, guid: e3094e51106a0e340a2766d932dea768, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1

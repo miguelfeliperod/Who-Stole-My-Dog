@@ -9,6 +9,9 @@ public class GameManager : MonoBehaviour
     public DialogueManager dialogueManager;
     public FadeManager fadeManager;
 
+    public Vector2 LastCheckpointPosition => lastCheckpointPosition;
+    Vector2 lastCheckpointPosition;
+
     void Awake()
     {
         if (instance != null && instance != this)
@@ -21,5 +24,10 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         DontDestroyOnLoad(this);
+    }
+
+    void SetLastCheckpointPosition(Vector2 checkpointPosition)
+    {
+        this.lastCheckpointPosition = checkpointPosition;
     }
 }

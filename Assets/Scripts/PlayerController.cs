@@ -596,10 +596,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    IEnumerator Die() 
+    public IEnumerator Die() 
     {
+        print("died");
         isMovementBlocked = true;
-        rigidBody.Sleep();
+        rigidBody.velocity = Vector2.zero;
+        rigidBody.gravityScale = 0;
         animator.enabled = false;
         StartCoroutine(LerpShadowColor(receiveDamageColor, 0.3f));
         yield return new WaitForSeconds(0.2f);

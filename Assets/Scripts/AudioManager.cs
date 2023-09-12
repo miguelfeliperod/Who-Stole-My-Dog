@@ -2,10 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance { get; private set; }
+
+    [SerializeField] Slider masterSlider;
+    [SerializeField] Slider musicSlider;
+    [SerializeField] Slider sfxSlider;
 
     [SerializeField] AudioSource musicSource;
     [SerializeField] AudioSource sfxSource;
@@ -206,7 +211,10 @@ public class AudioManager : MonoBehaviour
 
     public void OnConfigButtonClick()
     {
-        configMenu.SetActive(true);
+        configMenu.SetActive(true); 
+        masterSlider.value = PlayerPrefs.GetFloat(masterMixerName, 0.8f);
+        musicSlider.value = PlayerPrefs.GetFloat(musicMixerName, 0.8f);
+        sfxSlider.value = PlayerPrefs.GetFloat(sfxMixerName, 0.8f);
     }
     public void OnCloseButtonClick()
     {
