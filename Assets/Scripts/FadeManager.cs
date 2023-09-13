@@ -12,14 +12,14 @@ public class FadeManager : MonoBehaviour
         fadeScreen = GetComponentInChildren<Image>();    
     }
 
-    public void PlayFadeIn(Color targetColor, float duration = 1)
+    public void PlayFadeOut(Color targetColor, float duration = 1)
     {
-        StartCoroutine(FadeIn(targetColor, duration));
+        StartCoroutine(FadeOut(targetColor, duration));
     }
 
-    public void PlayFadeOut(float duration = 1)
+    public void PlayFadeIn(float duration = 1)
     {
-        StartCoroutine(FadeOut(duration));
+        StartCoroutine(FadeIn(duration));
     }
 
     public void PlayCrossFade(Color targetColor, float duration = 2f)
@@ -32,7 +32,7 @@ public class FadeManager : MonoBehaviour
         StartCoroutine(Flash(targetColor, duration));
     }
 
-    IEnumerator FadeIn(Color targetColor, float duration = 1)
+    IEnumerator FadeOut(Color targetColor, float duration = 1)
     {
         float elapsedTime = 0;
         Color currentColor = fadeScreen.color;
@@ -47,7 +47,7 @@ public class FadeManager : MonoBehaviour
         yield return null;
     }
 
-    IEnumerator FadeOut(float duration = 1)
+    IEnumerator FadeIn(float duration = 1)
     {
         float elapsedTime = 0;
         Color currentColor = fadeScreen.color;
@@ -64,9 +64,9 @@ public class FadeManager : MonoBehaviour
 
     IEnumerator CrossFade(Color targetColor, float duration)
     {
-        StartCoroutine(FadeIn(targetColor, duration / 2));
+        StartCoroutine(FadeOut(targetColor, duration / 2));
         yield return new WaitForSeconds(duration / 2);
-        StartCoroutine(FadeOut(duration / 2));
+        StartCoroutine(FadeIn(duration / 2));
         yield return null;
     }
     IEnumerator Flash(Color targetColor, float duration = 1)

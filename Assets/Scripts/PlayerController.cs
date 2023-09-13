@@ -16,6 +16,13 @@ public class PlayerController : MonoBehaviour
     bool isGroundedLastValue = true;
     [SerializeField] LayerMask groundLayer;
 
+    [Space(25.0f)]
+    [Header("IMMUTABLE CHARACTER STATS")]
+    [Space(25.0f)]
+    public static float MAX_HP = 20;
+    public static float MAX_MP = 16;
+    public static float MAX_HUNGRY = 13;
+
     [Header("BODY COMPONENTS")]
     [Space(25.0f)]
     [SerializeField] Rigidbody2D rigidBody;
@@ -74,8 +81,14 @@ public class PlayerController : MonoBehaviour
     [Header("VISUAL EFFECTS")]
     [Space(25.0f)]
     [SerializeField] VisualEffect transformationNormalVFX;
+    [SerializeField] VisualEffect transformationMahouVFX;
+    [SerializeField] VisualEffect transformationDarkVFX;
+    [SerializeField] VisualEffect transformationHungryVFX;
     [SerializeField] VisualEffect walkNormalVFX;
     [SerializeField] VisualEffect deathNormalVFX;
+    [SerializeField] VisualEffect deathMahouVFX;
+    [SerializeField] VisualEffect deathDarkVFX;
+    [SerializeField] VisualEffect deathHungryVFX;
     [SerializeField] VisualEffect landingNormalVFX;
     [SerializeField] VisualEffect chargingVFX;
     [SerializeField] VisualEffect hungryHit;
@@ -84,12 +97,14 @@ public class PlayerController : MonoBehaviour
     {
         set { chargingVFX = value; }
         get { return chargingVFX; }
-    } 
+    }
 
     [Space(25.0f)]
     [Header("PHYSIC VALUES")]
     [Space(25.0f)]
     [SerializeField] Vector2 darkDodgeImpulseValue;
+    [SerializeField] float playerGravityScale;
+    public float PlayerGravityScale => playerGravityScale;
 
     [Space(25.0f)]
     [Header("INPUTS")]
@@ -104,14 +119,7 @@ public class PlayerController : MonoBehaviour
     InputAction changeFormMahou;
     InputAction changeFormDark;
 
-    [Space(25.0f)]
-    [Header("IMMUTABLE CHARACTER STATS")]
-    [Space(25.0f)]
-    public static float MAX_HP = 20;
-    public static float MAX_MP = 16;
-    public static float MAX_HUNGRY = 13;
 
-    
     [SerializeField] float hungryDepletionTime;
     [SerializeField] int sushiStock;
     public int SushiStock => sushiStock;
@@ -133,9 +141,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] bool isDodging = false;
     public bool IsDodging => isDodging;
     [SerializeField] bool isMovementBlocked = false;
-    public bool IsMovementBlocked { 
-        get => isMovementBlocked; 
-        set { isMovementBlocked = value; } 
+    public bool IsMovementBlocked {
+        get => isMovementBlocked;
+        set { isMovementBlocked = value; }
     }
     bool IsAlive => currentHP > 0;
 
@@ -174,7 +182,7 @@ public class PlayerController : MonoBehaviour
             currentChargedTime += Time.deltaTime;
             chargingVFX.SetBool("isCharged", currentChargedTime >= shot3MinimumChargeTime);
         }
-        walkNormalVFX.enabled = move.IsPressed() && IsGrounded() && Mathf.Abs(rigidBody.velocity.x) > 0.1f;
+        walkNormalVFX.enabled = move.IsPressed() && IsGrounded() && Mathf.Abs(rigidBody.velocity.x) > 0.01f;
 
         darkComboTimer += Time.deltaTime;
         if (MAX_MP > currentMP)
@@ -249,8 +257,8 @@ public class PlayerController : MonoBehaviour
             case Form.Normal:
                 StartCoroutine(BlockMovementForTime(currentPlayerForm.cooldownAttack));
                 animator.Play("NormalHit");
-                Collider2D[] normalHitEnemies = Physics2D.OverlapCircleAll(new Vector2 (
-                    attackPoint.position.x + (sprite.flipX ? -normalAttackPointOffset.x : normalAttackPointOffset.x), 
+                Collider2D[] normalHitEnemies = Physics2D.OverlapCircleAll(new Vector2(
+                    attackPoint.position.x + (sprite.flipX ? -normalAttackPointOffset.x : normalAttackPointOffset.x),
                     attackPoint.position.y + normalAttackPointOffset.y),
                     attackRange, enemyLayer);
                 foreach (Collider2D enemy in normalHitEnemies)
@@ -266,7 +274,7 @@ public class PlayerController : MonoBehaviour
                 else
                     Instantiate(shotObject, rightShotSource.position, rightShotSource.rotation);
                 animator.Play("NormalHit");
-                if(shotObject == mahouForm.projectile3)
+                if (shotObject == mahouForm.projectile3)
                 {
                     ConsumeMp(currentPlayerForm.specialMPCost);
                 }
@@ -304,7 +312,7 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(BlockMovementForTime(currentPlayerForm.cooldownAttack));
                 animator.Play("NormalHit");
                 hungryHit.SetBool("isFlipped", sprite.flipX);
-                hungryHit.SetVector3("positionOffset", sprite.flipX ? - hungryAttackPointOffset : hungryAttackPointOffset);
+                hungryHit.SetVector3("positionOffset", sprite.flipX ? -hungryAttackPointOffset : hungryAttackPointOffset);
                 hungryHit.Play();
                 Collider2D[] hungryHitEnemies = Physics2D.OverlapCircleAll(new Vector2(
                     attackPoint.position.x + (sprite.flipX ? -hungryAttackPointOffset.x : hungryAttackPointOffset.x),
@@ -312,7 +320,7 @@ public class PlayerController : MonoBehaviour
                     hungryAttackRange, enemyLayer);
                 foreach (Collider2D enemy in hungryHitEnemies)
                 {
-                    enemy.GetComponentInParent<BaseEnemy>().TakeDamage(baseAttackDamage,Form.Hungry);
+                    enemy.GetComponentInParent<BaseEnemy>().TakeDamage(baseAttackDamage, Form.Hungry);
                 }
                 break;
         }
@@ -382,7 +390,7 @@ public class PlayerController : MonoBehaviour
     {
         if (currentChargedTime >= shot3MinimumChargeTime)
             return mahouForm.projectile3;
-        else if(currentChargedTime >= shot2MinimumChargeTime)
+        else if (currentChargedTime >= shot2MinimumChargeTime)
             return mahouForm.projectile2;
         return mahouForm.projectile1;
     }
@@ -411,13 +419,19 @@ public class PlayerController : MonoBehaviour
         gameManager.uiManager.UpdateUIValues();
     }
 
+    public void SetSushiStock(int quantity)
+    {
+        sushiStock = quantity;
+        gameManager.uiManager.UpdateUIValues();
+    }
+
     bool CheckSushiStock(int quantityToCheck)
     {
         if (sushiStock < quantityToCheck)
             return false;
         return true;
     }
-    
+
     bool ConsumeFood(int quantity)
     {
         if (!CheckSushiStock(quantity)) return false;
@@ -436,7 +450,7 @@ public class PlayerController : MonoBehaviour
 
     void RegenHp(float quantity)
     {
-        currentHP = Mathf.Min(currentHP+ quantity, MAX_HP);
+        currentHP = Mathf.Min(currentHP + quantity, MAX_HP);
         uiManager.UpdateUIValues();
         uiManager.UpdateFormUI();
     }
@@ -453,7 +467,7 @@ public class PlayerController : MonoBehaviour
 
     void RegenMp(float quantity)
     {
-        currentMP = Mathf.Min(currentMP + quantity, MAX_MP); 
+        currentMP = Mathf.Min(currentMP + quantity, MAX_MP);
         uiManager.UpdateUIValues();
         uiManager.UpdateFormUI();
     }
@@ -472,6 +486,14 @@ public class PlayerController : MonoBehaviour
         uiManager.UpdateFormUI();
     }
 
+    public void SetFullStats()
+    {
+        currentHP = MAX_HP;
+        currentMP = MAX_MP;
+        currentHungry = MAX_HUNGRY;
+        uiManager.UpdateUIValues();
+    }
+
     void Starve()
     {
         SetPlayerForm(Form.Hungry);
@@ -482,7 +504,7 @@ public class PlayerController : MonoBehaviour
         playerControlls.Disable();
     }
 
-    void SetPlayerForm(Form form)
+    public void SetPlayerForm(Form form)
     {
         chargingVFX.Stop();
         if (currentForm == form) return;
@@ -490,31 +512,35 @@ public class PlayerController : MonoBehaviour
         switch (form)
         {
             case Form.Normal:
-                animator.runtimeAnimatorController = normalForm.animator;
+                StartCoroutine(SetNewAnimatorAfterTime(0.5f, normalForm.animator));
                 animator.Play("NormalTransform");
                 StartCoroutine(BlinkShadowColor(Color.white, 0.4f, 0.2f));
                 hungryWalk.gameObject.SetActive(false);
+                PlayDelayedVFX(0.2f, transformationNormalVFX);
                 currentPlayerForm = normalForm;
                 break;
             case Form.Mahou:
-                animator.runtimeAnimatorController = mahouForm.animator;
+                StartCoroutine(SetNewAnimatorAfterTime(0.5f, mahouForm.animator));
                 animator.Play("NormalTransform");
                 StartCoroutine(BlinkShadowColor(Color.white, 0.4f, 0.2f));
                 hungryWalk.gameObject.SetActive(false);
+                PlayDelayedVFX(0.2f, transformationMahouVFX);
                 currentPlayerForm = mahouForm;
                 break;
             case Form.Dark:
-                animator.runtimeAnimatorController = darkForm.animator;
+                StartCoroutine(SetNewAnimatorAfterTime(0.5f, darkForm.animator));
                 animator.Play("NormalTransform");
                 StartCoroutine(BlinkShadowColor(Color.white, 0.4f, 0.2f));
                 hungryWalk.gameObject.SetActive(false);
+                PlayDelayedVFX(0.2f, transformationDarkVFX);
                 currentPlayerForm = darkForm;
                 break;
             case Form.Hungry:
-                animator.runtimeAnimatorController = hungryForm.animator;
+                StartCoroutine(SetNewAnimatorAfterTime(0.5f, hungryForm.animator));
                 animator.Play("NormalTransform");
                 StartCoroutine(BlinkShadowColor(Color.white, 0.4f, 0.2f));
                 hungryWalk.gameObject.SetActive(true);
+                PlayDelayedVFX(0.2f, transformationHungryVFX);
                 currentPlayerForm = hungryForm;
                 break;
         }
@@ -523,14 +549,25 @@ public class PlayerController : MonoBehaviour
         horizontalBaseAcceleration = currentPlayerForm.baseAcceleration;
         maxSpeed = currentPlayerForm.maxSpeed;
 
-        StartCoroutine(SetUIForm(0));
+        StartCoroutine(SetUIForm(0.5f));
+    }
+
+    IEnumerator SetNewAnimatorAfterTime(float delay, RuntimeAnimatorController newAnimator) {
+        yield return new WaitForSeconds(delay);
+        animator.runtimeAnimatorController = newAnimator;
+    }
+
+    IEnumerator PlayDelayedVFX(float delay, VisualEffect vfx)
+    {
+        yield return new WaitForSeconds(delay);
+        vfx.Play();
     }
 
     IEnumerator BlockMovementForTime(float duration)
     {
-        isMovementBlocked = true;
+        SetPlayerBlockedMovement(true);
         yield return new WaitForSeconds(duration);
-        isMovementBlocked = false;
+        SetPlayerBlockedMovement(false);
     }
 
     IEnumerator SetUIForm(float delay)
@@ -548,7 +585,7 @@ public class PlayerController : MonoBehaviour
         if (isMovementBlocked) { return; }
 
         float movement = move.ReadValue<float>();
-        rigidBody.velocity = (new Vector2(Mathf.Clamp(rigidBody.velocity.x + (movement * horizontalBaseAcceleration),-maxSpeed, maxSpeed), rigidBody.velocity.y));
+        rigidBody.velocity = (new Vector2(Mathf.Clamp(rigidBody.velocity.x + (movement * horizontalBaseAcceleration), -maxSpeed, maxSpeed), rigidBody.velocity.y));
         SetSpriteFlipState(movement);
         walkNormalVFX.SetGradient("GroundDustColor", dustRunGradient);
     }
@@ -564,14 +601,14 @@ public class PlayerController : MonoBehaviour
 
     bool IsGrounded()
     {
-        var resultCenter = Physics2D.Raycast(transform.position + new Vector3(0, - characterCollider.size.y/2 - 0.1f), Vector2.down, 0.4f, groundLayer);
-        var resultLeft = Physics2D.Raycast(transform.position + new Vector3(0.28f, -characterCollider.size.y/2 - 0.1f), Vector2.down, 0.4f, groundLayer);
-        var resultRight = Physics2D.Raycast(transform.position + new Vector3(- 0.28f, -characterCollider.size.y/2 - 0.1f), Vector2.down, 0.4f, groundLayer);
-        bool isGroundedNewValue =  (resultCenter.transform != null || resultLeft.transform != null || resultRight.transform != null) && Mathf.Abs(rigidBody.velocity.y) <= 0.01;
+        var resultCenter = Physics2D.Raycast(transform.position + new Vector3(0, -characterCollider.size.y / 2 - 0.1f), Vector2.down, 0.4f, groundLayer);
+        var resultLeft = Physics2D.Raycast(transform.position + new Vector3(0.28f, -characterCollider.size.y / 2 - 0.1f), Vector2.down, 0.4f, groundLayer);
+        var resultRight = Physics2D.Raycast(transform.position + new Vector3(-0.28f, -characterCollider.size.y / 2 - 0.1f), Vector2.down, 0.4f, groundLayer);
+        bool isGroundedNewValue = (resultCenter.transform != null || resultLeft.transform != null || resultRight.transform != null) && Mathf.Abs(rigidBody.velocity.y) <= 0.01;
 
         if (!isGroundedLastValue && isGroundedNewValue) landingNormalVFX.Play();
         isGroundedLastValue = isGroundedNewValue;
-            return isGroundedNewValue;
+        return isGroundedNewValue;
     }
 
     void SetSpriteFlipState(float speed)
@@ -596,18 +633,49 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public IEnumerator Die() 
+    public IEnumerator Die()
     {
         print("died");
-        isMovementBlocked = true;
+        SetPlayerBlockedMovement(true);
         rigidBody.velocity = Vector2.zero;
-        rigidBody.gravityScale = 0;
+        SetPlayerGravityScale(0);
         animator.enabled = false;
         StartCoroutine(LerpShadowColor(receiveDamageColor, 0.3f));
         yield return new WaitForSeconds(0.2f);
-        sprite.color = Color.clear;
-        deathNormalVFX.Play();
-        StartCoroutine(LerpShadowColor(Color.clear, 2));;
+        SetPlayerSpriteColor(Color.clear);
+        StartCoroutine(PlayDieAnimation());
+        StartCoroutine(LerpShadowColor(Color.clear, 2)); ;
+        StartCoroutine(GameManager.Instance.OnDeath());
+    }
+
+    public void SetPlayerSpriteColor(Color color) => sprite.color = color;
+    public void SetPlayerGravityScale(float gravityScale) => rigidBody.gravityScale = gravityScale;
+    public void SetAnimatorState(bool state) => animator.enabled = state;
+    public void SetPlayerBlockedMovement(bool block) => isMovementBlocked = block;
+
+    IEnumerator PlayDieAnimation()
+    {
+        switch (CurrentForm)
+        {
+            case Form.Normal:
+                deathNormalVFX.Play();
+                yield return null;
+                break;
+            case Form.Mahou:
+                deathMahouVFX.Play();
+                yield return null;
+                break;
+            case Form.Dark:
+                StartCoroutine(GameManager.Instance.uiManager.ShowDiedImage(2));
+                deathDarkVFX.Play();
+                yield return null;
+                break;
+            case Form.Hungry:
+                deathHungryVFX.Play();
+                yield return new WaitForSeconds(2);
+                deathHungryVFX.Stop();
+                break;
+        }
     }
 
     private void OnDrawGizmosSelected()
@@ -627,14 +695,13 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(BlinkShadowColor(receiveDamageColor, 0.1f));
         OnHitKnockBack();
         yield return new WaitForSeconds(0.2f);
-        upperShadowSprite.color = Color.clear;
+        SetPlayerSpriteColor(Color.clear);
         for (int i = 0; i < 8; i++)
         {
-            sprite.color = Color.clear;
+            SetPlayerSpriteColor(Color.clear);
             yield return new WaitForSeconds(0.05f);
-            sprite.color = Color.white;
+            SetPlayerSpriteColor(Color.white);
             yield return new WaitForSeconds(0.05f);
-            //sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 0.5f);
         }
         isInvencible = false;
     }

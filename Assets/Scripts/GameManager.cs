@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -8,6 +9,10 @@ public class GameManager : MonoBehaviour
     public UIManager uiManager;
     public DialogueManager dialogueManager;
     public FadeManager fadeManager;
+    public AudioManager audioManager;
+
+    public Level CurrentLevel => currentLevel;
+    Level currentLevel = Level.Menu;
 
     public Vector2 LastCheckpointPosition => lastCheckpointPosition;
     Vector2 lastCheckpointPosition;
@@ -21,13 +26,54 @@ public class GameManager : MonoBehaviour
         fadeManager = FindObjectOfType<FadeManager>();
     }
 
+    private void OnLevelWasLoaded(int level)
+    {
+        lastCheckpointPosition = playerController.transform.position;
+    }
+
     void Start()
     {
+        lastCheckpointPosition = playerController.transform.position;
         DontDestroyOnLoad(this);
     }
 
-    void SetLastCheckpointPosition(Vector2 checkpointPosition)
+    public void SetCurrentLevel(Level level)
     {
-        this.lastCheckpointPosition = checkpointPosition;
+        currentLevel = level;
     }
+
+    public void SetLastCheckpointPosition(Vector2 checkpointPosition)
+    {
+        lastCheckpointPosition = checkpointPosition;
+    }
+
+    public IEnumerator OnDeath()
+    {
+        audioManager.PlayMusic(audioManager.audioPool.Lose);
+
+        yield return new WaitForSeconds(3);
+        fadeManager.PlayFadeOut(Color.black,2);
+        yield return new WaitForSeconds(2);
+        
+        playerController.transform.position = lastCheckpointPosition;
+        playerController.SetPlayerGravityScale(playerController.PlayerGravityScale);
+        playerController.SetAnimatorState(true);
+        playerController.SetPlayerForm(Form.Normal);
+        playerController.SetFullStats();
+        if (playerController.SushiStock < 3) playerController.SetSushiStock(3);
+        playerController.SetPlayerSpriteColor(Color.white);
+        StartCoroutine(uiManager.HideDiedImage(0.1f));
+
+
+        fadeManager.PlayFadeIn(1);
+        yield return new WaitForSeconds(1);
+        
+        playerController.SetPlayerBlockedMovement(false);
+        audioManager.PlayMusic(audioManager.GetCurrentLevelMusic(currentLevel));
+    }
+}
+
+public enum Level
+{
+    Menu, Rabasa, HorizonteBonito, TemploLunar
 }

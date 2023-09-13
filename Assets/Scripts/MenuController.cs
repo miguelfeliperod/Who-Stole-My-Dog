@@ -20,7 +20,7 @@ public class MenuController : MonoBehaviour
 
     public void OnStartButtonClick()
     {
-        fadeManager.PlayFadeIn(Color.black, 1);
+        fadeManager.PlayFadeOut(Color.black, 1);
         StartCoroutine(LoadScene(2));
     }
 

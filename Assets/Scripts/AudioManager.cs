@@ -8,6 +8,8 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance { get; private set; }
 
+    public AudioPool audioPool;
+
     [SerializeField] Slider masterSlider;
     [SerializeField] Slider musicSlider;
     [SerializeField] Slider sfxSlider;
@@ -222,5 +224,21 @@ public class AudioManager : MonoBehaviour
         PlayerPrefs.SetFloat(musicMixerName, musicVolume);
         PlayerPrefs.SetFloat(sfxMixerName, sfxVolume);
         configMenu.SetActive(false);
+    }
+
+    public AudioClip GetCurrentLevelMusic(Level currentLevel)
+    {
+        switch (currentLevel)
+        {
+            case Level.Rabasa:
+                return audioPool.Level1;
+            case Level.HorizonteBonito:
+                return audioPool.Level2;
+            case Level.TemploLunar:
+                return audioPool.Level3;
+            case Level.Menu:
+            default:
+                return audioPool.Menu;
+        }
     }
 }

@@ -352,6 +352,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4897529045712276146, guid: 8959d383b4053ef45b1ed6850d87f6d6, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8769792929553578175, guid: 8959d383b4053ef45b1ed6850d87f6d6, type: 3}
       propertyPath: targetLayer.m_Bits
       value: 64

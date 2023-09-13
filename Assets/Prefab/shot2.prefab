@@ -352,6 +352,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.43921566
       objectReference: {fileID: 0}
+    - target: {fileID: 4897529045712276146, guid: 8959d383b4053ef45b1ed6850d87f6d6, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8135773074504009486, guid: 8959d383b4053ef45b1ed6850d87f6d6, type: 3}
       propertyPath: m_Radius
       value: 0.24377742

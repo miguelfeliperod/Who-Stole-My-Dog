@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] FormUI mahouFormUI;
     [SerializeField] FormUI darkFormUI;
     [SerializeField] FormUI hungryFormUI;
+    [SerializeField] Image darkDiedImage;
 
     public void UpdateUIValues()
     {
@@ -62,5 +63,33 @@ public class UIManager : MonoBehaviour
                 hungryFormUI.gameObject.SetActive(true);
                 break;
         }
+    }
+
+    public IEnumerator ShowDiedImage(float duration = 1)
+    {
+        float elapsedTime = 0;
+
+        while (elapsedTime < duration)
+        {
+            darkDiedImage.color = Color.Lerp(Color.clear, Color.white, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        darkDiedImage.color = Color.white;
+        yield return null;
+    }
+
+    public IEnumerator HideDiedImage(float duration = 1)
+    {
+        float elapsedTime = 0;
+
+        while (elapsedTime < duration)
+        {
+            darkDiedImage.color = Color.Lerp(Color.white, Color.clear, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        darkDiedImage.color = Color.clear;
+        yield return null;
     }
 }
