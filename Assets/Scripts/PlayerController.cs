@@ -1,8 +1,6 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 using UnityEngine.VFX;
 
 public class PlayerController : MonoBehaviour
@@ -61,6 +59,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform fireballRightSource;
 
     float currentChargedTime;
+    bool isCharging = false;
 
     [Space(25.0f)]
     [Header("TIMERS AND COOLDOWNS")]
@@ -75,6 +74,10 @@ public class PlayerController : MonoBehaviour
     [Space(25.0f)]
     [SerializeField] Transform getGroundColorPoint;
     [SerializeField] Color receiveDamageColor;
+    [SerializeField] Color transformationNormalColor;
+    [SerializeField] Color transformationMahouColor;
+    [SerializeField] Color transformationDarkColor;
+    [SerializeField] Color transformationHungryColor;
     [SerializeField] Gradient dustRunGradient;
 
     [Space(25.0f)]
@@ -118,6 +121,7 @@ public class PlayerController : MonoBehaviour
     InputAction changeFormNormal;
     InputAction changeFormMahou;
     InputAction changeFormDark;
+    InputAction pause;
 
 
     [SerializeField] float hungryDepletionTime;
@@ -145,6 +149,21 @@ public class PlayerController : MonoBehaviour
         get => isMovementBlocked;
         set { isMovementBlocked = value; }
     }
+
+    [SerializeField] bool isGameplayBlocked = false;
+    public bool IsGameplayBlocked
+    {
+        get => isGameplayBlocked;
+        set { isGameplayBlocked = value; }
+    }
+
+    [SerializeField] bool isStarving = false;
+    public bool IsStarving
+    {
+        get => isStarving;
+        set { isStarving = value; }
+    }
+
     bool IsAlive => currentHP > 0;
 
     [SerializeField] float currentHP;
@@ -179,7 +198,12 @@ public class PlayerController : MonoBehaviour
 
         if (currentForm == Form.Mahou)
         {
-            currentChargedTime += Time.deltaTime;
+            if (isCharging)
+                currentChargedTime += Time.deltaTime;
+            else
+            {
+                chargingVFX.Stop();
+            }
             chargingVFX.SetBool("isCharged", currentChargedTime >= shot3MinimumChargeTime);
         }
         walkNormalVFX.enabled = move.IsPressed() && IsGrounded() && Mathf.Abs(rigidBody.velocity.x) > 0.01f;
@@ -188,7 +212,7 @@ public class PlayerController : MonoBehaviour
         if (MAX_MP > currentMP)
             RegenMp(currentPlayerForm.manaRegenRate);
 
-        if (currentHungry > 0)
+        if (currentHungry > 0 && !isGameplayBlocked)
             ConsumeHungry(currentPlayerForm.hungryDepletionRate);
 
         if (currentHungry <= 0)
@@ -233,6 +257,10 @@ public class PlayerController : MonoBehaviour
         changeFormDark = playerControlls.Player.ChangeFormDark;
         changeFormDark.Enable();
         changeFormDark.performed += ChangeFormDark;
+
+        pause = playerControlls.Game.Pause;
+        pause.Enable();
+        pause.performed += GameManager.Instance.PauseGame;
     }
 
     void Jump(InputAction.CallbackContext context)
@@ -249,7 +277,6 @@ public class PlayerController : MonoBehaviour
 
     void Attack(InputAction.CallbackContext context)
     {
-        chargingVFX.Stop();
         if (isMovementBlocked) return;
         if (!ConsumeMp(currentPlayerForm.attackMPCost)) return;
         switch (currentForm)
@@ -269,6 +296,7 @@ public class PlayerController : MonoBehaviour
             case Form.Mahou:
                 StartCoroutine(BlockMovementForTime(currentPlayerForm.cooldownAttack));
                 GameObject shotObject = GetShot();
+                isCharging = false;
                 if (sprite.flipX)
                     Instantiate(shotObject, leftShotSource.position, leftShotSource.rotation);
                 else
@@ -330,8 +358,9 @@ public class PlayerController : MonoBehaviour
     {
         currentChargedTime = 0;
         chargingVFX.SetBool("isCharged", false);
+        isCharging = true;
         if (currentForm != Form.Mahou) return;
-        chargingVFX.Play();
+            chargingVFX.Play();
     }
 
     void Special(InputAction.CallbackContext context)
@@ -388,9 +417,9 @@ public class PlayerController : MonoBehaviour
 
     GameObject GetShot()
     {
-        if (currentChargedTime >= shot3MinimumChargeTime)
+        if (currentChargedTime >= shot3MinimumChargeTime && isCharging)
             return mahouForm.projectile3;
-        else if (currentChargedTime >= shot2MinimumChargeTime)
+        else if (currentChargedTime >= shot2MinimumChargeTime && isCharging)
             return mahouForm.projectile2;
         return mahouForm.projectile1;
     }
@@ -497,6 +526,7 @@ public class PlayerController : MonoBehaviour
     void Starve()
     {
         SetPlayerForm(Form.Hungry);
+        isStarving = true;
     }
 
     void OnDisable()
@@ -507,40 +537,41 @@ public class PlayerController : MonoBehaviour
     public void SetPlayerForm(Form form)
     {
         chargingVFX.Stop();
-        if (currentForm == form) return;
+        if (currentForm == form || isStarving) return;
         StartCoroutine(BlockMovementForTime(1.1f));
         switch (form)
         {
             case Form.Normal:
                 StartCoroutine(SetNewAnimatorAfterTime(0.5f, normalForm.animator));
                 animator.Play("NormalTransform");
-                StartCoroutine(BlinkShadowColor(Color.white, 0.4f, 0.2f));
+                StartCoroutine(BlinkShadowColor(transformationNormalColor, 0.4f, 0.2f));
                 hungryWalk.gameObject.SetActive(false);
-                PlayDelayedVFX(0.2f, transformationNormalVFX);
+                StartCoroutine(PlayDelayedVFX(0.4f, transformationNormalVFX));
                 currentPlayerForm = normalForm;
                 break;
             case Form.Mahou:
                 StartCoroutine(SetNewAnimatorAfterTime(0.5f, mahouForm.animator));
                 animator.Play("NormalTransform");
-                StartCoroutine(BlinkShadowColor(Color.white, 0.4f, 0.2f));
+                StartCoroutine(BlinkShadowColor(transformationMahouColor, 0.4f, 0.2f));
                 hungryWalk.gameObject.SetActive(false);
-                PlayDelayedVFX(0.2f, transformationMahouVFX);
+                StartCoroutine(PlayDelayedVFX(0f, transformationMahouVFX));
+                StartCoroutine(StopDelayedVFX(0.8f, transformationMahouVFX));
                 currentPlayerForm = mahouForm;
                 break;
             case Form.Dark:
                 StartCoroutine(SetNewAnimatorAfterTime(0.5f, darkForm.animator));
                 animator.Play("NormalTransform");
-                StartCoroutine(BlinkShadowColor(Color.white, 0.4f, 0.2f));
+                StartCoroutine(BlinkShadowColor(transformationDarkColor, 0.4f, 0.2f));
                 hungryWalk.gameObject.SetActive(false);
-                PlayDelayedVFX(0.2f, transformationDarkVFX);
+                StartCoroutine(PlayDelayedVFX(0.4f, transformationDarkVFX));
                 currentPlayerForm = darkForm;
                 break;
             case Form.Hungry:
                 StartCoroutine(SetNewAnimatorAfterTime(0.5f, hungryForm.animator));
                 animator.Play("NormalTransform");
-                StartCoroutine(BlinkShadowColor(Color.white, 0.4f, 0.2f));
+                StartCoroutine(BlinkShadowColor(transformationHungryColor, 0.4f, 0.2f));
                 hungryWalk.gameObject.SetActive(true);
-                PlayDelayedVFX(0.2f, transformationHungryVFX);
+                StartCoroutine(PlayDelayedVFX(0.4f, transformationHungryVFX));
                 currentPlayerForm = hungryForm;
                 break;
         }
@@ -561,6 +592,12 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         vfx.Play();
+    }
+
+    IEnumerator StopDelayedVFX(float delay, VisualEffect vfx)
+    {
+        yield return new WaitForSeconds(delay);
+        vfx.Stop();
     }
 
     IEnumerator BlockMovementForTime(float duration)
@@ -730,6 +767,7 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
         upperShadowSprite.color = targetColor;
+     yield return null;
     }
 
     void OnHitKnockBack()

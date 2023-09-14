@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -24,6 +25,22 @@ public class GameManager : MonoBehaviour
         else
             instance = this;
         fadeManager = FindObjectOfType<FadeManager>();
+    }
+
+    public void PauseGame(InputAction.CallbackContext context)
+    {
+        if (Time.timeScale > 0)
+        {
+            Time.timeScale = 0;
+            playerController.IsMovementBlocked = true;
+            playerController.IsGameplayBlocked= true;
+        }
+        else
+        {
+            Time.timeScale = 1;
+            playerController.IsMovementBlocked = false;
+            playerController.IsGameplayBlocked = false;
+        }
     }
 
     private void OnLevelWasLoaded(int level)
