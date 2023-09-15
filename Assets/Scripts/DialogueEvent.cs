@@ -40,6 +40,7 @@ public class DialogueEvent : MonoBehaviour
         if ((1 << collision.gameObject.layer & playerLayer) == 0) return;
 
         StartCoroutine(ShowDialogueBox());
+        gameManager.playerController.IsGameplayBlocked = true;
     }
 
     void SetDialogueCommand()
@@ -136,6 +137,7 @@ public class DialogueEvent : MonoBehaviour
         yield return new WaitForSeconds(finishAwaitTime);
         StartCoroutine(ContinuousBlockStateMovement(0.5f, false));
         characterFace.gameObject.SetActive(false);
+        gameManager.playerController.IsGameplayBlocked = false;
         nextDialogue.Dispose();
         Destroy(gameObject, 0.5f);
         yield return null;

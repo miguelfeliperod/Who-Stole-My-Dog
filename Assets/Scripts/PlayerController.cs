@@ -40,6 +40,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] PlayerForm darkForm;
     [SerializeField] PlayerForm hungryForm;
 
+    [SerializeField] GameObject normalVision;
+    [SerializeField] GameObject mahouVision;
+    [SerializeField] GameObject darkVision;
+    [SerializeField] GameObject hungryVision;
+
     [Space(25.0f)]
     [Header("ATTACK COMPONENTS")]
     [Space(25.0f)]
@@ -192,9 +197,12 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+
         animator.SetFloat("hSpeed", Mathf.Abs(rigidBody.velocity.x));
         animator.SetFloat("vSpeed", rigidBody.velocity.y);
         animator.SetBool("isGrounded", IsGrounded());
+
+        if (IsGameplayBlocked) return;
 
         if (currentForm == Form.Mahou)
         {
@@ -206,7 +214,14 @@ public class PlayerController : MonoBehaviour
             }
             chargingVFX.SetBool("isCharged", currentChargedTime >= shot3MinimumChargeTime);
         }
-        walkNormalVFX.enabled = move.IsPressed() && IsGrounded() && Mathf.Abs(rigidBody.velocity.x) > 0.01f;
+        else if (currentForm == Form.Hungry)
+        {
+            if (MAX_HUNGRY <= currentHungry)
+            {
+                SetPlayerForm(Form.Normal);
+            }
+        }
+            walkNormalVFX.enabled = move.IsPressed() && IsGrounded() && Mathf.Abs(rigidBody.velocity.x) > 0.01f;
 
         darkComboTimer += Time.deltaTime;
         if (MAX_MP > currentMP)
@@ -539,6 +554,8 @@ public class PlayerController : MonoBehaviour
         chargingVFX.Stop();
         if (currentForm == form || isStarving) return;
         StartCoroutine(BlockMovementForTime(1.1f));
+
+        currentForm = form;
         switch (form)
         {
             case Form.Normal:
@@ -575,7 +592,6 @@ public class PlayerController : MonoBehaviour
                 currentPlayerForm = hungryForm;
                 break;
         }
-        currentForm = form;
         jumpForce = currentPlayerForm.jumpForce;
         horizontalBaseAcceleration = currentPlayerForm.baseAcceleration;
         maxSpeed = currentPlayerForm.maxSpeed;
@@ -585,6 +601,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator SetNewAnimatorAfterTime(float delay, RuntimeAnimatorController newAnimator) {
         yield return new WaitForSeconds(delay);
+        UpdateFormVision();
         animator.runtimeAnimatorController = newAnimator;
     }
 
@@ -796,5 +813,29 @@ public class PlayerController : MonoBehaviour
                 image.GetPixel(image.width / 2, image.height - 1).b);
         }
         return Color.gray;
+    }
+
+    void UpdateFormVision()
+    {
+        normalVision.SetActive(false);
+        mahouVision.SetActive(false);
+        darkVision.SetActive(false);
+        hungryVision.SetActive(false);
+
+        switch (CurrentForm)
+        {
+            case Form.Normal:
+                normalVision.SetActive(true);
+                break;
+            case Form.Mahou:
+                mahouVision.SetActive(true);
+                break;
+            case Form.Dark:
+                darkVision.SetActive(true);
+                break;
+            case Form.Hungry:
+                hungryVision.SetActive(true);
+                break;
+        }
     }
 }
