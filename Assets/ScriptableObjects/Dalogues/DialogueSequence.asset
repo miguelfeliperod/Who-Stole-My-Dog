@@ -17,10 +17,13 @@ MonoBehaviour:
     characterImageTalking: {fileID: -1881606921, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
     text: 'Teste1 Teste1 Teste1 Teste1 Teste1 Teste1 Teste1 Teste1 Teste1 Teste1
       Teste1 Teste1 Teste1 Teste1 Teste1 Teste1 Teste1 Teste1 '
+    audioSound: {fileID: 8300000, guid: 17cf4ed8a06917c48a6258e513970d99, type: 3}
   - characterImage: {fileID: -757245302, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
     characterImageTalking: {fileID: -107979338, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
-    text: Teste2 Teste2Teste2Teste2Teste2Teste2Teste2Teste2Teste2Teste2Teste2Teste2Teste2Teste2Teste2
+    text: Au
+    audioSound: {fileID: 8300000, guid: 5284198a34d866d4296cf14cf4d99e73, type: 3}
   - characterImage: {fileID: -473607882, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
     characterImageTalking: {fileID: -1144624466, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
     text: 'Teste3 Teste3 Teste3 Teste3 Teste3 Teste3 Teste3 Teste3 Teste3 Teste3
       Teste3 Teste3 '
+    audioSound: {fileID: 8300000, guid: 5a87ada723afde345a9643ddf581c6d4, type: 3}

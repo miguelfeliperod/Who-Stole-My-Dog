@@ -109,7 +109,7 @@ VFXRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
 --- !u!1 &4897529045712276143
 GameObject:
   m_ObjectHideFlags: 0
@@ -255,3 +255,4 @@ MonoBehaviour:
   damage: 4
   destroyOnContact: 0
   aliveTime: 5
+  sfx: {fileID: 8300000, guid: a4db9af354634144896f51b48bbbc213, type: 3}

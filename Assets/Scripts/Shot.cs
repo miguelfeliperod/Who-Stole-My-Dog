@@ -12,9 +12,11 @@ public class Shot : MonoBehaviour
     public int damage;
     public bool destroyOnContact = true;
     [SerializeField] float aliveTime = 1.2f;
+    [SerializeField] AudioClip sfx;
 
-     void Start()
+    void Start()
     {
+        GameManager.Instance.audioManager.PlaySFX(sfx);
         bool isFlipped = GameManager.Instance.playerController.Sprite.flipX;
         spriteRenderer = GetComponent<SpriteRenderer>();
         rigidbody2 = GetComponent<Rigidbody2D>();

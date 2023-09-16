@@ -34,12 +34,14 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 0;
             playerController.IsMovementBlocked = true;
             playerController.IsGameplayBlocked= true;
+            uiManager.ShowPauseScreen();
         }
         else
         {
             Time.timeScale = 1;
             playerController.IsMovementBlocked = false;
             playerController.IsGameplayBlocked = false;
+            uiManager.HidePauseScreen();
         }
     }
 

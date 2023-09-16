@@ -8,6 +8,7 @@ public class Checkpoint : MonoBehaviour
     [SerializeField] LayerMask playerLayer;
     VisualEffect visualEffect;
     bool alreadyActivated = false;
+    [SerializeField] AudioClip sfx;
 
     void Start()
     {
@@ -25,6 +26,7 @@ public class Checkpoint : MonoBehaviour
             animator.SetBool("isActive", true);
             GameManager.Instance.playerController.SetFullStats();
             GameManager.Instance.SetLastCheckpointPosition(transform.position);
+            GameManager.Instance.audioManager.PlaySFX(sfx);
             alreadyActivated = true;
             visualEffect.Play();
         }

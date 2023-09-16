@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    [SerializeField] GameObject pauseScreen;
     [SerializeField] TextMeshProUGUI lifeStockText;
     [SerializeField] TextMeshProUGUI sushiStockText;
     [SerializeField] FormUI normalFormUI;
@@ -92,4 +93,7 @@ public class UIManager : MonoBehaviour
         darkDiedImage.color = Color.clear;
         yield return null;
     }
+
+    public void ShowPauseScreen() => pauseScreen.SetActive(true);
+    public void HidePauseScreen() => pauseScreen.SetActive(false);
 }

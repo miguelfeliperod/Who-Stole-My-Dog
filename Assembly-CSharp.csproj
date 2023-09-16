@@ -69,6 +69,7 @@
     <Compile Include="Assets\Scripts\DummyEnemy.cs" />
     <Compile Include="Assets\Scripts\DeathZone.cs" />
     <Compile Include="Assets\Scripts\ButterflyEnemy.cs" />
+    <Compile Include="Assets\Scripts\Checkpoint.cs" />
     <Compile Include="Assets\Scripts\DobbyProjectile.cs" />
     <Compile Include="Assets\Controlls\PlayerControlls.cs" />
     <Compile Include="Assets\Scripts\DialogueManager.cs" />
@@ -86,17 +87,16 @@
     <Compile Include="Assets\Scripts\MenuController.cs" />
     <Compile Include="Assets\Scripts\NumberManager.cs" />
     <Compile Include="Assets\Scripts\FormUI.cs" />
+    <Compile Include="Assets\Scripts\AudioPool.cs" />
     <Compile Include="Assets\Scripts\NumberButton.cs" />
     <Compile Include="Assets\Scripts\MetroShooter.cs" />
     <Compile Include="Assets\Scripts\Fireball.cs" />
     <Compile Include="Assets\Scripts\BossController.cs" />
+    <Compile Include="Assets\LevelManager.cs" />
     <Compile Include="Assets\Scripts\FadeManager.cs" />
     <Compile Include="Assets\Scripts\DialogueEvent.cs" />
     <Compile Include="Assets\Scripts\CocoonEnemy.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
-    <Compile Include="Assets\Scripts\Checkpoint.cs" />
-    <Compile Include="Assets\LevelManager.cs" />
-    <Compile Include="Assets\Scripts\AudioPool.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

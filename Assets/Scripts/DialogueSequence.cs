@@ -14,4 +14,5 @@ public struct Dialogue
     public Sprite characterImage;
     public Sprite characterImageTalking;
     public string text;
+    public AudioClip audioSound;
 } 

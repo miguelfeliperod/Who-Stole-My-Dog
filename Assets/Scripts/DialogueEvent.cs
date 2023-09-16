@@ -73,9 +73,12 @@ public class DialogueEvent : MonoBehaviour
         {
             dialogueText.text = dialogue.text[..textIndex];
             yield return new WaitForSeconds(0.05f);
-            if (textIndex % 3 == 0)
+            if( textIndex % 2 == 0 )
+                GameManager.Instance.audioManager.PlaySFX(dialogue.audioSound);
+
+            if (textIndex % 2 == 0)
             {
-                characterFace.sprite = textIndex % 2 == 0
+                characterFace.sprite = textIndex % 4 == 0
                     ? dialogue.characterImage
                     : dialogue.characterImageTalking;
             }

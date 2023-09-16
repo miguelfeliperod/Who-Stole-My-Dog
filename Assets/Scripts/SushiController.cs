@@ -13,6 +13,7 @@ public class SushiController : MonoBehaviour
     public AnimationCurve movementCurve;
     public Vector3 verticalVariation = new Vector3(0, 1, 0);
     public float animationDuration;
+    [SerializeField] AudioClip sfx;
 
     void Start()
     {
@@ -38,7 +39,7 @@ public class SushiController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if ((1 << collision.GetComponent<Collider2D>().gameObject.layer & playerLayer) == 0) return;
-        // audioManager.PlayOneShot
+        GameManager.Instance.audioManager.PlaySFX(sfx);
         GameManager.Instance.playerController.GetFood(1);
         Destroy(gameObject);
     }

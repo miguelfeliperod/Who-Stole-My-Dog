@@ -743,6 +743,10 @@ MonoBehaviour:
   mahouForm: {fileID: 11400000, guid: 2aea6d4c01dcc7844b75effee25d2ad1, type: 2}
   darkForm: {fileID: 11400000, guid: 2fde0a0361437f043b41977bd3e80e22, type: 2}
   hungryForm: {fileID: 11400000, guid: 91720043f396ed641b969fc4e443af14, type: 2}
+  normalVision: {fileID: 0}
+  mahouVision: {fileID: 0}
+  darkVision: {fileID: 0}
+  hungryVision: {fileID: 0}
   attackPoint: {fileID: 1986721879383086177}
   normalAttackPointOffset: {x: 0.25, y: 0.15, z: 0}
   darkAttackPointOffset: {x: 0.2, y: 0, z: 0}
@@ -823,10 +827,29 @@ MonoBehaviour:
   isInvencible: 0
   isDodging: 0
   isMovementBlocked: 0
+  isGameplayBlocked: 0
+  isStarving: 0
   currentHP: 10
   currentMP: 10
   currentHungry: 1
   baseAttackDamage: 3
+  jumpSound: {fileID: 8300000, guid: e6f8f299fd2ea444895ee4ebdbc8ef0f, type: 3}
+  chargeSound: {fileID: 8300000, guid: 2b1eddfa5ed377c44a97967ce45611dd, type: 3}
+  headbutHit: {fileID: 8300000, guid: 126a6ed63d98c684da37a19bab5c9feb, type: 3}
+  headbutMiss: {fileID: 8300000, guid: 2a457166a534ab04a9a4998c70f7f179, type: 3}
+  eat: {fileID: 8300000, guid: 22fbfa99d3c4d234e97eb1b10383e6d4, type: 3}
+  heal: {fileID: 8300000, guid: 6d53cc5471121f146baab171a049e910, type: 3}
+  darkCombo1: {fileID: 0}
+  darkCombo2: {fileID: 0}
+  darkCombo3: {fileID: 0}
+  darkComboMiss: {fileID: 8300000, guid: a79b02056bc9059469f26ceee858a0d7, type: 3}
+  dodge: {fileID: 8300000, guid: 46123050de97615428820f976514c51e, type: 3}
+  punchHit: {fileID: 8300000, guid: a61ad554be77781458191a8e5e50f741, type: 3}
+  punchMiss: {fileID: 8300000, guid: 4ac105e72900a5d4cad3102a2c6ba2e1, type: 3}
+  transformation1: {fileID: 0}
+  transformation2: {fileID: 0}
+  transformation3: {fileID: 0}
+  transformation4: {fileID: 0}
 --- !u!1 &1986721878122637950
 GameObject:
   m_ObjectHideFlags: 0

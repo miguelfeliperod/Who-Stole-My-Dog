@@ -369,6 +369,10 @@ PrefabInstance:
       value: 0.029426336
       objectReference: {fileID: 0}
     - target: {fileID: 8769792929553578175, guid: 8959d383b4053ef45b1ed6850d87f6d6, type: 3}
+      propertyPath: sfx
+      value: 
+      objectReference: {fileID: 8300000, guid: 4ef8932769550c644a069810d052ad75, type: 3}
+    - target: {fileID: 8769792929553578175, guid: 8959d383b4053ef45b1ed6850d87f6d6, type: 3}
       propertyPath: damage
       value: 4
       objectReference: {fileID: 0}

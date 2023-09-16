@@ -151,6 +151,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
+  sfx: {fileID: 8300000, guid: 8bd1a8b6cb85f9345b108b981a78c308, type: 3}
 --- !u!95 &5763813708548867353
 Animator:
   serializedVersion: 5

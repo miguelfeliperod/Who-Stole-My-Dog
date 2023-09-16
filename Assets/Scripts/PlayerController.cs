@@ -73,6 +73,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float shot3MinimumChargeTime;
     float darkComboTimer;
     [SerializeField] float darkComboTimerLimit;
+    float heartbeatTimer = 0;
 
     [Space(25.0f)]
     [Header("COLOR COMPONENTS")]
@@ -180,6 +181,30 @@ public class PlayerController : MonoBehaviour
     public float CurrentMP => currentMP;
     public float CurrentHungry => currentHungry;
 
+    [Space(25.0f)]
+    [Header("AudioClips")]
+    [Space(25.0f)]
+
+    [SerializeField] AudioClip jumpSound;
+    [SerializeField] AudioClip chargeSound;
+    [SerializeField] AudioClip headbutHit;
+    [SerializeField] AudioClip headbutMiss;
+    [SerializeField] AudioClip eat;
+    [SerializeField] AudioClip heal;
+    [SerializeField] AudioClip darkCombo1;
+    [SerializeField] AudioClip darkCombo2;
+    [SerializeField] AudioClip darkCombo3;
+    [SerializeField] AudioClip darkComboMiss;
+    [SerializeField] AudioClip dodge;
+    [SerializeField] AudioClip punchHit;
+    [SerializeField] AudioClip punchMiss;
+    [SerializeField] AudioClip normalTransformation;
+    [SerializeField] AudioClip mahouTransformation;
+    [SerializeField] AudioClip darkTransformation;
+    [SerializeField] AudioClip hungryTransformation;
+    [SerializeField] AudioClip heartbeat;
+
+
     void Awake()
     {
         playerControlls = new PlayerControlls();
@@ -197,7 +222,16 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-
+        if(CurrentHP <= (MAX_HP/4))
+        {
+            heartbeatTimer += Time.deltaTime;
+            if (heartbeatTimer > 0.8f)
+            {
+                GameManager.Instance.audioManager.PlaySFX(heartbeat);
+                heartbeatTimer = 0;
+            }
+        }
+        
         animator.SetFloat("hSpeed", Mathf.Abs(rigidBody.velocity.x));
         animator.SetFloat("vSpeed", rigidBody.velocity.y);
         animator.SetBool("isGrounded", IsGrounded());
@@ -282,6 +316,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!IsGrounded() || isMovementBlocked) return;
         rigidBody.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+        GameManager.Instance.audioManager.PlaySFX(jumpSound);
     }
 
     void Fall(InputAction.CallbackContext context)
@@ -292,6 +327,7 @@ public class PlayerController : MonoBehaviour
 
     void Attack(InputAction.CallbackContext context)
     {
+        GameManager.Instance.audioManager.StopChargeAudioSource();
         if (isMovementBlocked) return;
         if (!ConsumeMp(currentPlayerForm.attackMPCost)) return;
         switch (currentForm)
@@ -307,11 +343,11 @@ public class PlayerController : MonoBehaviour
                 {
                     enemy.GetComponentInParent<BaseEnemy>().TakeDamage(baseAttackDamage);
                 }
+                PlayHitSound(normalHitEnemies);
                 break;
             case Form.Mahou:
                 StartCoroutine(BlockMovementForTime(currentPlayerForm.cooldownAttack));
                 GameObject shotObject = GetShot();
-                isCharging = false;
                 if (sprite.flipX)
                     Instantiate(shotObject, leftShotSource.position, leftShotSource.rotation);
                 else
@@ -321,18 +357,22 @@ public class PlayerController : MonoBehaviour
                 {
                     ConsumeMp(currentPlayerForm.specialMPCost);
                 }
+                isCharging = false;
                 break;
             case Form.Dark:
                 if (darkComboTimer > darkComboTimerLimit || move.IsPressed() || !IsGrounded())
                     darkAttackCount = 0;
                 StartCoroutine(BlockMovementForTime(currentPlayerForm.cooldownAttack));
                 Collider2D[] darkHitEnemies = Physics2D.OverlapCircleAll(attackPoint.position +
+
                     (sprite.flipX ? -darkAttackPointOffset : darkAttackPointOffset),
                     attackRange + (bonusDarkAttackRangePerHit * darkAttackCount), enemyLayer);
+                
                 foreach (Collider2D enemy in darkHitEnemies)
                 {
                     enemy.GetComponentInParent<BaseEnemy>().TakeDamage(baseAttackDamage + darkAttackCount, Form.Dark);
                 }
+                PlayHitSound(darkHitEnemies, darkAttackCount);
                 switch (darkAttackCount)
                 {
                     case 1:
@@ -350,6 +390,7 @@ public class PlayerController : MonoBehaviour
                         darkAttackCount = 1;
                         break;
                 }
+
                 break;
             case Form.Hungry:
                 StartCoroutine(BlockMovementForTime(currentPlayerForm.cooldownAttack));
@@ -357,6 +398,7 @@ public class PlayerController : MonoBehaviour
                 hungryHit.SetBool("isFlipped", sprite.flipX);
                 hungryHit.SetVector3("positionOffset", sprite.flipX ? -hungryAttackPointOffset : hungryAttackPointOffset);
                 hungryHit.Play();
+
                 Collider2D[] hungryHitEnemies = Physics2D.OverlapCircleAll(new Vector2(
                     attackPoint.position.x + (sprite.flipX ? -hungryAttackPointOffset.x : hungryAttackPointOffset.x),
                     attackPoint.position.y + hungryAttackPointOffset.y),
@@ -365,6 +407,30 @@ public class PlayerController : MonoBehaviour
                 {
                     enemy.GetComponentInParent<BaseEnemy>().TakeDamage(baseAttackDamage, Form.Hungry);
                 }
+                PlayHitSound(hungryHitEnemies);
+                break;
+        }
+    }
+
+    void PlayHitSound(Collider2D[] hitList, int comboHit = 0)
+    {
+        switch (CurrentForm)
+        {
+            case Form.Normal:
+                if (hitList.Length > 0) GameManager.Instance.audioManager.PlaySFX(headbutHit);
+                else GameManager.Instance.audioManager.PlaySFX(headbutMiss);
+                break;
+            case Form.Dark:
+                if (hitList.Length > 0) 
+                    GameManager.Instance.audioManager.PlaySFX(comboHit == 1? darkCombo2 : comboHit == 2 ? darkCombo3 : darkCombo1);
+                else GameManager.Instance.audioManager.PlaySFX(darkComboMiss,false, 1, comboHit == 1 ? 0.9f : comboHit == 2 ? 0.7f : 1.1f);
+                break;
+            case Form.Hungry:
+                if (hitList.Length > 0) GameManager.Instance.audioManager.PlaySFX(punchHit);
+                else GameManager.Instance.audioManager.PlaySFX(punchMiss);
+                break;
+            case Form.Mahou:
+            default:
                 break;
         }
     }
@@ -375,7 +441,8 @@ public class PlayerController : MonoBehaviour
         chargingVFX.SetBool("isCharged", false);
         isCharging = true;
         if (currentForm != Form.Mahou) return;
-            chargingVFX.Play();
+        GameManager.Instance.audioManager.FadeInSFXLoop(chargeSound);
+        chargingVFX.Play();
     }
 
     void Special(InputAction.CallbackContext context)
@@ -385,9 +452,9 @@ public class PlayerController : MonoBehaviour
         switch (currentForm)
         {
             case Form.Normal:
-                if (!ConsumeMp(currentPlayerForm.specialMPCost)) return;
                 if (!ConsumeFood(1)) return;
                 animator.Play("NormalSpecial");
+                GameManager.Instance.audioManager.PlayDelayedSFX(eat, 0.3f);
                 StartCoroutine(BlockMovementForTime(2f));
                 break;
             case Form.Mahou:
@@ -412,6 +479,7 @@ public class PlayerController : MonoBehaviour
     {
         isDodging = true;
         isInvencible = true;
+        GameManager.Instance.audioManager.PlaySFX(dodge);
         Physics2D.IgnoreLayerCollision(playerLayerID, enemyLayerID, true);
         StartCoroutine(BlockMovementForTime(darkDodgeInvencibilityDuration));
         rigidBody.AddForce(sprite.flipX ? -darkDodgeImpulseValue : darkDodgeImpulseValue, ForceMode2D.Impulse);
@@ -479,8 +547,9 @@ public class PlayerController : MonoBehaviour
     bool ConsumeFood(int quantity)
     {
         if (!CheckSushiStock(quantity)) return false;
+        if (!ConsumeMp(currentPlayerForm.specialMPCost)) return false;
         sushiStock--;
-        RegenHp(3);
+        RegenHp(3, 0.5f);
         RegenHungry(3);
         return true;
     }
@@ -492,11 +561,24 @@ public class PlayerController : MonoBehaviour
         uiManager.UpdateFormUI();
     }
 
-    void RegenHp(float quantity)
+    void RegenHp(float quantity, float delay = 0)
     {
-        currentHP = Mathf.Min(currentHP + quantity, MAX_HP);
-        uiManager.UpdateUIValues();
-        uiManager.UpdateFormUI();
+        StartCoroutine(HealHP(quantity, delay));
+    }
+
+    IEnumerator HealHP(float quantity, float delay = 0)
+    {
+        yield return new WaitForSeconds(delay);
+
+        for (int i = 0; i < quantity && currentHP < MAX_HP;  i++)
+        {
+            if (currentHP == 0) break;
+            currentHP++;
+            GameManager.Instance.audioManager.PlaySFX(heal);
+            uiManager.UpdateUIValues();
+            uiManager.UpdateFormUI();
+            yield return new WaitForSeconds(0.2f);
+        }
     }
 
     bool ConsumeMp(float expendedManaValue)
@@ -532,9 +614,9 @@ public class PlayerController : MonoBehaviour
 
     public void SetFullStats()
     {
-        currentHP = MAX_HP;
-        currentMP = MAX_MP;
-        currentHungry = MAX_HUNGRY;
+        RegenHp(MAX_HP);
+        RegenMp(MAX_MP);
+        RegenHungry(MAX_HUNGRY);
         uiManager.UpdateUIValues();
     }
 
@@ -552,6 +634,7 @@ public class PlayerController : MonoBehaviour
     public void SetPlayerForm(Form form)
     {
         chargingVFX.Stop();
+        GameManager.Instance.audioManager.StopChargeAudioSource();
         if (currentForm == form || isStarving) return;
         StartCoroutine(BlockMovementForTime(1.1f));
 
@@ -564,6 +647,7 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(BlinkShadowColor(transformationNormalColor, 0.4f, 0.2f));
                 hungryWalk.gameObject.SetActive(false);
                 StartCoroutine(PlayDelayedVFX(0.4f, transformationNormalVFX));
+                GameManager.Instance.audioManager.PlayDelayedSFX(normalTransformation, 0.4f);
                 currentPlayerForm = normalForm;
                 break;
             case Form.Mahou:
@@ -573,6 +657,7 @@ public class PlayerController : MonoBehaviour
                 hungryWalk.gameObject.SetActive(false);
                 StartCoroutine(PlayDelayedVFX(0f, transformationMahouVFX));
                 StartCoroutine(StopDelayedVFX(0.8f, transformationMahouVFX));
+                GameManager.Instance.audioManager.PlayDelayedSFX(mahouTransformation, 0.4f);
                 currentPlayerForm = mahouForm;
                 break;
             case Form.Dark:
@@ -581,6 +666,7 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(BlinkShadowColor(transformationDarkColor, 0.4f, 0.2f));
                 hungryWalk.gameObject.SetActive(false);
                 StartCoroutine(PlayDelayedVFX(0.4f, transformationDarkVFX));
+                GameManager.Instance.audioManager.PlayDelayedSFX(darkTransformation, 0.4f);
                 currentPlayerForm = darkForm;
                 break;
             case Form.Hungry:
@@ -589,6 +675,7 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(BlinkShadowColor(transformationHungryColor, 0.4f, 0.2f));
                 hungryWalk.gameObject.SetActive(true);
                 StartCoroutine(PlayDelayedVFX(0.4f, transformationHungryVFX));
+                GameManager.Instance.audioManager.PlayDelayedSFX(hungryTransformation, 0.4f);
                 currentPlayerForm = hungryForm;
                 break;
         }
@@ -689,6 +776,7 @@ public class PlayerController : MonoBehaviour
 
     public IEnumerator Die()
     {
+        currentHP = 0;
         print("died");
         SetPlayerBlockedMovement(true);
         rigidBody.velocity = Vector2.zero;

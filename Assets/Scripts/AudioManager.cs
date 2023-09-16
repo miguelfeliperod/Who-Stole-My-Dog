@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
@@ -16,6 +17,7 @@ public class AudioManager : MonoBehaviour
 
     [SerializeField] AudioSource musicSource;
     [SerializeField] AudioSource sfxSource;
+    [SerializeField] AudioSource chargeSfxSource;
     [SerializeField] AudioMixer audioMixer;
 
     [SerializeField] GameObject OSTComponents;
@@ -110,14 +112,42 @@ public class AudioManager : MonoBehaviour
         sfxSource.PlayOneShot(audioClip);
     }
 
+    public void PlaySFX(AudioClip audioClip) => PlaySFX(audioClip, false);
+
     public void PlaySFX(AudioClip audioClip, bool randomizePitch = false, float volume = 1f, float pitch = 1f)
     {
         AudioSource sfxCurrentSource = GetSourceFromPool();
         sfxCurrentSource.clip = audioClip;
         sfxCurrentSource.volume = volume;
         sfxCurrentSource.pitch = randomizePitch ? Random.Range(.8f, 1.2f) : pitch;
+        sfxCurrentSource.loop = false;
 
         sfxCurrentSource.PlayOneShot(audioClip);
+    }
+
+    public void StopChargeAudioSource() => chargeSfxSource.Stop();
+
+    public void FadeInSFXLoop(AudioClip audioClip, bool randomizePitch = false, float volume = 1f, float pitch = 1f)
+    {
+        chargeSfxSource.clip = audioClip;
+        chargeSfxSource.volume = volume;
+        chargeSfxSource.pitch = randomizePitch ? Random.Range(.8f, 1.2f) : pitch;
+
+        chargeSfxSource.Play();
+        StartCoroutine(FadeInSFXCoroutine());
+    }
+
+    private IEnumerator FadeInSFXCoroutine(float time = 1, float volume = 1f)
+    {
+        float deltaTime = 0f;
+
+        while (deltaTime < time)
+        {
+            deltaTime += Time.deltaTime;
+            chargeSfxSource.volume = Mathf.Lerp(0, volume, deltaTime / time);
+            yield return null;
+        }
+        chargeSfxSource.volume = volume;
     }
 
     public void PlaySFXWithPitchRange(AudioClip audioClip, float minPitch, float maxPitch, float volume = 1f)

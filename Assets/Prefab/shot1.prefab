@@ -357,6 +357,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8769792929553578175, guid: 8959d383b4053ef45b1ed6850d87f6d6, type: 3}
+      propertyPath: sfx
+      value: 
+      objectReference: {fileID: 8300000, guid: 4a8c66dbd40e0584db6d0f9a6043b3a1, type: 3}
+    - target: {fileID: 8769792929553578175, guid: 8959d383b4053ef45b1ed6850d87f6d6, type: 3}
       propertyPath: targetLayer.m_Bits
       value: 64
       objectReference: {fileID: 0}
