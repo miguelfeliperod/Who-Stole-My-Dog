@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class MenuController : MonoBehaviour
 {
     [SerializeField] FadeManager fadeManager;
+    [SerializeField] AudioManager audioManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +26,8 @@ public class MenuController : MonoBehaviour
     }
 
     IEnumerator LoadScene(float delayTime) {
+        yield return new WaitForSeconds(delayTime);
+        audioManager.FadeOutMusic(2);
         yield return new WaitForSeconds(delayTime);
         SceneManager.LoadSceneAsync("Level1");
     }

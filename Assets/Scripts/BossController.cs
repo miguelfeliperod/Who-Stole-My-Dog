@@ -84,8 +84,6 @@ public class BossController : BaseEnemy
     public override void TakeDamage(int damage, Form damageType = Form.Normal)
     {
         if (imunityDamageList.Contains(damageType)) damage = 0;
-        if (resistanceDamageList.Contains(damageType)) damage = damage / 2;
-        if (weaknessDamageList.Contains(damageType)) damage = (damage + (damage / 2));
         print("Receive Damage Called: " + currentHp + " => " + (currentHp - damage));
         currentHp -= damage;
         StartCoroutine(BlinkShadowColor(Color.red, 0.05f));

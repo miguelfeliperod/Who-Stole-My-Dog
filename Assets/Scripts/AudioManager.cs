@@ -61,6 +61,14 @@ public class AudioManager : MonoBehaviour
         audioMixer.SetFloat(masterMixerName, Mathf.Log10(PlayerPrefs.GetFloat(masterMixerName)) * 20);
         audioMixer.SetFloat(musicMixerName, Mathf.Log10(PlayerPrefs.GetFloat(musicMixerName)) * 20);
         audioMixer.SetFloat(sfxMixerName, Mathf.Log10(PlayerPrefs.GetFloat(sfxMixerName)) * 20);
+
+
+        if(masterSlider != null)
+        {
+            masterSlider.value = PlayerPrefs.GetFloat(masterMixerName, 0.8f);
+            musicSlider.value = PlayerPrefs.GetFloat(musicMixerName, 0.8f);
+            sfxSlider.value = PlayerPrefs.GetFloat(sfxMixerName, 0.8f);
+        }
     }
 
     public void PlayMusic(AudioClip audioClip, float volume = 1.0f)
@@ -82,7 +90,7 @@ public class AudioManager : MonoBehaviour
         else
             musicSource.UnPause();
     }
-    public void FadeInMusic(AudioClip audioClip, float duration, float volume)
+    public void FadeInMusic(AudioClip audioClip, float duration = 1, float volume =1)
     {
         if (musicSource.isPlaying)
         {
@@ -127,24 +135,25 @@ public class AudioManager : MonoBehaviour
 
     public void StopChargeAudioSource() => chargeSfxSource.Stop();
 
-    public void FadeInSFXLoop(AudioClip audioClip, bool randomizePitch = false, float volume = 1f, float pitch = 1f)
+    public void FadeInSFXLoop(AudioClip audioClip, float duration = 1, bool randomizePitch = false, float volume = 1f, float pitch = 1f)
     {
         chargeSfxSource.clip = audioClip;
         chargeSfxSource.volume = volume;
         chargeSfxSource.pitch = randomizePitch ? Random.Range(.8f, 1.2f) : pitch;
 
         chargeSfxSource.Play();
-        StartCoroutine(FadeInSFXCoroutine());
+        StartCoroutine(FadeInSFXCoroutine(duration, volume));
     }
 
-    private IEnumerator FadeInSFXCoroutine(float time = 1, float volume = 1f)
+    private IEnumerator FadeInSFXCoroutine(float duration = 1, float volume = 1f)
     {
         float deltaTime = 0f;
 
-        while (deltaTime < time)
+        while (deltaTime < duration)
         {
             deltaTime += Time.deltaTime;
-            chargeSfxSource.volume = Mathf.Lerp(0, volume, deltaTime / time);
+            chargeSfxSource.volume = Mathf.Lerp(0, volume, deltaTime / duration);
+            chargeSfxSource.pitch = Mathf.Lerp(0.2f, 4f, deltaTime / duration);
             yield return null;
         }
         chargeSfxSource.volume = volume;
@@ -244,10 +253,8 @@ public class AudioManager : MonoBehaviour
     public void OnConfigButtonClick()
     {
         configMenu.SetActive(true); 
-        masterSlider.value = PlayerPrefs.GetFloat(masterMixerName, 0.8f);
-        musicSlider.value = PlayerPrefs.GetFloat(musicMixerName, 0.8f);
-        sfxSlider.value = PlayerPrefs.GetFloat(sfxMixerName, 0.8f);
     }
+
     public void OnCloseButtonClick()
     {
         PlayerPrefs.SetFloat(masterMixerName, masterVolume);

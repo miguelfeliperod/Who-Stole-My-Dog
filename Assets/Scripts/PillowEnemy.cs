@@ -5,22 +5,26 @@ public class PillowEnemy : BaseEnemy
 {
     [SerializeField] bool isGoingUp;
     [SerializeField] float verticalSpeed;
-    float moveTimer = 0;
-    Vector2 startPosition;
+    [SerializeField] AudioClip sfx;
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] float delayStart;
 
     private void Start()
     {
-        startPosition = transform.position;
+        audioSource = GetComponentInChildren<AudioSource>();
+        rigidbody2d.gravityScale = 0;
+        StartCoroutine(DelayStart());
     }
 
-    private void Update()
+    IEnumerator DelayStart()
     {
-        moveTimer += Time.deltaTime;
+        yield return new WaitForSeconds(delayStart);
+        rigidbody2d.gravityScale = 1;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         animator.Play("PillowFalling");
-        
+        audioSource.PlayOneShot(sfx);
     }
 }

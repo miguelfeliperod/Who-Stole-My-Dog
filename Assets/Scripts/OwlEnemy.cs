@@ -13,9 +13,14 @@ public class OwlEnemy : BaseEnemy
     [SerializeField] LayerMask playerLayer;
     [SerializeField] bool isAttacking = false;
     [SerializeField] float timeSinceLastAttack = 0;
+    [SerializeField] AudioClip flySfx;
+    [SerializeField] AudioClip diveSfx;
+    [SerializeField] AudioSource audioSource;
+    float flyingTimer;
 
     private void Start()
     {
+        audioSource = GetComponentInChildren<AudioSource>();
         initialPosition = transform.position;
         rigidbody2d.velocity = new Vector2(horizontalSpeed,0);
         SetSpriteAndVisionFlip();
@@ -24,7 +29,13 @@ public class OwlEnemy : BaseEnemy
     private void Update()
     {
         timeSinceLastAttack += Time.deltaTime;
+        flyingTimer += Time.deltaTime;
         SetHorizontalVelocity();
+        if (flyingTimer > 0.7f)
+        {
+            audioSource.PlayOneShot(flySfx);
+            flyingTimer = 0;
+        }
     }
 
     IEnumerator SetVerticalVelocity()
@@ -86,5 +97,6 @@ public class OwlEnemy : BaseEnemy
         timeSinceLastAttack = 0;
         animator.SetBool("isAttacking", isAttacking);
         StartCoroutine(SetVerticalVelocity());
+        audioSource.PlayOneShot(diveSfx);
     }
 }

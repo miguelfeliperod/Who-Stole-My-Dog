@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -102,6 +103,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] VisualEffect chargingVFX;
     [SerializeField] VisualEffect hungryHit;
     [SerializeField] VisualEffect hungryWalk;
+
     public VisualEffect ChargingVFX
     {
         set { chargingVFX = value; }
@@ -194,7 +196,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] AudioClip darkCombo1;
     [SerializeField] AudioClip darkCombo2;
     [SerializeField] AudioClip darkCombo3;
-    [SerializeField] AudioClip darkComboMiss;
+    [SerializeField] AudioClip darkComboMiss1;
+    [SerializeField] AudioClip darkComboMiss2;
+    [SerializeField] AudioClip darkComboMiss3;
     [SerializeField] AudioClip dodge;
     [SerializeField] AudioClip punchHit;
     [SerializeField] AudioClip punchMiss;
@@ -203,6 +207,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] AudioClip darkTransformation;
     [SerializeField] AudioClip hungryTransformation;
     [SerializeField] AudioClip heartbeat;
+    [SerializeField] AudioClip takeDamage;
 
 
     void Awake()
@@ -217,7 +222,10 @@ public class PlayerController : MonoBehaviour
         uiManager = GameManager.Instance.uiManager;
         playerLayerID = LayerMask.NameToLayer("Player");
         enemyLayerID = LayerMask.NameToLayer("Enemy");
-        SetPlayerForm(Form.Hungry);
+
+        currentForm = Form.Normal;
+        currentPlayerForm = normalForm;
+        StartCoroutine(SetUIForm(0));
     }
 
     void Update()
@@ -248,12 +256,9 @@ public class PlayerController : MonoBehaviour
             }
             chargingVFX.SetBool("isCharged", currentChargedTime >= shot3MinimumChargeTime);
         }
-        else if (currentForm == Form.Hungry)
+        if (currentForm == Form.Hungry)
         {
-            if (MAX_HUNGRY <= currentHungry)
-            {
-                SetPlayerForm(Form.Normal);
-            }
+            CheckEndOfHungry();
         }
             walkNormalVFX.enabled = move.IsPressed() && IsGrounded() && Mathf.Abs(rigidBody.velocity.x) > 0.01f;
 
@@ -265,9 +270,7 @@ public class PlayerController : MonoBehaviour
             ConsumeHungry(currentPlayerForm.hungryDepletionRate);
 
         if (currentHungry <= 0)
-        {
             Starve();
-        }
     }
 
     void OnEnable()
@@ -423,7 +426,7 @@ public class PlayerController : MonoBehaviour
             case Form.Dark:
                 if (hitList.Length > 0) 
                     GameManager.Instance.audioManager.PlaySFX(comboHit == 1? darkCombo2 : comboHit == 2 ? darkCombo3 : darkCombo1);
-                else GameManager.Instance.audioManager.PlaySFX(darkComboMiss,false, 1, comboHit == 1 ? 0.9f : comboHit == 2 ? 0.7f : 1.1f);
+                else GameManager.Instance.audioManager.PlaySFX(comboHit == 1 ? darkComboMiss2 : comboHit == 2 ? darkComboMiss1 : darkComboMiss3, false);
                 break;
             case Form.Hungry:
                 if (hitList.Length > 0) GameManager.Instance.audioManager.PlaySFX(punchHit);
@@ -441,7 +444,7 @@ public class PlayerController : MonoBehaviour
         chargingVFX.SetBool("isCharged", false);
         isCharging = true;
         if (currentForm != Form.Mahou) return;
-        GameManager.Instance.audioManager.FadeInSFXLoop(chargeSound);
+        GameManager.Instance.audioManager.FadeInSFXLoop(chargeSound, 1f);
         chargingVFX.Play();
     }
 
@@ -614,7 +617,7 @@ public class PlayerController : MonoBehaviour
 
     public void SetFullStats()
     {
-        RegenHp(MAX_HP);
+        currentHP = MAX_HP;
         RegenMp(MAX_MP);
         RegenHungry(MAX_HUNGRY);
         uiManager.UpdateUIValues();
@@ -624,6 +627,15 @@ public class PlayerController : MonoBehaviour
     {
         SetPlayerForm(Form.Hungry);
         isStarving = true;
+    }
+
+    private void CheckEndOfHungry()
+    {
+        if (MAX_HUNGRY <= currentHungry + 1)
+        {
+            SetPlayerForm(Form.Normal);
+            isStarving = false;
+        }
     }
 
     void OnDisable()
@@ -647,7 +659,7 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(BlinkShadowColor(transformationNormalColor, 0.4f, 0.2f));
                 hungryWalk.gameObject.SetActive(false);
                 StartCoroutine(PlayDelayedVFX(0.4f, transformationNormalVFX));
-                GameManager.Instance.audioManager.PlayDelayedSFX(normalTransformation, 0.4f);
+                GameManager.Instance.audioManager.PlayDelayedSFX(normalTransformation, 0.2f);
                 currentPlayerForm = normalForm;
                 break;
             case Form.Mahou:
@@ -657,7 +669,7 @@ public class PlayerController : MonoBehaviour
                 hungryWalk.gameObject.SetActive(false);
                 StartCoroutine(PlayDelayedVFX(0f, transformationMahouVFX));
                 StartCoroutine(StopDelayedVFX(0.8f, transformationMahouVFX));
-                GameManager.Instance.audioManager.PlayDelayedSFX(mahouTransformation, 0.4f);
+                GameManager.Instance.audioManager.PlayDelayedSFX(mahouTransformation, 0.2f);
                 currentPlayerForm = mahouForm;
                 break;
             case Form.Dark:
@@ -666,7 +678,7 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(BlinkShadowColor(transformationDarkColor, 0.4f, 0.2f));
                 hungryWalk.gameObject.SetActive(false);
                 StartCoroutine(PlayDelayedVFX(0.4f, transformationDarkVFX));
-                GameManager.Instance.audioManager.PlayDelayedSFX(darkTransformation, 0.4f);
+                GameManager.Instance.audioManager.PlayDelayedSFX(darkTransformation, 0.2f);
                 currentPlayerForm = darkForm;
                 break;
             case Form.Hungry:
@@ -675,7 +687,7 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(BlinkShadowColor(transformationHungryColor, 0.4f, 0.2f));
                 hungryWalk.gameObject.SetActive(true);
                 StartCoroutine(PlayDelayedVFX(0.4f, transformationHungryVFX));
-                GameManager.Instance.audioManager.PlayDelayedSFX(hungryTransformation, 0.4f);
+                GameManager.Instance.audioManager.PlayDelayedSFX(hungryTransformation, 0.2f);
                 currentPlayerForm = hungryForm;
                 break;
         }
@@ -764,6 +776,8 @@ public class PlayerController : MonoBehaviour
         if (isInvencible || !IsAlive) return;
         ConsumeHp(lostLifeValue);
 
+        GameManager.Instance.audioManager.PlaySFX(takeDamage);
+
         if (currentHP <= 0)
             StartCoroutine(Die());
         else
@@ -850,7 +864,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator BlinkShadowColor(Color targetColor, float duration, float stayTime = 0)
     {
-        Color startColor = upperShadowSprite.color;
+        Color startColor = Color.clear;
         StartCoroutine(LerpShadowColor(targetColor, duration));
 
         yield return new WaitForSeconds(duration);

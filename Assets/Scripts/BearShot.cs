@@ -10,16 +10,19 @@ public class BearShot : MonoBehaviour
     [SerializeField] float horizontalSpeed;
     [SerializeField] float lifetime;
     [SerializeField] Collider2D hitCollider;
+    [SerializeField] AudioClip sfx;
+    [SerializeField] AudioSource audioSource;
     VisualEffect trailVFX;
     Rigidbody2D rigidbody2d;
     SpriteRenderer spriteRenderer;
-
+    
     void Start()
     {
         rigidbody2d = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         trailVFX = GetComponentInChildren<VisualEffect>();
         hitCollider = GetComponent<Collider2D>();
+        audioSource = GetComponentInChildren<AudioSource>();
     }
 
     public void Shoot(bool isFlipped, float projectileLifetime)
@@ -33,6 +36,7 @@ public class BearShot : MonoBehaviour
                 ? horizontalSpeed 
                 : -horizontalSpeed,
                 0);
+        audioSource.PlayOneShot(sfx);
     }
 
     IEnumerator AutoDestroy(float projectileLifetime)

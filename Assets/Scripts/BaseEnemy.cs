@@ -15,9 +15,8 @@ public abstract class BaseEnemy : MonoBehaviour, IEnemy
     public VisualEffect damageVFX;
     public SpriteRenderer sprite;
     public SpriteRenderer shadow;
-    public List<Form> weaknessDamageList;
-    public List<Form> resistanceDamageList;
     public List<Form> imunityDamageList;
+    protected bool isDead;
 
     public virtual void Awake()
     {
@@ -38,11 +37,9 @@ public abstract class BaseEnemy : MonoBehaviour, IEnemy
     public virtual void TakeDamage(int damage, Form damageType = Form.Normal)
     {
         if (imunityDamageList.Contains(damageType)) damage = 0;
-        if (resistanceDamageList.Contains(damageType)) damage = damage/2;
-        if (weaknessDamageList.Contains(damageType)) damage = (damage + (damage/2));
         print("Receive Damage Called: " + currentHp + " => " + (currentHp - damage));
         currentHp -= damage;
-        StartCoroutine(BlinkShadowColor(Color.red,0.05f));
+        StartCoroutine(BlinkShadowColor(damage == 0 ? Color.gray : Color.red,0.05f));
         damageVFX.SetInt("DamageValue", damage * 3);
         damageVFX.Play();
 
@@ -60,9 +57,10 @@ public abstract class BaseEnemy : MonoBehaviour, IEnemy
 
     public virtual IEnumerator Die()
     {
-        print("Die Called");
+        isDead = true;
         Color startColor = Color.red;
-        GetComponent<Rigidbody2D>().Sleep();
+        rigidbody2d.isKinematic = true;
+        boxCollider.enabled = false;
 
         shadow.color = startColor;
         sprite.color = Color.clear;

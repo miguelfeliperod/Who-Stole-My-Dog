@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public DialogueManager dialogueManager;
     public FadeManager fadeManager;
     public AudioManager audioManager;
+    [SerializeField] AudioSource audioSource;
 
     public Level CurrentLevel => currentLevel;
     Level currentLevel = Level.Menu;
@@ -82,7 +83,6 @@ public class GameManager : MonoBehaviour
         if (playerController.SushiStock < 3) playerController.SetSushiStock(3);
         playerController.SetPlayerSpriteColor(Color.white);
         StartCoroutine(uiManager.HideDiedImage(0.1f));
-
 
         fadeManager.PlayFadeIn(1);
         yield return new WaitForSeconds(1);

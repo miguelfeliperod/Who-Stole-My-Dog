@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2b3453268618a764ab6ea91b1ef4bf4b, type: 3}
-  m_Name: DialogueSequence
+  m_Name: GameBegining
   m_EditorClassIdentifier: 
   dialogueList:
   - characterImage: {fileID: 1610715235, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}

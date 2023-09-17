@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -12,12 +14,13 @@ public class DialogueEvent : MonoBehaviour
     
     InputAction nextDialogue;
     DialogueControlls dialogueControlls;
-    BoxCollider2D boxCollider;
+
     int currentDialogueIndex = 0;
     bool isWritting = false;
+    bool isEventFinished = false;
     GameManager gameManager;
 
-    [SerializeField] DialogueSequence dialogueSequence;
+    [SerializeField] public List<GameEvent> gameEvents;
     [SerializeField] LayerMask playerLayer;
     [SerializeField] float startAwaitTime;
     [SerializeField] float finishAwaitTime;
@@ -26,47 +29,151 @@ public class DialogueEvent : MonoBehaviour
     {
         gameManager = GameManager.Instance;
 
-        boxCollider = GetComponent<BoxCollider2D>();
-
         dialogueControlls = new DialogueControlls();
 
         dialogueBox = gameManager.dialogueManager.dialogueBox;
         characterFace = gameManager.dialogueManager.characterFace;
         dialogueText = gameManager.dialogueManager.dialogueText;
+
+        SetDialogueCommand();
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
         if ((1 << collision.gameObject.layer & playerLayer) == 0) return;
-
-        StartCoroutine(ShowDialogueBox());
         gameManager.playerController.IsGameplayBlocked = true;
+
+        StartCoroutine(ContinuousBlockStateMovement(2));
+
+        EventHandler();
     }
 
-    void SetDialogueCommand()
+    void EventHandler()
     {
-        nextDialogue = dialogueControlls.Dialogue.NextDialogue;
-        nextDialogue.Enable();
-        nextDialogue.performed += OnPressNextDialogue;
-    }
-    
-    void SetNextDialogue()
-    {
-        if (currentDialogueIndex >= dialogueSequence.dialogueList.Count) {
-            StartCoroutine(HideDialogueBox());
+        isEventFinished = false;
+        if (currentDialogueIndex < gameEvents.Count)
+            switch (gameEvents[currentDialogueIndex].gameEventType)
+            {
+                case GameEventType.Dialogue:
+                    StartCoroutine(PlayDialogueEvent());
+                    break;
+                case GameEventType.Audio:
+                    StartCoroutine(PlayAudioEvent());
+                    break;
+                case GameEventType.GameObject:
+                    StartCoroutine(PlayMovementEvent());
+                    break;
+                case GameEventType.WaitEvent:
+                    StartCoroutine(PlayWaitEvent());
+                    break;
+                case GameEventType.Fade:
+                    StartCoroutine(PlayFadeEvent());
+                    break;
+            }
+        else
+        {
+            StartCoroutine(FinishEvent());
             return;
         }
-        SetCurrentDialogue(dialogueSequence.dialogueList[currentDialogueIndex]);
     }
 
-    private void SetCurrentDialogue(Dialogue dialogue)
+    // ----------------- Fade --------------------//
+    private IEnumerator PlayFadeEvent()
+    {
+        if (gameEvents[currentDialogueIndex].isFadeIn)
+            GameManager.Instance.fadeManager.PlayFadeIn(gameEvents[currentDialogueIndex].TimeToWait);
+        else
+            GameManager.Instance.fadeManager.PlayFadeOut(Color.black, gameEvents[currentDialogueIndex].TimeToWait);
+
+        yield return new WaitForSeconds(gameEvents[currentDialogueIndex].TimeToWait);
+
+        OnFinishEvent();
+    }
+
+    // ----------------- Wait --------------------//
+    private IEnumerator PlayWaitEvent()
+    {
+        yield return new WaitForSeconds(gameEvents[currentDialogueIndex].TimeToWait);
+
+        OnFinishEvent();
+    }
+
+    // ----------------- Game Object --------------------//
+    private IEnumerator PlayMovementEvent()
+    {
+        yield return new WaitForSeconds(gameEvents[currentDialogueIndex].TimeToWait/2);
+
+        if (gameEvents[currentDialogueIndex].isMovement)
+            gameEvents[currentDialogueIndex].eventObject.transform.position = gameEvents[currentDialogueIndex].destinyPlace;
+        else if (gameEvents[currentDialogueIndex].isEnable)
+            gameEvents[currentDialogueIndex].eventObject.SetActive(true);
+        else
+            gameEvents[currentDialogueIndex].eventObject.SetActive(false);
+
+        yield return new WaitForSeconds(gameEvents[currentDialogueIndex].TimeToWait / 2);
+
+        OnFinishEvent();
+    }
+    // ----------------- Audio --------------------//
+
+    private IEnumerator PlayAudioEvent()
+    {
+        yield return new WaitForSeconds(gameEvents[currentDialogueIndex].TimeToWait/2); 
+
+        if (gameEvents[currentDialogueIndex].stopMusic)
+            GameManager.Instance.audioManager.FadeOutMusic(1);
+        else if(gameEvents[currentDialogueIndex].isSFX)
+            GameManager.Instance.audioManager.PlaySFX(gameEvents[currentDialogueIndex].audioSound);
+        else
+            GameManager.Instance.audioManager.FadeInMusic(gameEvents[currentDialogueIndex].audioSound);
+
+        yield return new WaitForSeconds(gameEvents[currentDialogueIndex].TimeToWait / 2);
+
+        OnFinishEvent();
+    }
+
+    // ----------------- DIALOGUE --------------------//
+
+    IEnumerator PlayDialogueEvent()
+    {
+        if (!gameManager.dialogueManager.gameObject.activeSelf)
+        {
+            StartCoroutine(ShowDialogueBox());
+            yield return new WaitForSeconds(startAwaitTime + 1);
+        }
+
+        SetCurrentDialogue(gameEvents[currentDialogueIndex]);
+        yield return null;
+    }
+
+
+    IEnumerator ShowDialogueBox()
+    {
+        yield return new WaitForSeconds(startAwaitTime);
+        gameManager.dialogueManager.gameObject.SetActive(true);
+        characterFace.gameObject.SetActive(false);
+
+        float duration = 0.5f;
+        float elapsedTime = 0;
+        while (elapsedTime < duration)
+        {
+            dialogueBox.rectTransform.localScale = Vector2.Lerp(Vector2.zero, Vector2.one, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        yield return new WaitForSeconds(0.2f);
+        characterFace.sprite = gameEvents[currentDialogueIndex].characterImage;
+        characterFace.gameObject.SetActive(true);
+    }
+
+    private void SetCurrentDialogue(GameEvent dialogue)
     {
         isWritting = true;
         characterFace.sprite = dialogue.characterImage;
         StartCoroutine(WriteDialogue(dialogue));
     }
 
-    IEnumerator WriteDialogue(Dialogue dialogue)
+    IEnumerator WriteDialogue(GameEvent dialogue)
     {
         int textIndex = 0;
         while(isWritting && textIndex < dialogue.text.Length)
@@ -88,45 +195,35 @@ public class DialogueEvent : MonoBehaviour
         isWritting = false;
         dialogueText.text = dialogue.text;
         characterFace.sprite = dialogue.characterImage;
+        isEventFinished = true;
         yield return null;
     }
 
-    IEnumerator ShowDialogueBox()
+    private void OnPressNextDialogue(InputAction.CallbackContext context)
     {
-        StartCoroutine(ContinuousBlockStateMovement(startAwaitTime));
-        yield return new WaitForSeconds(startAwaitTime);
-        gameManager.dialogueManager.gameObject.SetActive(true);
-        characterFace.gameObject.SetActive(false);
-
-        float duration = 0.5f;
-        float elapsedTime = 0;
-        while (elapsedTime < duration)
+        if (isWritting)
         {
-            gameManager.playerController.IsMovementBlocked = true;
-            dialogueBox.rectTransform.localScale = Vector2.Lerp(Vector2.zero, Vector2.one, elapsedTime/duration);
-            elapsedTime += Time.deltaTime;
-            yield return null;
+            dialogueText.text = gameEvents[currentDialogueIndex].text;
+            characterFace.sprite = gameEvents[currentDialogueIndex].characterImage;
+            isWritting = false;
         }
-        yield return new WaitForSeconds(0.2f);
-        characterFace.gameObject.SetActive(true);
-        SetDialogueCommand();
-        SetNextDialogue();
-        yield return null;
+        else if (!isEventFinished) return;
+        else
+        {
+            OnFinishEvent();
+        }
     }
 
-    IEnumerator ContinuousBlockStateMovement(float duration, bool state = true)
+    void SetDialogueCommand()
     {
-        float elapsedTime = 0;
-        while (elapsedTime < duration)
-        {
-            gameManager.playerController.IsMovementBlocked = state;
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-        yield return null;
+        nextDialogue = dialogueControlls.Dialogue.NextDialogue;
+        nextDialogue.Enable();
+        nextDialogue.performed += OnPressNextDialogue;
     }
 
-    IEnumerator HideDialogueBox()
+    // ----------------- EXTRA --------------------//
+
+    IEnumerator FinishEvent()
     {
         float duration = 0.5f;
         float elapsedTime = 0;
@@ -146,14 +243,23 @@ public class DialogueEvent : MonoBehaviour
         yield return null;
     }
 
-    private void OnPressNextDialogue(InputAction.CallbackContext context)
+
+    IEnumerator ContinuousBlockStateMovement(float duration, bool state = true)
     {
-        if (isWritting)
-            isWritting = false;
-        else
+        float elapsedTime = 0;
+        while (elapsedTime < duration)
         {
-            currentDialogueIndex++;
-            SetNextDialogue();
+            gameManager.playerController.IsMovementBlocked = state;
+            elapsedTime += Time.deltaTime;
+            yield return null;
         }
+        yield return null;
+    }
+
+    void OnFinishEvent()
+    {
+        currentDialogueIndex++;
+        isEventFinished = true;
+        EventHandler();
     }
 }

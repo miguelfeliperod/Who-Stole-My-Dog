@@ -7,11 +7,19 @@ public class DobbyEnemy : BaseEnemy
     [SerializeField] Transform projectileSource;
     [SerializeField] float projectileSourceXOffset;
     [SerializeField] float projectileHorizontalForce;
-    [SerializeField] float projectileVerticalForce;
+    [SerializeField] float projectileVerticalForce;  
     [SerializeField] float projectileForceRange;
     [SerializeField] float timeBetweenShots;
     [SerializeField] float shotsQuantity;
+    [SerializeField] AudioClip prepareSfx;
+    [SerializeField] AudioClip shootSfx;
+    [SerializeField] AudioSource audioSource;
     float timer;
+
+    private void Start()
+    {
+        audioSource = GetComponentInChildren<AudioSource>();
+    }
 
     private void Update()
     {
@@ -45,6 +53,7 @@ public class DobbyEnemy : BaseEnemy
 
     DobbyProjectile CreateProjectile()
     {
+        audioSource.PlayOneShot(prepareSfx);
         var gameObject = Instantiate(projectile, projectileSource.transform.position + new Vector3(sprite.flipX ? - projectileSourceXOffset : projectileSourceXOffset, 0), projectile.transform.rotation);
         var createdProjectile = gameObject.GetComponent<DobbyProjectile>();
         createdProjectile.SetInitialState(sprite.flipX, projectileHorizontalForce, projectileVerticalForce, projectileForceRange);
@@ -54,6 +63,7 @@ public class DobbyEnemy : BaseEnemy
 
     void Shoot(DobbyProjectile dobbyProjectile)
     {
+        audioSource.PlayOneShot(shootSfx);
         dobbyProjectile.StartMove();
         animator.Play("DobbyAttack");
     }

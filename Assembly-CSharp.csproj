@@ -75,7 +75,6 @@
     <Compile Include="Assets\Scripts\DialogueManager.cs" />
     <Compile Include="Assets\Scripts\AudioManager.cs" />
     <Compile Include="Assets\Scripts\PillowEnemy.cs" />
-    <Compile Include="Assets\Scripts\DialogueSequence.cs" />
     <Compile Include="Assets\Scripts\UIManager.cs" />
     <Compile Include="Assets\Scripts\SushiController.cs" />
     <Compile Include="Assets\Scripts\OwlEnemy.cs" />
@@ -97,6 +96,7 @@
     <Compile Include="Assets\Scripts\DialogueEvent.cs" />
     <Compile Include="Assets\Scripts\CocoonEnemy.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\GameEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

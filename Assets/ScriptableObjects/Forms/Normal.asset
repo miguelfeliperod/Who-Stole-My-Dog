@@ -18,7 +18,7 @@ MonoBehaviour:
   jumpForce: 20
   cooldownAttack: 0.2
   cooldownSpecial: 2
-  manaRegenRate: 0.01
+  manaRegenRate: 0.015
   hungryDepletionRate: 0.0008
   attackMPCost: 2
   specialMPCost: 4
