@@ -17,7 +17,7 @@ public class SushiController : MonoBehaviour
 
     void Start()
     {
-        audioManager = AudioManager.instance;
+        audioManager = GameManager.Instance.audioManager;
         originalPosition = transform.position;
         targetPosition = originalPosition + verticalVariation;
     }

@@ -24,7 +24,7 @@ public class Checkpoint : MonoBehaviour
         if ((1 << collision.gameObject.layer & playerLayer) != 0)
         {
             animator.SetBool("isActive", true);
-            GameManager.Instance.playerController.SetFullStats();
+            GameManager.Instance.playerController.SetFullStats(true);
             GameManager.Instance.SetLastCheckpointPosition(transform.position);
             GameManager.Instance.audioManager.PlaySFX(sfx);
             alreadyActivated = true;

@@ -13,6 +13,7 @@ public class Shot : MonoBehaviour
     public bool destroyOnContact = true;
     [SerializeField] float aliveTime = 1.2f;
     [SerializeField] AudioClip sfx;
+    public Form shotDamageType = Form.Mahou;
 
     void Start()
     {
@@ -39,7 +40,7 @@ public class Shot : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if ((1 << collision.gameObject.layer & targetLayer) != 0){
-            collision.gameObject.GetComponentInParent<BaseEnemy>().TakeDamage(damage, Form.Mahou);
+            collision.gameObject.GetComponentInParent<BaseEnemy>().TakeDamage(damage, shotDamageType);
             if(destroyOnContact)
                 Destroy(gameObject, 0.01f);
         }

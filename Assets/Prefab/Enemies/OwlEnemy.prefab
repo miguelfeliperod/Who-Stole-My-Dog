@@ -370,7 +370,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fca8ddb2255f4346ba7f697186886d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 8
+  maxHp: 4
   currentHp: 0
   attackRate: 5
   attackPower: 3
@@ -380,14 +380,12 @@ MonoBehaviour:
   damageVFX: {fileID: 0}
   sprite: {fileID: 0}
   shadow: {fileID: 0}
-  weaknessDamageList: 
-  resistanceDamageList: 
   imunityDamageList: 
-  horizontalDistance: 0
-  horizontalSpeed: 0
-  verticalSpeed: 0
+  horizontalDistance: 4
+  horizontalSpeed: 3
+  verticalSpeed: 4
   owlVision: {fileID: 1425477797286573931}
-  owlVisionOffset: 0
+  owlVisionOffset: 2
   playerLayer:
     serializedVersion: 2
     m_Bits: 8

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -36,11 +35,11 @@ public class BossController : BaseEnemy
     void Update()
     {
         timer += Time.deltaTime;
-        if(timer > 3)
-        {
-            timer = 0;
-            StartCoroutine(ShootTomato());
-        }
+        //if(timer > 3)
+        //{
+        //    timer = 0;
+        //    StartCoroutine(ShootTomato());
+        //}
     }
 
     public override void Attack()

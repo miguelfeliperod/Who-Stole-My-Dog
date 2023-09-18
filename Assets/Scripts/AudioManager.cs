@@ -7,8 +7,6 @@ using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager instance { get; private set; }
-
     public AudioPool audioPool;
 
     [SerializeField] Slider masterSlider;
@@ -42,22 +40,8 @@ public class AudioManager : MonoBehaviour
     float musicVolume;
     float sfxVolume;
 
-    void Awake()
-    {
-        if (instance != null)
-        {
-            Debug.LogError("Found more than one AudioManager in the scene");
-            Destroy(gameObject);
-        }
-        instance = this;
-    }
-
     private void Start()
     {
-        print("master: " + PlayerPrefs.GetFloat(masterMixerName, 0.8f));
-        print("music: " + PlayerPrefs.GetFloat(musicMixerName, 0.8f));
-        print("sfx: " + PlayerPrefs.GetFloat(sfxMixerName, 0.8f));
-
         audioMixer.SetFloat(masterMixerName, Mathf.Log10(PlayerPrefs.GetFloat(masterMixerName)) * 20);
         audioMixer.SetFloat(musicMixerName, Mathf.Log10(PlayerPrefs.GetFloat(musicMixerName)) * 20);
         audioMixer.SetFloat(sfxMixerName, Mathf.Log10(PlayerPrefs.GetFloat(sfxMixerName)) * 20);
@@ -263,17 +247,17 @@ public class AudioManager : MonoBehaviour
         configMenu.SetActive(false);
     }
 
-    public AudioClip GetCurrentLevelMusic(Level currentLevel)
+    public AudioClip GetCurrentLevelMusic(string currentLevelName)
     {
-        switch (currentLevel)
+        switch (currentLevelName.ToLower())
         {
-            case Level.Rabasa:
+            case "level1":
                 return audioPool.Level1;
-            case Level.HorizonteBonito:
+            case "level2":
                 return audioPool.Level2;
-            case Level.TemploLunar:
+            case "level3":
                 return audioPool.Level3;
-            case Level.Menu:
+            case "Menu":
             default:
                 return audioPool.Menu;
         }

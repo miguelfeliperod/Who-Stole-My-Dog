@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,9 +13,7 @@ public class GameManager : MonoBehaviour
     public FadeManager fadeManager;
     public AudioManager audioManager;
     [SerializeField] AudioSource audioSource;
-
-    public Level CurrentLevel => currentLevel;
-    Level currentLevel = Level.Menu;
+    public static string[] levelNames = { "Menu", "Level1", "Level2", "Level3" };
 
     public Vector2 LastCheckpointPosition => lastCheckpointPosition;
     Vector2 lastCheckpointPosition;
@@ -48,18 +47,29 @@ public class GameManager : MonoBehaviour
 
     private void OnLevelWasLoaded(int level)
     {
+        if (playerController == null)
+            playerController = FindObjectOfType<PlayerController>();
+        playerController.transform.position = GetInitialPositionPerLevel();
         lastCheckpointPosition = playerController.transform.position;
     }
 
-    void Start()
+    Vector2 GetInitialPositionPerLevel() {
+        switch (SceneManager.GetActiveScene().name.ToLower())
+        {
+            case "level1":
+                return new Vector2(-6, 0);
+            case "level2":
+            case "level3":
+            default:
+                return Vector2.zero;
+        }
+    }
+
+        void Start()
     {
         lastCheckpointPosition = playerController.transform.position;
         DontDestroyOnLoad(this);
-    }
-
-    public void SetCurrentLevel(Level level)
-    {
-        currentLevel = level;
+        audioManager.PlayMusic(audioManager.GetCurrentLevelMusic(SceneManager.GetActiveScene().name));
     }
 
     public void SetLastCheckpointPosition(Vector2 checkpointPosition)
@@ -79,7 +89,8 @@ public class GameManager : MonoBehaviour
         playerController.SetPlayerGravityScale(playerController.PlayerGravityScale);
         playerController.SetAnimatorState(true);
         playerController.SetPlayerForm(Form.Normal);
-        playerController.SetFullStats();
+        playerController.SetFullStats(false);
+        playerController.SetPlayerSpriteState(true);
         if (playerController.SushiStock < 3) playerController.SetSushiStock(3);
         playerController.SetPlayerSpriteColor(Color.white);
         StartCoroutine(uiManager.HideDiedImage(0.1f));
@@ -88,11 +99,6 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         
         playerController.SetPlayerBlockedMovement(false);
-        audioManager.PlayMusic(audioManager.GetCurrentLevelMusic(currentLevel));
+        audioManager.PlayMusic(audioManager.GetCurrentLevelMusic(SceneManager.GetActiveScene().name));
     }
-}
-
-public enum Level
-{
-    Menu, Rabasa, HorizonteBonito, TemploLunar
 }

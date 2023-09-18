@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] FormUI darkFormUI;
     [SerializeField] FormUI hungryFormUI;
     [SerializeField] Image darkDiedImage;
+    [SerializeField] Image victoryImage;
 
     public void UpdateUIValues()
     {
@@ -77,6 +78,31 @@ public class UIManager : MonoBehaviour
             yield return null;
         }
         darkDiedImage.color = Color.white;
+        yield return null;
+    }
+
+    public IEnumerator ShowVictoryImage(float fadeDuration = 1, float stayDuration= 1)
+    {
+        float elapsedTime = 0;
+
+        while (elapsedTime < fadeDuration)
+        {
+            victoryImage.color = Color.Lerp(Color.clear, Color.white, elapsedTime / fadeDuration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        victoryImage.color = Color.white;
+        yield return new WaitForSeconds(stayDuration);
+
+
+        elapsedTime = 0;
+        while (elapsedTime < fadeDuration)
+        {
+            victoryImage.color = Color.Lerp(Color.white, Color.clear, elapsedTime / fadeDuration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
         yield return null;
     }
 

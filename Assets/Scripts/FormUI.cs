@@ -27,6 +27,7 @@ public class FormUI : MonoBehaviour
     {
         playerController = GameManager.Instance == null ? FindObjectOfType<PlayerController>() : GameManager.Instance.playerController;
         UpdateAllBars();
+        vfx = Camera.main.GetComponentInChildren<VisualEffect>();
         if (playerController.CurrentForm == Form.Hungry)
             vfx.enabled = true;
         else

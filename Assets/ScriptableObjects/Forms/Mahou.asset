@@ -16,7 +16,7 @@ MonoBehaviour:
   baseAcceleration: 1.2
   maxSpeed: 6.5
   jumpForce: 20
-  cooldownAttack: 0.3
+  cooldownAttack: 0.2
   cooldownSpecial: 0
   manaRegenRate: 0.02
   hungryDepletionRate: 0.001

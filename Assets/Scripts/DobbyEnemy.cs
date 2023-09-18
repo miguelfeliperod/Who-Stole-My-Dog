@@ -11,6 +11,7 @@ public class DobbyEnemy : BaseEnemy
     [SerializeField] float projectileForceRange;
     [SerializeField] float timeBetweenShots;
     [SerializeField] float shotsQuantity;
+    [SerializeField] float activateVisionRange;
     [SerializeField] AudioClip prepareSfx;
     [SerializeField] AudioClip shootSfx;
     [SerializeField] AudioSource audioSource;
@@ -23,14 +24,21 @@ public class DobbyEnemy : BaseEnemy
 
     private void Update()
     {
+        if(isDead) return;
+
         sprite.flipX = transform.position.x > GameManager.Instance.playerController.transform.position.x ? false : true;
 
         timer += Time.deltaTime;
-        if (timer > attackRate)
+        if (timer > attackRate && GetPlayerDistance() <= activateVisionRange)
         {
             timer = 0;
             Attack();
         }
+    }
+
+    float GetPlayerDistance()
+    {
+        return Mathf.Abs(transform.position.x - GameManager.Instance.playerController.transform.position.x);
     }
 
     public override void Attack()

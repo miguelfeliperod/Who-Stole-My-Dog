@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ace2c4d0f1c6487449b4d9b27f1c1347, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 1
+  maxHp: 10
   currentHp: 0
   attackRate: 7
   attackPower: 0
@@ -198,6 +198,7 @@ MonoBehaviour:
   verticalSpeed: 0
   sfx: {fileID: 8300000, guid: 85db8bfd972750344b7fdb75a281b878, type: 3}
   audioSource: {fileID: 0}
+  delayStart: 0
 --- !u!1 &4715913736661773360
 GameObject:
   m_ObjectHideFlags: 0

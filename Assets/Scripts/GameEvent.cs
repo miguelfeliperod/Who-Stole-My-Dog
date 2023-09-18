@@ -20,7 +20,14 @@ public class GameEvent
 
     // FADE
     public bool isFadeIn;
-    public Color fadeColor;
+    public Color color;
+
+    // Animation
+    public Animator animator;
+
+    // Sprite
+    public SpriteRenderer sprite;
+    public bool flipX;
 
     // GameObject
     public Vector3 destinyPlace;
@@ -31,5 +38,5 @@ public class GameEvent
 
 public enum GameEventType
 {
-    Dialogue, Audio, GameObject, WaitEvent, Fade
+    Dialogue, Audio, GameObject, WaitEvent, Fade, Animation, Flash, Sprite
 }

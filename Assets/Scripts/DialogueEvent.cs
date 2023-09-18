@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -19,6 +18,8 @@ public class DialogueEvent : MonoBehaviour
     bool isWritting = false;
     bool isEventFinished = false;
     GameManager gameManager;
+    public bool AllEventsEnded => alleventsEndend;
+    bool alleventsEndend = false;
 
     [SerializeField] public List<GameEvent> gameEvents;
     [SerializeField] LayerMask playerLayer;
@@ -42,9 +43,14 @@ public class DialogueEvent : MonoBehaviour
     {
         if ((1 << collision.gameObject.layer & playerLayer) == 0) return;
         gameManager.playerController.IsGameplayBlocked = true;
-
         StartCoroutine(ContinuousBlockStateMovement(2));
+        EventHandler();
+    }
 
+    public void StartEvents()
+    {
+        gameManager.playerController.IsGameplayBlocked = true;
+        StartCoroutine(ContinuousBlockStateMovement(2));
         EventHandler();
     }
 
@@ -69,12 +75,35 @@ public class DialogueEvent : MonoBehaviour
                 case GameEventType.Fade:
                     StartCoroutine(PlayFadeEvent());
                     break;
+                case GameEventType.Animation:
+                    StartCoroutine(PlayAnimationEvent());
+                    break;
+                case GameEventType.Flash:
+                    PlayFlashEvent();
+                    break;
+                case GameEventType.Sprite:
+                    PlaySpriteEvent();
+                    break;
             }
         else
         {
             StartCoroutine(FinishEvent());
             return;
         }
+    }
+
+    // ----------------- Flash --------------------//
+    private void PlayFlashEvent()
+    {
+        GameManager.Instance.fadeManager.PlayFlash(gameEvents[currentDialogueIndex].color, gameEvents[currentDialogueIndex].TimeToWait);
+        OnFinishEvent();
+    }
+
+    // ----------------- Flash --------------------//
+    private void PlaySpriteEvent()
+    {
+        gameEvents[currentDialogueIndex].sprite.flipX = gameEvents[currentDialogueIndex].flipX;
+        OnFinishEvent();
     }
 
     // ----------------- Fade --------------------//
@@ -85,6 +114,15 @@ public class DialogueEvent : MonoBehaviour
         else
             GameManager.Instance.fadeManager.PlayFadeOut(Color.black, gameEvents[currentDialogueIndex].TimeToWait);
 
+        yield return new WaitForSeconds(gameEvents[currentDialogueIndex].TimeToWait);
+
+        OnFinishEvent();
+    }
+
+    // ----------------- Animation --------------------//
+    private IEnumerator PlayAnimationEvent()
+    {
+        gameEvents[currentDialogueIndex].animator.Play(gameEvents[currentDialogueIndex].text);
         yield return new WaitForSeconds(gameEvents[currentDialogueIndex].TimeToWait);
 
         OnFinishEvent();
@@ -239,6 +277,7 @@ public class DialogueEvent : MonoBehaviour
         characterFace.gameObject.SetActive(false);
         gameManager.playerController.IsGameplayBlocked = false;
         nextDialogue.Dispose();
+        alleventsEndend = true;
         Destroy(gameObject, 0.5f);
         yield return null;
     }

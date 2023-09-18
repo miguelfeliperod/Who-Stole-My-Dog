@@ -97,6 +97,9 @@
     <Compile Include="Assets\Scripts\CocoonEnemy.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\GameEvent.cs" />
+    <Compile Include="Assets\LevelUpEvent.cs" />
+    <Compile Include="Assets\TesterTool.cs" />
+    <Compile Include="Assets\BossEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

@@ -1166,6 +1166,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Level1_0
+      rect:
+        serializedVersion: 2
+        x: 274
+        y: 137
+        width: 38
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 5, y: 0, z: 11, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90da27fafc228b949a95f674a5072179
+      internalID: -1745956539
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -1227,6 +1248,7 @@ TextureImporter:
       Level1-sheet_7: -1688164490
       Level1-sheet_8: -267966624
       Level1-sheet_9: -1672698011
+      Level1_0: -1745956539
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

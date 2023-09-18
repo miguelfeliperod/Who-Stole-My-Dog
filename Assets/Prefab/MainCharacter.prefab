@@ -842,14 +842,18 @@ MonoBehaviour:
   darkCombo1: {fileID: 0}
   darkCombo2: {fileID: 0}
   darkCombo3: {fileID: 0}
-  darkComboMiss: {fileID: 8300000, guid: a79b02056bc9059469f26ceee858a0d7, type: 3}
+  darkComboMiss1: {fileID: 0}
+  darkComboMiss2: {fileID: 0}
+  darkComboMiss3: {fileID: 0}
   dodge: {fileID: 8300000, guid: 46123050de97615428820f976514c51e, type: 3}
   punchHit: {fileID: 8300000, guid: a61ad554be77781458191a8e5e50f741, type: 3}
   punchMiss: {fileID: 8300000, guid: 4ac105e72900a5d4cad3102a2c6ba2e1, type: 3}
-  transformation1: {fileID: 0}
-  transformation2: {fileID: 0}
-  transformation3: {fileID: 0}
-  transformation4: {fileID: 0}
+  normalTransformation: {fileID: 0}
+  mahouTransformation: {fileID: 0}
+  darkTransformation: {fileID: 0}
+  hungryTransformation: {fileID: 0}
+  heartbeat: {fileID: 0}
+  takeDamage: {fileID: 0}
 --- !u!1 &1986721878122637950
 GameObject:
   m_ObjectHideFlags: 0
@@ -1688,8 +1692,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0022734702, y: -0.40673012}
-  m_Size: {x: 0.78645676, y: 1.5415252}
+  m_Offset: {x: -0.002105713, y: -0.40673012}
+  m_Size: {x: 0.6812134, y: 1.5415252}
   m_Direction: 0
 --- !u!1 &1986721879383086176
 GameObject:

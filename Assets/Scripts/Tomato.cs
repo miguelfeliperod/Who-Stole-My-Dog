@@ -62,7 +62,6 @@ public class Tomato : MonoBehaviour
 
     public virtual IEnumerator OnHit()
     {
-        print("Die Called");
         rigidbody2d.Sleep();
         hitCollider.enabled = false;
         spriteRenderer.enabled = false;

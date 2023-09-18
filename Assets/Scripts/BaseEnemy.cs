@@ -16,7 +16,7 @@ public abstract class BaseEnemy : MonoBehaviour, IEnemy
     public SpriteRenderer sprite;
     public SpriteRenderer shadow;
     public List<Form> imunityDamageList;
-    protected bool isDead;
+    protected bool isDead = false;
 
     public virtual void Awake()
     {
@@ -59,8 +59,9 @@ public abstract class BaseEnemy : MonoBehaviour, IEnemy
     {
         isDead = true;
         Color startColor = Color.red;
-        rigidbody2d.isKinematic = true;
+        rigidbody2d.bodyType = RigidbodyType2D.Static;
         boxCollider.enabled = false;
+        animator.enabled = false;
 
         shadow.color = startColor;
         sprite.color = Color.clear;

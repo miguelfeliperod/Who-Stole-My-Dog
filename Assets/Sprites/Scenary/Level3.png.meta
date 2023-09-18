@@ -462,7 +462,7 @@ TextureImporter:
         height: 46
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 11, y: 0, z: 10, w: 0}
+      border: {x: 11, y: 0, z: 10, w: 42}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -519,13 +519,13 @@ TextureImporter:
       name: Level3_19
       rect:
         serializedVersion: 2
-        x: 307
+        x: 308
         y: 4
-        width: 72
-        height: 168
+        width: 70
+        height: 167
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 0, y: 159, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -625,12 +625,12 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 8
-        y: 5
-        width: 105
-        height: 106
+        y: 6
+        width: 35
+        height: 105
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 72, y: 1, z: 0, w: 0}
+      border: {x: 1, y: 97, z: 23, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -658,6 +658,27 @@ TextureImporter:
       bones: []
       spriteID: c25875b020569c441b25f64d10b81838
       internalID: -948510934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Level3_26
+      rect:
+        serializedVersion: 2
+        x: 43
+        y: 6
+        width: 70
+        height: 105
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 37, y: 97, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a74007197dce1044a031243ede8f726
+      internalID: -1509959821
       vertices: []
       indices: 
       edges: []
@@ -692,6 +713,7 @@ TextureImporter:
       Level3_23: 513976578
       Level3_24: -505042615
       Level3_25: -948510934
+      Level3_26: -1509959821
       Level3_3: -675940373
       Level3_4: -165585119
       Level3_5: 1957390562

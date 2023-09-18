@@ -343,27 +343,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80d3ebfa90c22bd4a9ee030b5eaea145, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 15
+  maxHp: 6
   currentHp: 0
   attackRate: 5
-  attackPower: 2
+  attackPower: 3
   boxCollider: {fileID: 0}
   rigidbody2d: {fileID: 0}
   animator: {fileID: 0}
   damageVFX: {fileID: 0}
   sprite: {fileID: 0}
   shadow: {fileID: 0}
-  weaknessDamageList: 
-  resistanceDamageList: 
   imunityDamageList: 
   projectile: {fileID: 4897529045712276143, guid: edf5549f615de2041b2798dd425b37ec, type: 3}
   projectileSource: {fileID: 2283778929191789357}
   projectileSourceXOffset: 0.3
-  projectileHorizontalForce: 2
+  projectileHorizontalForce: 10
   projectileVerticalForce: 2
   projectileForceRange: 0
   timeBetweenShots: 0.5
   shotsQuantity: 3
+  activateVisionRange: 10
   prepareSfx: {fileID: 8300000, guid: a8e7bd4039d644044b766bd245fb6e6e, type: 3}
   shootSfx: {fileID: 8300000, guid: ef489ab1576e8844689d5c01964af61d, type: 3}
   audioSource: {fileID: 0}

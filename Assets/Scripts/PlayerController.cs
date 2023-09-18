@@ -244,6 +244,8 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("vSpeed", rigidBody.velocity.y);
         animator.SetBool("isGrounded", IsGrounded());
 
+        walkNormalVFX.enabled = move.IsPressed() && IsGrounded() && Mathf.Abs(rigidBody.velocity.x) > 0.01f;
+
         if (IsGameplayBlocked) return;
 
         if (currentForm == Form.Mahou)
@@ -260,7 +262,6 @@ public class PlayerController : MonoBehaviour
         {
             CheckEndOfHungry();
         }
-            walkNormalVFX.enabled = move.IsPressed() && IsGrounded() && Mathf.Abs(rigidBody.velocity.x) > 0.01f;
 
         darkComboTimer += Time.deltaTime;
         if (MAX_MP > currentMP)
@@ -440,6 +441,7 @@ public class PlayerController : MonoBehaviour
 
     void Charge(InputAction.CallbackContext context)
     {
+        if (isMovementBlocked) return;
         currentChargedTime = 0;
         chargingVFX.SetBool("isCharged", false);
         isCharging = true;
@@ -615,11 +617,20 @@ public class PlayerController : MonoBehaviour
         uiManager.UpdateFormUI();
     }
 
-    public void SetFullStats()
+    public void SetFullStats(bool withAnimation)
     {
-        currentHP = MAX_HP;
-        RegenMp(MAX_MP);
-        RegenHungry(MAX_HUNGRY);
+        if (withAnimation)
+        {
+            RegenMp(MAX_HP);
+            RegenMp(MAX_MP);
+            RegenHungry(MAX_HUNGRY);
+        }
+        else
+        {
+            currentHP = MAX_HP; 
+            currentMP = MAX_MP; 
+            currentHungry = MAX_HUNGRY;
+        }
         uiManager.UpdateUIValues();
     }
 
@@ -757,7 +768,7 @@ public class PlayerController : MonoBehaviour
         var resultCenter = Physics2D.Raycast(transform.position + new Vector3(0, -characterCollider.size.y / 2 - 0.1f), Vector2.down, 0.4f, groundLayer);
         var resultLeft = Physics2D.Raycast(transform.position + new Vector3(0.28f, -characterCollider.size.y / 2 - 0.1f), Vector2.down, 0.4f, groundLayer);
         var resultRight = Physics2D.Raycast(transform.position + new Vector3(-0.28f, -characterCollider.size.y / 2 - 0.1f), Vector2.down, 0.4f, groundLayer);
-        bool isGroundedNewValue = (resultCenter.transform != null || resultLeft.transform != null || resultRight.transform != null) && Mathf.Abs(rigidBody.velocity.y) <= 0.01;
+        bool isGroundedNewValue = (resultCenter.transform != null || resultLeft.transform != null || resultRight.transform != null) && Mathf.Abs(rigidBody.velocity.y) <= 0.1;
 
         if (!isGroundedLastValue && isGroundedNewValue) landingNormalVFX.Play();
         isGroundedLastValue = isGroundedNewValue;
@@ -799,12 +810,14 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(LerpShadowColor(receiveDamageColor, 0.3f));
         yield return new WaitForSeconds(0.2f);
         SetPlayerSpriteColor(Color.clear);
+        SetPlayerSpriteState(false);
         StartCoroutine(PlayDieAnimation());
         StartCoroutine(LerpShadowColor(Color.clear, 2)); ;
         StartCoroutine(GameManager.Instance.OnDeath());
     }
 
     public void SetPlayerSpriteColor(Color color) => sprite.color = color;
+    public void SetPlayerSpriteState(bool isEnable) => sprite.enabled = isEnable;
     public void SetPlayerGravityScale(float gravityScale) => rigidBody.gravityScale = gravityScale;
     public void SetAnimatorState(bool state) => animator.enabled = state;
     public void SetPlayerBlockedMovement(bool block) => isMovementBlocked = block;
@@ -842,7 +855,7 @@ public class PlayerController : MonoBehaviour
     void OnCollisionStay2D(Collision2D collision)
     {
         if ((1 << collision.collider.gameObject.layer & enemyLayer) != 0)
-            TakeDamage(1);
+            TakeDamage(2);
     }
 
     IEnumerator InvencibilityAfterDamage()
