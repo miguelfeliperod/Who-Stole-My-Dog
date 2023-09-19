@@ -73,11 +73,15 @@
     <Compile Include="Assets\Scripts\DobbyProjectile.cs" />
     <Compile Include="Assets\Controlls\PlayerControlls.cs" />
     <Compile Include="Assets\Scripts\DialogueManager.cs" />
+    <Compile Include="Assets\BossEvent.cs" />
+    <Compile Include="Assets\TesterTool.cs" />
     <Compile Include="Assets\Scripts\AudioManager.cs" />
     <Compile Include="Assets\Scripts\PillowEnemy.cs" />
     <Compile Include="Assets\Scripts\UIManager.cs" />
     <Compile Include="Assets\Scripts\SushiController.cs" />
     <Compile Include="Assets\Scripts\OwlEnemy.cs" />
+    <Compile Include="Assets\Scripts\TutorialController.cs" />
+    <Compile Include="Assets\Scripts\GameEvent.cs" />
     <Compile Include="Assets\Scripts\PlayerForm.cs" />
     <Compile Include="Assets\Scripts\UpperShadow.cs" />
     <Compile Include="Assets\Scripts\DobbyEnemy.cs" />
@@ -93,13 +97,10 @@
     <Compile Include="Assets\Scripts\BossController.cs" />
     <Compile Include="Assets\LevelManager.cs" />
     <Compile Include="Assets\Scripts\FadeManager.cs" />
+    <Compile Include="Assets\LevelUpEvent.cs" />
     <Compile Include="Assets\Scripts\DialogueEvent.cs" />
     <Compile Include="Assets\Scripts\CocoonEnemy.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
-    <Compile Include="Assets\Scripts\GameEvent.cs" />
-    <Compile Include="Assets\LevelUpEvent.cs" />
-    <Compile Include="Assets\TesterTool.cs" />
-    <Compile Include="Assets\BossEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

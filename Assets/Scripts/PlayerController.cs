@@ -209,7 +209,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] AudioClip heartbeat;
     [SerializeField] AudioClip takeDamage;
 
-
     void Awake()
     {
         playerControlls = new PlayerControlls();
@@ -251,24 +250,30 @@ public class PlayerController : MonoBehaviour
         if (currentForm == Form.Mahou)
         {
             if (isCharging)
+            {
                 currentChargedTime += Time.deltaTime;
+            }
             else
             {
                 chargingVFX.Stop();
+                if (charge.IsPressed())
+                    Charge();
             }
             chargingVFX.SetBool("isCharged", currentChargedTime >= shot3MinimumChargeTime);
-        }
-        if (currentForm == Form.Hungry)
-        {
-            CheckEndOfHungry();
         }
 
         darkComboTimer += Time.deltaTime;
         if (MAX_MP > currentMP)
             RegenMp(currentPlayerForm.manaRegenRate);
 
-        if (currentHungry > 0 && !isGameplayBlocked)
+        if (currentForm == Form.Hungry && currentHP > 0)
+        {
+            CheckEndOfHungry();
+            ConsumeHp(currentPlayerForm.hungryDepletionRate);
+        }
+        else if (currentHungry > 0 && !isGameplayBlocked)
             ConsumeHungry(currentPlayerForm.hungryDepletionRate);
+        
 
         if (currentHungry <= 0)
             Starve();
@@ -441,6 +446,11 @@ public class PlayerController : MonoBehaviour
 
     void Charge(InputAction.CallbackContext context)
     {
+        Charge();
+    }
+
+    void Charge()
+    {
         if (isMovementBlocked) return;
         currentChargedTime = 0;
         chargingVFX.SetBool("isCharged", false);
@@ -564,6 +574,8 @@ public class PlayerController : MonoBehaviour
         currentHP = Mathf.Max(currentHP - quantity, 0);
         uiManager.UpdateUIValues();
         uiManager.UpdateFormUI();
+        if (currentHP <= 0)
+            StartCoroutine(Die());
     }
 
     void RegenHp(float quantity, float delay = 0)
@@ -789,9 +801,7 @@ public class PlayerController : MonoBehaviour
 
         GameManager.Instance.audioManager.PlaySFX(takeDamage);
 
-        if (currentHP <= 0)
-            StartCoroutine(Die());
-        else
+        if (currentHP > 0)
         {
             StartCoroutine(InvencibilityAfterDamage());
             StartCoroutine(BlockMovementForTime(0.7f));

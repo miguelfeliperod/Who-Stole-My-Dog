@@ -38,9 +38,11 @@ public class BossEvent : MonoBehaviour
                 if (meetEvent.AllEventsEnded)
                 {
                     ChangeCamera(battleCamera);
+                    boss.SetFightStatus(true);
                 }
                 break;
             case FinalBattlePhases.AfterBattle:
+
                 break;
             case FinalBattlePhases.Proposal:
                 break;
@@ -83,5 +85,5 @@ public class BossEvent : MonoBehaviour
 
 public enum FinalBattlePhases
 {
-    Meet, AfterBattle, Proposal, End
+    Meet, Battle, AfterBattle, Proposal, End
 }

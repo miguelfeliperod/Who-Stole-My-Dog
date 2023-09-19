@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -25,6 +26,7 @@ public class GameManager : MonoBehaviour
         else
             instance = this;
         fadeManager = FindObjectOfType<FadeManager>();
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     public void PauseGame(InputAction.CallbackContext context)
@@ -65,11 +67,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-        void Start()
+    void Start()
     {
         lastCheckpointPosition = playerController.transform.position;
         DontDestroyOnLoad(this);
-        audioManager.PlayMusic(audioManager.GetCurrentLevelMusic(SceneManager.GetActiveScene().name));
+        audioManager.FadeInMusic(audioManager.GetCurrentLevelMusic(SceneManager.GetActiveScene().name),1);
     }
 
     public void SetLastCheckpointPosition(Vector2 checkpointPosition)
@@ -94,6 +96,8 @@ public class GameManager : MonoBehaviour
         if (playerController.SushiStock < 3) playerController.SetSushiStock(3);
         playerController.SetPlayerSpriteColor(Color.white);
         StartCoroutine(uiManager.HideDiedImage(0.1f));
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
         fadeManager.PlayFadeIn(1);
         yield return new WaitForSeconds(1);

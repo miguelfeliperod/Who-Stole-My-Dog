@@ -225,10 +225,10 @@ TextureImporter:
       name: Kael projectiles_5
       rect:
         serializedVersion: 2
-        x: 160
-        y: 21
-        width: 21
-        height: 86
+        x: 196
+        y: 3
+        width: 25
+        height: 74
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -246,10 +246,10 @@ TextureImporter:
       name: Kael projectiles_6
       rect:
         serializedVersion: 2
-        x: 188
-        y: 41
+        x: 184
+        y: 62
         width: 8
-        height: 60
+        height: 48
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -480,16 +480,37 @@ TextureImporter:
         x: 161
         y: 1
         width: 28
-        height: 60
+        height: 10
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 5, y: 3, z: 7, w: 54}
+      border: {x: 5, y: 3, z: 7, w: 4}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 681545f6004600e45a7b4fcd2a347c1c
       internalID: -111782763
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Kael projectiles_18
+      rect:
+        serializedVersion: 2
+        x: 161
+        y: 11
+        width: 28
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 5, y: 4, z: 7, w: 2}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c01711f2db1a6a4693e11142f37c35a
+      internalID: -1184905856
       vertices: []
       indices: 
       edges: []
@@ -515,6 +536,7 @@ TextureImporter:
       Kael projectiles_15: 1656000400
       Kael projectiles_16: -1360958926
       Kael projectiles_17: -111782763
+      Kael projectiles_18: -1184905856
       Kael projectiles_2: -1884848686
       Kael projectiles_3: -709597493
       Kael projectiles_4: -1040844847

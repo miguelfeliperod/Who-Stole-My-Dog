@@ -15,7 +15,7 @@ public class Shot : MonoBehaviour
     [SerializeField] AudioClip sfx;
     public Form shotDamageType = Form.Mahou;
 
-    void Start()
+    protected void Start()
     {
         GameManager.Instance.audioManager.PlaySFX(sfx);
         bool isFlipped = GameManager.Instance.playerController.Sprite.flipX;

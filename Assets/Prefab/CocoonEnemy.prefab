@@ -182,7 +182,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703f4f65a566c9349afd8abf29d7a6aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 10
+  maxHp: 8
+  currentHp: 0
   attackRate: 0
   attackPower: 0
   boxCollider: {fileID: 0}
@@ -191,8 +192,6 @@ MonoBehaviour:
   damageVFX: {fileID: 0}
   sprite: {fileID: 0}
   shadow: {fileID: 0}
-  weaknessDamageList: 
-  resistanceDamageList: 
   imunityDamageList: 
   timeToBorn: 3
   butterflyPrefab: {fileID: 4715913736169999550, guid: 9a755a0e332b4f743af32375245bfb71, type: 3}

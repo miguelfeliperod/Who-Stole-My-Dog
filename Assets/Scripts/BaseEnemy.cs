@@ -27,7 +27,7 @@ public abstract class BaseEnemy : MonoBehaviour, IEnemy
         currentHp = maxHp;
         sprite = GetComponentsInChildren<SpriteRenderer>()[0];
         shadow = GetComponentsInChildren<SpriteRenderer>()[1]; ;
-}
+    }
 
     public virtual void Attack()
     {

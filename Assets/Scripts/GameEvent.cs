@@ -38,5 +38,5 @@ public class GameEvent
 
 public enum GameEventType
 {
-    Dialogue, Audio, GameObject, WaitEvent, Fade, Animation, Flash, Sprite
+    Dialogue, Audio, GameObject, WaitEvent, Fade, Animation, Flash, Sprite, CrossFade
 }

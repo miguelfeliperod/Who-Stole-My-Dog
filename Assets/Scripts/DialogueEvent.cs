@@ -84,6 +84,9 @@ public class DialogueEvent : MonoBehaviour
                 case GameEventType.Sprite:
                     PlaySpriteEvent();
                     break;
+                case GameEventType.CrossFade:
+                    StartCoroutine(PlayCrossFadeEvent());
+                    break;
             }
         else
         {
@@ -92,6 +95,7 @@ public class DialogueEvent : MonoBehaviour
         }
     }
 
+
     // ----------------- Flash --------------------//
     private void PlayFlashEvent()
     {
@@ -99,7 +103,7 @@ public class DialogueEvent : MonoBehaviour
         OnFinishEvent();
     }
 
-    // ----------------- Flash --------------------//
+    // ----------------- Sprite --------------------//
     private void PlaySpriteEvent()
     {
         gameEvents[currentDialogueIndex].sprite.flipX = gameEvents[currentDialogueIndex].flipX;
@@ -168,6 +172,15 @@ public class DialogueEvent : MonoBehaviour
         yield return new WaitForSeconds(gameEvents[currentDialogueIndex].TimeToWait / 2);
 
         OnFinishEvent();
+    }
+
+    // ----------------- CrossFade --------------------//
+
+    private IEnumerator PlayCrossFadeEvent()
+    {
+        StartCoroutine(GameManager.Instance.audioManager.CrossFadeMusic(gameEvents[currentDialogueIndex].audioSound, gameEvents[currentDialogueIndex].TimeToWait));
+        OnFinishEvent();
+        yield return null;
     }
 
     // ----------------- DIALOGUE --------------------//

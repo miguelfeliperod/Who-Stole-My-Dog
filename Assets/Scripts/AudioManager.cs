@@ -46,8 +46,7 @@ public class AudioManager : MonoBehaviour
         audioMixer.SetFloat(musicMixerName, Mathf.Log10(PlayerPrefs.GetFloat(musicMixerName)) * 20);
         audioMixer.SetFloat(sfxMixerName, Mathf.Log10(PlayerPrefs.GetFloat(sfxMixerName)) * 20);
 
-
-        if(masterSlider != null)
+        if (masterSlider != null)
         {
             masterSlider.value = PlayerPrefs.GetFloat(masterMixerName, 0.8f);
             musicSlider.value = PlayerPrefs.GetFloat(musicMixerName, 0.8f);
@@ -91,11 +90,16 @@ public class AudioManager : MonoBehaviour
         StartCoroutine(FadeOutMusicCoroutine(duration));
     }
 
+    public void StartCrossFadeMusic(AudioClip audioClip, float duration, float volume = 1)
+    {
+        StartCoroutine(CrossFadeMusic(audioClip, duration, volume = 1));
+    }
+
     public IEnumerator CrossFadeMusic(AudioClip audioClip, float duration, float volume = 1)
     {
-        StartCoroutine(FadeOutMusicCoroutine(duration/2));
-        yield return new WaitForSeconds(duration / 2);
-        StartCoroutine(FadeInMusicCoroutine(duration/2, volume));
+        FadeOutMusic(duration/2);
+        yield return new WaitForSeconds(duration/2);
+        FadeInMusic(audioClip, duration / 2, volume);
     }
 
     public void PlayTestSFX(AudioClip audioClip)

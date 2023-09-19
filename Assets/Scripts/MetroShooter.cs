@@ -1,5 +1,3 @@
-using System.Threading;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 public class MetroShooter : MonoBehaviour
@@ -8,21 +6,11 @@ public class MetroShooter : MonoBehaviour
     [SerializeField] float timeBetweenShots;
     [SerializeField] float speed;
     [SerializeField] Color color;
-    float timer = 0;
-    
-    void Update()
-    {
-        timer += Time.deltaTime;
-        if (timer > timeBetweenShots)
-        {
-            timer = 0;
-            ShootMetro(speed, color);
-        }
-    }
+    [SerializeField] bool toRight;
 
-    void ShootMetro(float speed, Color color)
+    public void ShootMetro(float speed)
     {
         Metro metro = Instantiate(metroPrefab, transform.position, transform.rotation).GetComponent<Metro>();
-        metro.SetInitialState(speed, color);
+        metro.SetInitialState(toRight ? speed : - speed, color);
     }
 }

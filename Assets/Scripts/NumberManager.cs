@@ -13,23 +13,27 @@ public class NumberManager : MonoBehaviour
     [SerializeField] Color wrongColor;
     [SerializeField] Color neutralColor;
 
+    [SerializeField] AudioClip wrongSfx;
+    [SerializeField] AudioClip rightSfx;
+
+    [SerializeField] BossController boss;
+    [SerializeField] PlayerController player;
+
     float numberA;
     float numberB;
     float answer;
 
-    private void Awake()
-    {
-        sprite = GetComponentInChildren<SpriteRenderer>();
-        SetAndDisableButtons();
-    }
+    private void Awake() => sprite = GetComponentInChildren<SpriteRenderer>();
 
-    private void Start()
+    private void OnEnable()
     {
-        SetTest(BossPhase.Hard);
+        SetAndDisableButtons();
+        SetManagerColor(neutralColor);
+        ResetButtonsColor();
     }
 
     public void SetTest(BossPhase phase) {
-        SetManagerColor(neutralColor);
+        GameManager.Instance.fadeManager.PlayFlash(Color.white, 0.05f);
         switch (phase)
         {
             case BossPhase.Easy:
@@ -66,10 +70,10 @@ public class NumberManager : MonoBehaviour
         List<float> shuffledOptions = new List<float> { answer, answer + UnityEngine.Random.Range(1, 5) * (UnityEngine.Random.Range(0, 2) == 0 ? 1 : -1) };
         var result = shuffledOptions.OrderBy(a => Guid.NewGuid()).ToList();
 
-        for (int i = 0; i < shuffledOptions.Count; i++)
+        for (int i = 0; i < result.Count; i++)
         {
             numberButtons[i].gameObject.SetActive(true);
-            numberButtons[i].SetValue(shuffledOptions[i]);
+            numberButtons[i].SetValue(result[i]);
         }
     }
 
@@ -87,10 +91,10 @@ public class NumberManager : MonoBehaviour
         };
         var result = shuffledOptions.OrderBy(a => Guid.NewGuid()).ToList();
 
-        for (int i = 0; i < shuffledOptions.Count; i++)
+        for (int i = 0; i < result.Count; i++)
         {
             numberButtons[i].gameObject.SetActive(true);
-            numberButtons[i].SetValue(shuffledOptions[i]);
+            numberButtons[i].SetValue(result[i]);
         }
     }
 
@@ -105,10 +109,10 @@ public class NumberManager : MonoBehaviour
             answer + UnityEngine.Random.Range(3, 4) * (UnityEngine.Random.Range(0, 2) == 0 ? 1 : -1)};
         var result = shuffledOptions.OrderBy(a => Guid.NewGuid()).ToList();
 
-        for (int i = 0; i < shuffledOptions.Count; i++)
+        for (int i = 0; i < result.Count; i++)
         {
             numberButtons[i].gameObject.SetActive(true);
-            numberButtons[i].SetValue(shuffledOptions[i]);
+            numberButtons[i].SetValue(result[i]);
         }
     }
 
@@ -121,11 +125,15 @@ public class NumberManager : MonoBehaviour
     private void OnWrongAnswer()
     {
         SetManagerColor(wrongColor);
+        player.TakeDamage(3);
+        GameManager.Instance.audioManager.PlaySFX(wrongSfx);
     }
 
     private void OnCorrectAnswer()
     {
         SetManagerColor(correctColor);
+        boss.TakeDamage(3);
+        GameManager.Instance.audioManager.PlaySFX(rightSfx);
     }
 
     void SetManagerColor(Color value)
@@ -141,5 +149,11 @@ public class NumberManager : MonoBehaviour
             else
                 button.SetColor(wrongColor);
         }
+    }
+
+    void ResetButtonsColor()
+    {
+        foreach (NumberButton button in numberButtons)
+            button.SetColor(neutralColor);
     }
 }

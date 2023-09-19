@@ -27,7 +27,7 @@ public class FadeManager : MonoBehaviour
         StartCoroutine(CrossFade(targetColor, duration));
     }
 
-    public void PlayFlash(Color targetColor, float duration = 0.1f)
+    public void PlayFlash(Color targetColor, float duration = 0.4f)
     {
         StartCoroutine(Flash(targetColor, duration));
     }

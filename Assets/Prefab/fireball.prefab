@@ -256,3 +256,4 @@ MonoBehaviour:
   destroyOnContact: 0
   aliveTime: 5
   sfx: {fileID: 8300000, guid: a4db9af354634144896f51b48bbbc213, type: 3}
+  shotDamageType: 3
