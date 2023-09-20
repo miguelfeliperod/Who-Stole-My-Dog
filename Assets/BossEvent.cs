@@ -9,21 +9,28 @@ public class BossEvent : MonoBehaviour
     [SerializeField] DialogueEvent meetEvent;
     [SerializeField] DialogueEvent secondChanceEvent;
     [SerializeField] DialogueEvent afterBattleEvent;
+    [SerializeField] DialogueEvent proposalEvent;
     [SerializeField] BossController boss;
     [SerializeField] CinemachineVirtualCamera originalCamera;
     [SerializeField] CinemachineVirtualCamera dialogueCamera;
     [SerializeField] CinemachineVirtualCamera battleCamera;
+    [SerializeField] GameObject proposalCanvas;
     [SerializeField] LayerMask playerLayer;
+    [SerializeField] Animator propositionBox;
     [SerializeField] GameObject invisibleWall;
+    [SerializeField] Animator luna;
 
     [SerializeField] Transform kaelInitialTransform;
+    [SerializeField] Transform kaelProposalPosition;
     Collider2D eventCollider;
     bool makeProposalCoroutine = false;
+    AudioManager audioManager;
 
     private void Awake()
     {
         if (GameManager.Instance.CurrentEventCheckpoint == EventCheckpoint.SecondChance)
             GameManager.Instance.AdvanceEventCheckpoint(EventCheckpoint.PreBoss);
+        audioManager = GameManager.Instance.audioManager;
     }
 
     private void Start()
@@ -111,31 +118,59 @@ public class BossEvent : MonoBehaviour
         boss.rigidbody2d.constraints = RigidbodyConstraints2D.FreezeAll;
         yield return new WaitForSeconds(1);
         StartCoroutine(LerpKaelPosition(3, new Vector3(0, 2)));
-        GameManager.Instance.audioManager.PlaySFX(boss.chargeSfx, loop: true);
-        yield return new WaitForSeconds(1);
-        GameManager.Instance.fadeManager.PlayFlash(Color.white, 0.05f);
+        AudioSource chargeAudioSource = audioManager.PlaySFX(boss.chargeSfx, loop: true);
+
+        yield return new WaitForSeconds(0.8f);
+        GameManager.Instance.fadeManager.PlayFlash(Color.white, 0.1f);
+        yield return new WaitForSeconds(0.8f);
+        GameManager.Instance.fadeManager.PlayFlash(Color.black, 0.1f);
+        yield return new WaitForSeconds(0.6f);
+        GameManager.Instance.fadeManager.PlayFlash(Color.white, 0.1f);
+        yield return new WaitForSeconds(0.6f);
+        GameManager.Instance.fadeManager.PlayFlash(Color.black, 0.1f);
+        yield return new WaitForSeconds(0.4f);
+        GameManager.Instance.fadeManager.PlayFlash(Color.white, 0.1f);
+        yield return new WaitForSeconds(0.4f);
+        GameManager.Instance.fadeManager.PlayFlash(Color.black, 0.1f);
+        yield return new WaitForSeconds(0.3f);
+        GameManager.Instance.fadeManager.PlayFlash(Color.white, 0.1f);
+        yield return new WaitForSeconds(0.3f);
+        GameManager.Instance.fadeManager.PlayFlash(Color.black, 0.1f);
+        yield return new WaitForSeconds(0.2f);
+        GameManager.Instance.fadeManager.PlayFlash(Color.white, 0.1f);
+        yield return new WaitForSeconds(0.2f);
+        GameManager.Instance.fadeManager.PlayFlash(Color.black, 0.1f);
+        yield return new WaitForSeconds(0.1f);
+        GameManager.Instance.fadeManager.PlayFlash(Color.black, 0.1f);
+        yield return new WaitForSeconds(0.1f);
+        GameManager.Instance.fadeManager.PlayFlash(Color.black, 0.08f);
+        yield return new WaitForSeconds(0.1f);
+        GameManager.Instance.fadeManager.PlayFadeOut(Color.white, 2f);
         yield return new WaitForSeconds(2);
-        GameManager.Instance.fadeManager.PlayFlash(Color.black, 0.05f);
-        yield return new WaitForSeconds(1);
-        GameManager.Instance.fadeManager.PlayFlash(Color.white, 0.05f);
-        yield return new WaitForSeconds(1.5f);
-        GameManager.Instance.fadeManager.PlayFlash(Color.white, 0.05f);
+        
+        boss.chargeVfx.Stop();
+        chargeAudioSource.Stop();
+        boss.sprite.flipX = false;
+        boss.animator.Play(BossController.kaelDefeated);
+        boss.transform.position = kaelProposalPosition.position;
+        luna.GetComponentInParent<Transform>().position = kaelProposalPosition.position + new Vector3(2,0);
+        luna.Play("LunaSitted");
+
+        GameManager.Instance.playerController.Sprite.flipX = false;
+        boss.rigidbody2d.constraints = RigidbodyConstraints2D.FreezePositionX;
+        GameManager.Instance.playerController.IsMovementBlocked = true;
+        GameManager.Instance.playerController.transform.position = transform.position;
+        audioManager.FadeOutMusic(2f);
+        yield return new WaitForSeconds(2f);
+        GameManager.Instance.fadeManager.PlayFadeIn(2f);
+        yield return new WaitForSeconds(4);
+        propositionBox.gameObject.SetActive(true);
+        yield return new WaitForSeconds(4);
+        propositionBox.Play("RingBoxOpening");
         yield return new WaitForSeconds(2);
-        GameManager.Instance.fadeManager.PlayFlash(Color.black, 0.05f);
-        yield return new WaitForSeconds(1);
-        GameManager.Instance.fadeManager.PlayFlash(Color.black, 0.05f);
-        yield return new WaitForSeconds(1.5f);
-        GameManager.Instance.fadeManager.PlayFlash(Color.white, 0.05f);
-        yield return new WaitForSeconds(1.5f);
-        GameManager.Instance.fadeManager.PlayFlash(Color.black, 0.05f);
-        yield return new WaitForSeconds(1.5f);
-        GameManager.Instance.fadeManager.PlayFlash(Color.white, 0.05f);
-        yield return new WaitForSeconds(1);
-        GameManager.Instance.fadeManager.PlayFlash(Color.white, 0.05f);
-        yield return new WaitForSeconds(0.5f);
-        GameManager.Instance.fadeManager.PlayFlash(Color.black, 0.05f);
-        yield return new WaitForSeconds(2);
-        GameManager.Instance.fadeManager.PlayFadeOut(Color.white, 1f);
+        audioManager.FadeInMusic(audioManager.audioPool.Proposal, 2f);
+        yield return new WaitForSeconds(6);
+        proposalEvent.StartEvents();
     }
 
     IEnumerator LerpKaelPosition(float duration, Vector3 yDistance)

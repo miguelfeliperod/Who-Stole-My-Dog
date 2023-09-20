@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     public Vector2 LastCheckpointPosition => lastCheckpointPosition;
     Vector2 lastCheckpointPosition;
     public EventCheckpoint CurrentEventCheckpoint => currentEventCheckpoint;
-    EventCheckpoint currentEventCheckpoint = EventCheckpoint.SecondChance; //EventCheckpoint.None;
+    EventCheckpoint currentEventCheckpoint = EventCheckpoint.Level1;
 
     void Awake()
     {
@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         DontDestroyOnLoad(this);
+        audioManager.FadeInMusic(audioManager.GetCurrentLevelMusic(SceneManager.GetActiveScene().name), 1);
     }
 
     void SingletonCheck()

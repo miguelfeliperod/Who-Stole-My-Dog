@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.VFX;
+using static UnityEngine.Rendering.DebugUI;
 
 public class BossController : BaseEnemy
 {
@@ -39,15 +40,15 @@ public class BossController : BaseEnemy
     [SerializeField] Transform posX3Y2;
     [SerializeField] Transform posX3Y3;
 
-    static string kaelCharge = "kaelCharge";
-    static string kaelDefeated = "KaelDefeated";
-    static string kaelIdle = "KaelIdle";
-    static string zeroIdle = "ZeroIdle";
-    static string zeroInvokeButterflyes = "ZeroInvokeButterflies";
-    static string zeroInvokeNumbers = "ZeroInvokeNumbers";
-    static string zeroTomatoShoot = "ZeroTomatoShoot";
-    static string zeroMetro = "ZeroMetro";
-    static string zeroVulnerable = "ZeroVulnerable";
+    public static string kaelCharge = "kaelCharge";
+    public static string kaelDefeated = "KaelDefeated";
+    public static string kaelIdle = "KaelIdle";
+    public static string zeroIdle = "ZeroIdle";
+    public static string zeroInvokeButterflyes = "ZeroInvokeButterflies";
+    public static string zeroInvokeNumbers = "ZeroInvokeNumbers";
+    public static string zeroTomatoShoot = "ZeroTomatoShoot";
+    public static string zeroMetro = "ZeroMetro";
+    public static string zeroVulnerable = "ZeroVulnerable";
 
     //=================== HUD ====================
     [SerializeField] Image hpBar1;
@@ -439,7 +440,8 @@ public class BossController : BaseEnemy
         animator.Play(zeroVulnerable);
         isFighting = false;
         canAct = false;
-        
+        GameManager.Instance.playerController.SetInvencible(true);
+
         yield return new WaitForSeconds(0.2f);
         GameManager.Instance.fadeManager.PlayFlash(Color.white, 0.05f);
         yield return new WaitForSeconds(0.6f);
@@ -447,7 +449,10 @@ public class BossController : BaseEnemy
         yield return new WaitForSeconds(0.3f);
         GameManager.Instance.fadeManager.PlayFlash(Color.white, 0.05f);
         yield return new WaitForSeconds(0.3f);
-        GameManager.Instance.fadeManager.PlayFadeOut(Color.white, 0.05f);
+        GameManager.Instance.fadeManager.PlayFadeOut(Color.white, 0.5f);
+        yield return new WaitForSeconds(0.5f);
+        animator.Play(zeroVulnerable);
+        IsGravityOn(true);
         GameManager.Instance.AdvanceEventCheckpoint(EventCheckpoint.PosBoss);
         bossEvent.gameObject.SetActive(true);
         bossEvent.StartEventByPhase();

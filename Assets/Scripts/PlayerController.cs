@@ -897,6 +897,11 @@ public class PlayerController : MonoBehaviour
         isInvencible = false;
     }
 
+    public void SetInvencible(bool value)
+    {
+        isInvencible = value;
+    }
+
     private IEnumerator BlinkShadowColor(Color targetColor, float duration, float stayTime = 0)
     {
         Color startColor = Color.clear;

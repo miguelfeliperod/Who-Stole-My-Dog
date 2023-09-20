@@ -122,6 +122,17 @@ public class AudioManager : MonoBehaviour
         sfxCurrentSource.PlayOneShot(audioClip);
     }
 
+    public AudioSource PlaySFX(AudioClip audioClip, bool loop = false)
+    {
+        AudioSource sfxCurrentSource = GetSourceFromPool();
+        sfxCurrentSource.clip = audioClip;
+        sfxCurrentSource.loop = loop;
+        sfxCurrentSource.loop = false;
+
+        sfxCurrentSource.PlayOneShot(audioClip);
+        return sfxCurrentSource;
+    }
+
     public void StopChargeAudioSource() => chargeSfxSource.Stop();
 
     public void FadeInSFXLoop(AudioClip audioClip, float duration = 1, bool randomizePitch = false, float volume = 1f, float pitch = 1f)

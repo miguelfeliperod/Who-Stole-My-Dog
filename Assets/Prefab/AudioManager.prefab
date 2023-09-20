@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b323e4c51b1ddc847a75187475c8d8c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioPool: {fileID: 0}
+  audioPool: {fileID: 11400000, guid: baf1042834720a64987fea2bf15e7b9d, type: 2}
   masterSlider: {fileID: 0}
   musicSlider: {fileID: 0}
   sfxSlider: {fileID: 0}

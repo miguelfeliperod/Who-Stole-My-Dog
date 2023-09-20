@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &17347455 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8260564399340388365, guid: bb8a669c9039e144da11d3e91a3ca2fb, type: 3}
+  m_PrefabInstance: {fileID: 476981549}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &86755237
 GameObject:
   m_ObjectHideFlags: 0
@@ -460,6 +465,7 @@ Transform:
   - {fileID: 1745828332}
   - {fileID: 1069124496}
   - {fileID: 1257539631}
+  - {fileID: 1299846088}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -637,7 +643,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 348027317}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.6, y: -2.82, z: 0}
+  m_LocalPosition: {x: -7.99, y: -2.82, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2471,17 +2477,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -9.114166, y: 44.360493}
-      - {x: -9.088106, y: -7.5106354}
-      - {x: 237.92581, y: -7.3234463}
-      - {x: 238.13953, y: 2.4296503}
-      - {x: 481.15793, y: 3.8957627}
-      - {x: 550.41956, y: 4.374178}
-      - {x: 550.319, y: 0.27410078}
-      - {x: 628.2604, y: 0.5969634}
-      - {x: 628.2676, y: 14.172159}
-      - {x: 1200.0988, y: 15.957285}
-      - {x: 1201.7095, y: 45.249832}
+    - - {x: -7.5, y: 45}
+      - {x: -7.5, y: -7}
+      - {x: 1200.0988, y: -7}
+      - {x: 1201.7095, y: 45}
 --- !u!4 &751917653
 Transform:
   m_ObjectHideFlags: 0
@@ -3824,6 +3823,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32aa0871b12f3244384550bac741cced, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventCheckpoint: 0
   gameEvents:
   - gameEventType: 0
     TimeToWait: 0
@@ -4460,6 +4460,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1285370862}
   m_CullTransparentMesh: 1
+--- !u!1 &1299846087
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1299846088}
+  m_Layer: 0
+  m_Name: GameEvents
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1299846088
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1299846087}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.62, y: 1, z: 0.027970353}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1499675416}
+  m_Father: {fileID: 152796861}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1371180024
 GameObject:
   m_ObjectHideFlags: 0
@@ -4747,6 +4779,563 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &1499675415
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1499675416}
+  - component: {fileID: 1499675418}
+  - component: {fileID: 1499675417}
+  m_Layer: 0
+  m_Name: event2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1499675416
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1499675415}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -7.1396837, y: -0.28976262, z: -0.027970353}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1299846088}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1499675417
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1499675415}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 4.6172395, y: -0.54644775}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 7.060937, y: 4.566329}
+  m_EdgeRadius: 0
+--- !u!114 &1499675418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1499675415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32aa0871b12f3244384550bac741cced, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventCheckpoint: 2
+  gameEvents:
+  - gameEventType: 1
+    TimeToWait: 0
+    text: 
+    characterImage: {fileID: 0}
+    characterImageTalking: {fileID: 0}
+    audioSound: {fileID: 0}
+    isSFX: 0
+    stopMusic: 0
+    isFadeIn: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    animator: {fileID: 0}
+    sprite: {fileID: 0}
+    flipX: 0
+    destinyPlace: {x: 0, y: 0, z: 0}
+    eventObject: {fileID: 0}
+    isMovement: 0
+    isEnable: 1
+  - gameEventType: 4
+    TimeToWait: 0.01
+    text: 
+    characterImage: {fileID: 0}
+    characterImageTalking: {fileID: 0}
+    audioSound: {fileID: 8300000, guid: 22fbfa99d3c4d234e97eb1b10383e6d4, type: 3}
+    isSFX: 1
+    stopMusic: 0
+    isFadeIn: 0
+    color: {r: 0, g: 0, b: 0, a: 1}
+    animator: {fileID: 0}
+    sprite: {fileID: 0}
+    flipX: 0
+    destinyPlace: {x: 0, y: 0, z: 0}
+    eventObject: {fileID: 0}
+    isMovement: 0
+    isEnable: 1
+  - gameEventType: 4
+    TimeToWait: 2
+    text: 
+    characterImage: {fileID: 0}
+    characterImageTalking: {fileID: 0}
+    audioSound: {fileID: 8300000, guid: 22fbfa99d3c4d234e97eb1b10383e6d4, type: 3}
+    isSFX: 1
+    stopMusic: 0
+    isFadeIn: 1
+    color: {r: 0, g: 0, b: 0, a: 0}
+    animator: {fileID: 0}
+    sprite: {fileID: 0}
+    flipX: 0
+    destinyPlace: {x: 0, y: 0, z: 0}
+    eventObject: {fileID: 0}
+    isMovement: 0
+    isEnable: 1
+  - gameEventType: 0
+    TimeToWait: 0
+    text: Uff... Que canseira!
+    characterImage: {fileID: 1610715235, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+    characterImageTalking: {fileID: -1881606921, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+    audioSound: {fileID: 8300000, guid: 17cf4ed8a06917c48a6258e513970d99, type: 3}
+    isSFX: 0
+    stopMusic: 0
+    isFadeIn: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    animator: {fileID: 0}
+    sprite: {fileID: 0}
+    flipX: 0
+    destinyPlace: {x: 0, y: 0, z: 0}
+    eventObject: {fileID: 0}
+    isMovement: 0
+    isEnable: 0
+  - gameEventType: 3
+    TimeToWait: 0.5
+    text: 
+    characterImage: {fileID: 0}
+    characterImageTalking: {fileID: 0}
+    audioSound: {fileID: 0}
+    isSFX: 0
+    stopMusic: 0
+    isFadeIn: 1
+    color: {r: 0, g: 0, b: 0, a: 0}
+    animator: {fileID: 0}
+    sprite: {fileID: 0}
+    flipX: 0
+    destinyPlace: {x: 0, y: 0, z: 0}
+    eventObject: {fileID: 0}
+    isMovement: 0
+    isEnable: 0
+  - gameEventType: 1
+    TimeToWait: 0
+    text: 
+    characterImage: {fileID: 0}
+    characterImageTalking: {fileID: 0}
+    audioSound: {fileID: 8300000, guid: 6d53cc5471121f146baab171a049e910, type: 3}
+    isSFX: 1
+    stopMusic: 0
+    isFadeIn: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    animator: {fileID: 0}
+    sprite: {fileID: 0}
+    flipX: 0
+    destinyPlace: {x: 0, y: 0, z: 0}
+    eventObject: {fileID: 0}
+    isMovement: 0
+    isEnable: 1
+  - gameEventType: 2
+    TimeToWait: 0
+    text: 
+    characterImage: {fileID: 0}
+    characterImageTalking: {fileID: 0}
+    audioSound: {fileID: 0}
+    isSFX: 0
+    stopMusic: 0
+    isFadeIn: 1
+    color: {r: 0, g: 0, b: 0, a: 0}
+    animator: {fileID: 0}
+    sprite: {fileID: 0}
+    flipX: 0
+    destinyPlace: {x: 0, y: 0, z: 0}
+    eventObject: {fileID: 17347455}
+    isMovement: 0
+    isEnable: 1
+  - gameEventType: 3
+    TimeToWait: 1
+    text: 
+    characterImage: {fileID: 0}
+    characterImageTalking: {fileID: 0}
+    audioSound: {fileID: 8300000, guid: 28568944fffd58f49a3e10f15d9a120b, type: 3}
+    isSFX: 0
+    stopMusic: 0
+    isFadeIn: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    animator: {fileID: 0}
+    sprite: {fileID: 0}
+    flipX: 0
+    destinyPlace: {x: 0, y: 0, z: 0}
+    eventObject: {fileID: 0}
+    isMovement: 0
+    isEnable: 1
+  - gameEventType: 1
+    TimeToWait: 1
+    text: 
+    characterImage: {fileID: 0}
+    characterImageTalking: {fileID: 0}
+    audioSound: {fileID: 8300000, guid: aaa8362ea26c9f244988c7dd4701290f, type: 3}
+    isSFX: 0
+    stopMusic: 0
+    isFadeIn: 1
+    color: {r: 0, g: 0, b: 0, a: 0}
+    animator: {fileID: 0}
+    sprite: {fileID: 0}
+    flipX: 0
+    destinyPlace: {x: 0, y: 0, z: 0}
+    eventObject: {fileID: 0}
+    isMovement: 0
+    isEnable: 1
+  - gameEventType: 0
+    TimeToWait: 0
+    text: Ei, Diei. Voce ta indo muito bem!
+    characterImage: {fileID: -452932162, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+    characterImageTalking: {fileID: -323867767, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+    audioSound: {fileID: 8300000, guid: c366dce277f5b99478f5b4b0b70ab122, type: 3}
+    isSFX: 0
+    stopMusic: 0
+    isFadeIn: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    animator: {fileID: 0}
+    sprite: {fileID: 0}
+    flipX: 0
+    destinyPlace: {x: 0, y: 0, z: 0}
+    eventObject: {fileID: 0}
+    isMovement: 0
+    isEnable: 0
+  - gameEventType: 0
+    TimeToWait: 0
+    text: Aparentemente escolhi o lado certo nessa guerra de pelucias...
+    characterImage: {fileID: -452932162, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+    characterImageTalking: {fileID: -323867767, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+    audioSound: {fileID: 8300000, guid: c366dce277f5b99478f5b4b0b70ab122, type: 3}
+    isSFX: 0
+    stopMusic: 0
+    isFadeIn: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    animator: {fileID: 0}
+    sprite: {fileID: 0}
+    flipX: 0
+    destinyPlace: {x: 0, y: 0, z: 0}
+    eventObject: {fileID: 0}
+    isMovement: 0
+    isEnable: 0
+  - gameEventType: 0
+    TimeToWait: 0
+    text: Oiiii, Luninho! Hehe, te pegando o jeito disso aqui. Mas ainda sem sinal
+      da Luna...
+    characterImage: {fileID: 1610715235, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+    characterImageTalking: {fileID: -1881606921, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+    audioSound: {fileID: 8300000, guid: 17cf4ed8a06917c48a6258e513970d99, type: 3}
+    isSFX: 0
+    stopMusic: 0
+    isFadeIn: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    animator: {fileID: 0}
+    sprite: {fileID: 0}
+    flipX: 0
+    destinyPlace: {x: 0, y: 0, z: 0}
+    eventObject: {fileID: 0}
+    isMovement: 0
+    isEnable: 0
+  - gameEventType: 0
+    TimeToWait: 0
+    text: Meus instintos caninos me dizem que a Luna passou por aqui. Estamos cada
+      vez mais proximos.
+    characterImage: {fileID: -452932162, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+    characterImageTalking: {fileID: -323867767, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+    audioSound: {fileID: 8300000, guid: c366dce277f5b99478f5b4b0b70ab122, type: 3}
+    isSFX: 0
+    stopMusic: 0
+    isFadeIn: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    animator: {fileID: 0}
+    sprite: {fileID: 0}
+    flipX: 0
+    destinyPlace: {x: 0, y: 0, z: 0}
+    eventObject: {fileID: 0}
+    isMovement: 0
+    isEnable: 0
+  - gameEventType: 0
+    TimeToWait: 0
+    text: Voce bem que podia me ajudar tambem, ne?
+    characterImage: {fileID: 1610715235, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+    characterImageTalking: {fileID: -1881606921, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+    audioSound: {fileID: 8300000, guid: 17cf4ed8a06917c48a6258e513970d99, type: 3}
+    isSFX: 0
+    stopMusic: 0
+    isFadeIn: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    animator: {fileID: 0}
+    sprite: {fileID: 0}
+    flipX: 0
+    destinyPlace: {x: 0, y: 0, z: 0}
+    eventObject: {fileID: 0}
+    isMovement: 0
+    isEnable: 0
+  - gameEventType: 0
+    TimeToWait: 0
+    text: Er... Prefiro ficar so sendo alivio comico.
+    characterImage: {fileID: -452932162, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+    characterImageTalking: {fileID: -323867767, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+    audioSound: {fileID: 8300000, guid: c366dce277f5b99478f5b4b0b70ab122, type: 3}
+    isSFX: 0
+    stopMusic: 0
+    isFadeIn: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    animator: {fileID: 0}
+    sprite: {fileID: 0}
+    flipX: 0
+    destinyPlace: {x: 0, y: 0, z: 0}
+    eventObject: {fileID: 0}
+    isMovement: 0
+    isEnable: 0
+  - gameEventType: 0
+    TimeToWait: 0
+    text: Mas olha, ainda temos chao pela frente. E se nao me engano, essa cidade
+      aqui e beeeem inclinada.
+    characterImage: {fileID: -452932162, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+    characterImageTalking: {fileID: -323867767, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+    audioSound: {fileID: 8300000, guid: c366dce277f5b99478f5b4b0b70ab122, type: 3}
+    isSFX: 0
+    stopMusic: 0
+    isFadeIn: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    animator: {fileID: 0}
+    sprite: {fileID: 0}
+    flipX: 0
+    destinyPlace: {x: 0, y: 0, z: 0}
+    eventObject: {fileID: 0}
+    isMovement: 0
+    isEnable: 0
+  - gameEventType: 0
+    TimeToWait: 0
+    text: Nao da pra chamar um Uber?
+    characterImage: {fileID: 1610715235, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+    characterImageTalking: {fileID: -1881606921, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+    audioSound: {fileID: 8300000, guid: 17cf4ed8a06917c48a6258e513970d99, type: 3}
+    isSFX: 0
+    stopMusic: 0
+    isFadeIn: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    animator: {fileID: 0}
+    sprite: {fileID: 0}
+    flipX: 0
+    destinyPlace: {x: 0, y: 0, z: 0}
+    eventObject: {fileID: 0}
+    isMovement: 0
+    isEnable: 0
+  - gameEventType: 0
+    TimeToWait: 0
+    text: Tenho certeza que eles nao aceitam pagamento em sushi.
+    characterImage: {fileID: -452932162, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+    characterImageTalking: {fileID: -323867767, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+    audioSound: {fileID: 8300000, guid: c366dce277f5b99478f5b4b0b70ab122, type: 3}
+    isSFX: 0
+    stopMusic: 0
+    isFadeIn: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    animator: {fileID: 0}
+    sprite: {fileID: 0}
+    flipX: 0
+    destinyPlace: {x: 0, y: 0, z: 0}
+    eventObject: {fileID: 0}
+    isMovement: 0
+    isEnable: 0
+  - gameEventType: 0
+    TimeToWait: 0
+    text: Hum...
+    characterImage: {fileID: 1610715235, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+    characterImageTalking: {fileID: -1881606921, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+    audioSound: {fileID: 8300000, guid: 17cf4ed8a06917c48a6258e513970d99, type: 3}
+    isSFX: 0
+    stopMusic: 0
+    isFadeIn: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    animator: {fileID: 0}
+    sprite: {fileID: 0}
+    flipX: 0
+    destinyPlace: {x: 0, y: 0, z: 0}
+    eventObject: {fileID: 0}
+    isMovement: 0
+    isEnable: 0
+  - gameEventType: 3
+    TimeToWait: 2
+    text: 
+    characterImage: {fileID: 0}
+    characterImageTalking: {fileID: 0}
+    audioSound: {fileID: 0}
+    isSFX: 0
+    stopMusic: 0
+    isFadeIn: 1
+    color: {r: 0, g: 0, b: 0, a: 0}
+    animator: {fileID: 0}
+    sprite: {fileID: 0}
+    flipX: 0
+    destinyPlace: {x: 0, y: 0, z: 0}
+    eventObject: {fileID: 0}
+    isMovement: 0
+    isEnable: 0
+  - gameEventType: 0
+    TimeToWait: 0
+    text: Eu aceitaria.
+    characterImage: {fileID: 1610715235, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+    characterImageTalking: {fileID: -1881606921, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+    audioSound: {fileID: 8300000, guid: 17cf4ed8a06917c48a6258e513970d99, type: 3}
+    isSFX: 0
+    stopMusic: 0
+    isFadeIn: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    animator: {fileID: 0}
+    sprite: {fileID: 0}
+    flipX: 0
+    destinyPlace: {x: 0, y: 0, z: 0}
+    eventObject: {fileID: 0}
+    isMovement: 0
+    isEnable: 0
+  - gameEventType: 0
+    TimeToWait: 0
+    text: Chega de conversa mole! Continua pra esquerda que voce chega la!
+    characterImage: {fileID: -452932162, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+    characterImageTalking: {fileID: -323867767, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+    audioSound: {fileID: 8300000, guid: c366dce277f5b99478f5b4b0b70ab122, type: 3}
+    isSFX: 0
+    stopMusic: 0
+    isFadeIn: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    animator: {fileID: 0}
+    sprite: {fileID: 0}
+    flipX: 0
+    destinyPlace: {x: 0, y: 0, z: 0}
+    eventObject: {fileID: 0}
+    isMovement: 0
+    isEnable: 0
+  - gameEventType: 0
+    TimeToWait: 0
+    text: Certo, vamos la!
+    characterImage: {fileID: 1610715235, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+    characterImageTalking: {fileID: -1881606921, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
+    audioSound: {fileID: 8300000, guid: 17cf4ed8a06917c48a6258e513970d99, type: 3}
+    isSFX: 0
+    stopMusic: 0
+    isFadeIn: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    animator: {fileID: 0}
+    sprite: {fileID: 0}
+    flipX: 0
+    destinyPlace: {x: 0, y: 0, z: 0}
+    eventObject: {fileID: 0}
+    isMovement: 0
+    isEnable: 0
+  - gameEventType: 3
+    TimeToWait: 1
+    text: 
+    characterImage: {fileID: 0}
+    characterImageTalking: {fileID: 0}
+    audioSound: {fileID: 8300000, guid: 28568944fffd58f49a3e10f15d9a120b, type: 3}
+    isSFX: 0
+    stopMusic: 0
+    isFadeIn: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    animator: {fileID: 0}
+    sprite: {fileID: 0}
+    flipX: 0
+    destinyPlace: {x: 0, y: 0, z: 0}
+    eventObject: {fileID: 0}
+    isMovement: 0
+    isEnable: 1
+  - gameEventType: 1
+    TimeToWait: 0
+    text: 
+    characterImage: {fileID: 0}
+    characterImageTalking: {fileID: 0}
+    audioSound: {fileID: 8300000, guid: 6d53cc5471121f146baab171a049e910, type: 3}
+    isSFX: 1
+    stopMusic: 0
+    isFadeIn: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    animator: {fileID: 0}
+    sprite: {fileID: 0}
+    flipX: 0
+    destinyPlace: {x: 0, y: 0, z: 0}
+    eventObject: {fileID: 0}
+    isMovement: 0
+    isEnable: 1
+  - gameEventType: 2
+    TimeToWait: 0
+    text: 
+    characterImage: {fileID: 0}
+    characterImageTalking: {fileID: 0}
+    audioSound: {fileID: 0}
+    isSFX: 0
+    stopMusic: 0
+    isFadeIn: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    animator: {fileID: 0}
+    sprite: {fileID: 0}
+    flipX: 0
+    destinyPlace: {x: 0, y: 0, z: 0}
+    eventObject: {fileID: 17347455}
+    isMovement: 0
+    isEnable: 0
+  - gameEventType: 1
+    TimeToWait: 1
+    text: 
+    characterImage: {fileID: 0}
+    characterImageTalking: {fileID: 0}
+    audioSound: {fileID: 0}
+    isSFX: 0
+    stopMusic: 1
+    isFadeIn: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    animator: {fileID: 0}
+    sprite: {fileID: 0}
+    flipX: 0
+    destinyPlace: {x: 0, y: 0, z: 0}
+    eventObject: {fileID: 17347455}
+    isMovement: 0
+    isEnable: 0
+  - gameEventType: 1
+    TimeToWait: 2
+    text: 
+    characterImage: {fileID: 0}
+    characterImageTalking: {fileID: 0}
+    audioSound: {fileID: 8300000, guid: e9795bdba0f0b444e98491517e63de58, type: 3}
+    isSFX: 0
+    stopMusic: 1
+    isFadeIn: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    animator: {fileID: 0}
+    sprite: {fileID: 0}
+    flipX: 0
+    destinyPlace: {x: 0, y: 0, z: 0}
+    eventObject: {fileID: 17347455}
+    isMovement: 0
+    isEnable: 0
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  startAwaitTime: 3
+  finishAwaitTime: 1
 --- !u!1 &1538821447
 GameObject:
   m_ObjectHideFlags: 0
@@ -5926,7 +6515,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1744719944}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.00000023841858, y: 0, z: -10}
+  m_LocalPosition: {x: -0.000085814085, y: 0.1524, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6673,7 +7262,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6217713118901612749, guid: 98c38c44b4fd7ed469b9b8fcdbf0b9e8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.0398
+      value: 0.9111
       objectReference: {fileID: 0}
     - target: {fileID: 6217713118901612749, guid: 98c38c44b4fd7ed469b9b8fcdbf0b9e8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -6710,6 +7299,10 @@ PrefabInstance:
     - target: {fileID: 6217713118901612749, guid: 98c38c44b4fd7ed469b9b8fcdbf0b9e8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6217713118901612751, guid: 98c38c44b4fd7ed469b9b8fcdbf0b9e8, type: 3}
+      propertyPath: m_Size.x
+      value: 21.271255
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 98c38c44b4fd7ed469b9b8fcdbf0b9e8, type: 3}

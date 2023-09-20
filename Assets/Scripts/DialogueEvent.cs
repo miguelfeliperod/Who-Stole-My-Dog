@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -53,6 +54,7 @@ public class DialogueEvent : MonoBehaviour
     public void StartEvents()
     {
         gameManager.playerController.IsGameplayBlocked = true;
+        dialogueText.text = "";
         StartCoroutine(ContinuousBlockStateMovement(2));
         EventHandler();
     }
