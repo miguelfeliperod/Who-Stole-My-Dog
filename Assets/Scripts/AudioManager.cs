@@ -110,11 +110,12 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySFX(AudioClip audioClip) => PlaySFX(audioClip, false);
 
-    public void PlaySFX(AudioClip audioClip, bool randomizePitch = false, float volume = 1f, float pitch = 1f)
+    public void PlaySFX(AudioClip audioClip, bool randomizePitch = false, float volume = 1f, float pitch = 1f, bool loop = false)
     {
         AudioSource sfxCurrentSource = GetSourceFromPool();
         sfxCurrentSource.clip = audioClip;
         sfxCurrentSource.volume = volume;
+        sfxCurrentSource.loop = loop;
         sfxCurrentSource.pitch = randomizePitch ? Random.Range(.8f, 1.2f) : pitch;
         sfxCurrentSource.loop = false;
 

@@ -1,5 +1,8 @@
 using Cinemachine;
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class BossEvent : MonoBehaviour
 {
@@ -11,11 +14,15 @@ public class BossEvent : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera dialogueCamera;
     [SerializeField] CinemachineVirtualCamera battleCamera;
     [SerializeField] LayerMask playerLayer;
+    [SerializeField] GameObject invisibleWall;
+
+    [SerializeField] Transform kaelInitialTransform;
     Collider2D eventCollider;
+    bool makeProposalCoroutine = false;
 
     private void Awake()
     {
-        if (GameManager.Instance.CurrentEventCheckpoint >= EventCheckpoint.SecondChance)
+        if (GameManager.Instance.CurrentEventCheckpoint == EventCheckpoint.SecondChance)
             GameManager.Instance.AdvanceEventCheckpoint(EventCheckpoint.PreBoss);
     }
 
@@ -27,6 +34,7 @@ public class BossEvent : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if ((1 << collision.gameObject.layer & playerLayer) == 0) return;
+        if (GameManager.Instance.CurrentEventCheckpoint > EventCheckpoint.SecondChance) return;
 
         StartEventByPhase();
         eventCollider.enabled = false;
@@ -37,7 +45,7 @@ public class BossEvent : MonoBehaviour
         CheckNextEventStatus();
     }
 
-    private void StartEventByPhase()
+    public void StartEventByPhase()
     {
         switch (GameManager.Instance.CurrentEventCheckpoint)
         {
@@ -52,6 +60,13 @@ public class BossEvent : MonoBehaviour
                 secondChanceEvent.StartEvents();
                 break;
             case EventCheckpoint.PosBoss:
+                GameManager.Instance.playerController.SetPlayerForm(Form.Normal, true);
+                GameManager.Instance.playerController.IsTransformationBlocked = true;
+                ChangeCamera(dialogueCamera);
+                boss.transform.position = kaelInitialTransform.position;
+                boss.sprite.flipX = false;
+                GameManager.Instance.playerController.Sprite.flipX = false;
+                GameManager.Instance.playerController.transform.position = transform.position;
                 afterBattleEvent.StartEvents();
                 break;
         }
@@ -77,6 +92,63 @@ public class BossEvent : MonoBehaviour
                     gameObject.SetActive(false);
                 }
                 break;
+            case EventCheckpoint.PosBoss:
+                if (afterBattleEvent.AllEventsEnded && !makeProposalCoroutine)
+                {
+                    makeProposalCoroutine = true;
+                    StartCoroutine(Proposal());
+                    boss.chargeVfx.Play();
+                }
+                break;
+        }
+    }
+
+    IEnumerator Proposal()
+    {
+        invisibleWall.SetActive(true);
+        boss.boxCollider.gameObject.layer = LayerMask.NameToLayer("Default");
+        boss.animator.Play("KaelCharge");
+        boss.rigidbody2d.constraints = RigidbodyConstraints2D.FreezeAll;
+        yield return new WaitForSeconds(1);
+        StartCoroutine(LerpKaelPosition(3, new Vector3(0, 2)));
+        GameManager.Instance.audioManager.PlaySFX(boss.chargeSfx, loop: true);
+        yield return new WaitForSeconds(1);
+        GameManager.Instance.fadeManager.PlayFlash(Color.white, 0.05f);
+        yield return new WaitForSeconds(2);
+        GameManager.Instance.fadeManager.PlayFlash(Color.black, 0.05f);
+        yield return new WaitForSeconds(1);
+        GameManager.Instance.fadeManager.PlayFlash(Color.white, 0.05f);
+        yield return new WaitForSeconds(1.5f);
+        GameManager.Instance.fadeManager.PlayFlash(Color.white, 0.05f);
+        yield return new WaitForSeconds(2);
+        GameManager.Instance.fadeManager.PlayFlash(Color.black, 0.05f);
+        yield return new WaitForSeconds(1);
+        GameManager.Instance.fadeManager.PlayFlash(Color.black, 0.05f);
+        yield return new WaitForSeconds(1.5f);
+        GameManager.Instance.fadeManager.PlayFlash(Color.white, 0.05f);
+        yield return new WaitForSeconds(1.5f);
+        GameManager.Instance.fadeManager.PlayFlash(Color.black, 0.05f);
+        yield return new WaitForSeconds(1.5f);
+        GameManager.Instance.fadeManager.PlayFlash(Color.white, 0.05f);
+        yield return new WaitForSeconds(1);
+        GameManager.Instance.fadeManager.PlayFlash(Color.white, 0.05f);
+        yield return new WaitForSeconds(0.5f);
+        GameManager.Instance.fadeManager.PlayFlash(Color.black, 0.05f);
+        yield return new WaitForSeconds(2);
+        GameManager.Instance.fadeManager.PlayFadeOut(Color.white, 1f);
+    }
+
+    IEnumerator LerpKaelPosition(float duration, Vector3 yDistance)
+    {
+        float deltaTime = 0f;
+        Vector3 currentPosition = boss.transform.position;
+        Vector3 targetPosition = currentPosition + yDistance;
+
+        while (deltaTime < duration)
+        {
+            deltaTime += Time.deltaTime;
+            boss.transform.position = Vector3.Lerp(currentPosition, targetPosition, deltaTime / duration);
+            yield return null;
         }
     }
 

@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     public Vector2 LastCheckpointPosition => lastCheckpointPosition;
     Vector2 lastCheckpointPosition;
     public EventCheckpoint CurrentEventCheckpoint => currentEventCheckpoint;
-    EventCheckpoint currentEventCheckpoint = EventCheckpoint.None;
+    EventCheckpoint currentEventCheckpoint = EventCheckpoint.SecondChance; //EventCheckpoint.None;
 
     void Awake()
     {

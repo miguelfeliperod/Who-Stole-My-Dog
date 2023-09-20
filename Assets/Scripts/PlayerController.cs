@@ -165,6 +165,13 @@ public class PlayerController : MonoBehaviour
         set { isGameplayBlocked = value; }
     }
 
+    [SerializeField] bool isTransformationBlocked = false;
+    public bool IsTransformationBlocked
+    {
+        get => isTransformationBlocked;
+        set { isTransformationBlocked = value; }
+    }
+
     [SerializeField] bool isStarving = false;
     public bool IsStarving
     {
@@ -271,7 +278,7 @@ public class PlayerController : MonoBehaviour
             CheckEndOfHungry();
             ConsumeHp(currentPlayerForm.hungryDepletionRate);
         }
-        else if (currentHungry > 0 && !isGameplayBlocked)
+        else if (currentHungry > 0 && !isGameplayBlocked && !isTransformationBlocked)
             ConsumeHungry(currentPlayerForm.hungryDepletionRate);
         
 
@@ -528,19 +535,19 @@ public class PlayerController : MonoBehaviour
 
     void ChangeFormNormal(InputAction.CallbackContext context)
     {
-        if (isMovementBlocked) return;
+        if (isMovementBlocked || isTransformationBlocked) return;
         SetPlayerForm(Form.Normal);
     }
 
     void ChangeFormMahou(InputAction.CallbackContext context)
     {
-        if (isMovementBlocked) return;
+        if (isMovementBlocked || isTransformationBlocked) return;
         SetPlayerForm(Form.Mahou);
     }
 
     void ChangeFormDark(InputAction.CallbackContext context)
     {
-        if (isMovementBlocked) return;
+        if (isMovementBlocked || isTransformationBlocked) return;
         SetPlayerForm(Form.Dark);
     }
 
@@ -670,7 +677,7 @@ public class PlayerController : MonoBehaviour
         playerControlls.Disable();
     }
 
-    public void SetPlayerForm(Form form)
+    public void SetPlayerForm(Form form, bool silently = false)
     {
         chargingVFX.Stop();
         GameManager.Instance.audioManager.StopChargeAudioSource();
@@ -686,7 +693,8 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(BlinkShadowColor(transformationNormalColor, 0.4f, 0.2f));
                 hungryWalk.gameObject.SetActive(false);
                 StartCoroutine(PlayDelayedVFX(0.4f, transformationNormalVFX));
-                GameManager.Instance.audioManager.PlayDelayedSFX(normalTransformation, 0.2f);
+                if(!silently)
+                    GameManager.Instance.audioManager.PlayDelayedSFX(normalTransformation, 0.2f);
                 currentPlayerForm = normalForm;
                 break;
             case Form.Mahou:

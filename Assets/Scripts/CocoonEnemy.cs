@@ -31,7 +31,7 @@ public class CocoonEnemy : BaseEnemy
     IEnumerator ButterflyBorn()
     {
         animator.Play("CocoonDie");
-        Instantiate(butterflyPrefab, transform.position, transform.rotation);
+        Instantiate(butterflyPrefab, transform.position, transform.rotation, gameObject.transform.parent);
         yield return null;
         GameManager.Instance.audioManager.PlaySFX(sfx, pitch: 0.6f);
         StartCoroutine(base.Die());

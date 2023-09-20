@@ -17,7 +17,10 @@ public class BossController : BaseEnemy
     [SerializeField] float easyAttackCooldown;
     [SerializeField] float averageAttackCooldown;
     [SerializeField] float hardAttackCooldown;
+    [SerializeField] public VisualEffect chargeVfx;
+    [SerializeField] public AudioClip chargeSfx;
     bool isFighting = false;
+
     public bool IsFighting => isFighting;
     bool isInvencible = false;
     public bool IsInvencible => isInvencible;
@@ -404,7 +407,6 @@ public class BossController : BaseEnemy
         damageVFX.Play();
         GetCurrentHPBar().fillAmount = ((float)currentHp / (float)maxHp);
 
-
         // PHASE ADVANCE
         if (currentHp <= 0)
         {
@@ -448,6 +450,7 @@ public class BossController : BaseEnemy
         GameManager.Instance.fadeManager.PlayFadeOut(Color.white, 0.05f);
         GameManager.Instance.AdvanceEventCheckpoint(EventCheckpoint.PosBoss);
         bossEvent.gameObject.SetActive(true);
+        bossEvent.StartEventByPhase();
     }
 
     public void SetFightStatus(bool status) => isFighting = status;
