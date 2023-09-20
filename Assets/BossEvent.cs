@@ -11,6 +11,7 @@ public class BossEvent : MonoBehaviour
     [SerializeField] DialogueEvent afterBattleEvent;
     [SerializeField] DialogueEvent proposalEvent;
     [SerializeField] BossController boss;
+    [SerializeField] LevelUpEvent levelUpEvent;
     [SerializeField] CinemachineVirtualCamera originalCamera;
     [SerializeField] CinemachineVirtualCamera dialogueCamera;
     [SerializeField] CinemachineVirtualCamera battleCamera;
@@ -19,6 +20,8 @@ public class BossEvent : MonoBehaviour
     [SerializeField] Animator propositionBox;
     [SerializeField] GameObject invisibleWall;
     [SerializeField] Animator luna;
+    [SerializeField] AudioClip ringBoxFall;
+    [SerializeField] AudioClip ringBoxOpen;
 
     [SerializeField] Transform kaelInitialTransform;
     [SerializeField] Transform kaelProposalPosition;
@@ -67,6 +70,8 @@ public class BossEvent : MonoBehaviour
                 secondChanceEvent.StartEvents();
                 break;
             case EventCheckpoint.PosBoss:
+                GameManager.Instance.playerController.RegenHungry(1);
+                GameManager.Instance.playerController.IsStarving = false;
                 GameManager.Instance.playerController.SetPlayerForm(Form.Normal, true);
                 GameManager.Instance.playerController.IsTransformationBlocked = true;
                 ChangeCamera(dialogueCamera);
@@ -140,17 +145,22 @@ public class BossEvent : MonoBehaviour
         GameManager.Instance.fadeManager.PlayFlash(Color.white, 0.1f);
         yield return new WaitForSeconds(0.2f);
         GameManager.Instance.fadeManager.PlayFlash(Color.black, 0.1f);
-        yield return new WaitForSeconds(0.1f);
-        GameManager.Instance.fadeManager.PlayFlash(Color.black, 0.1f);
-        yield return new WaitForSeconds(0.1f);
-        GameManager.Instance.fadeManager.PlayFlash(Color.black, 0.08f);
-        yield return new WaitForSeconds(0.1f);
-        GameManager.Instance.fadeManager.PlayFadeOut(Color.white, 2f);
+        yield return new WaitForSeconds(0.2f);
+        GameManager.Instance.fadeManager.PlayFlash(Color.white, 0.2f);
+        yield return new WaitForSeconds(0.2f);
+        GameManager.Instance.fadeManager.PlayFlash(Color.black, 0.2f);
+        yield return new WaitForSeconds(0.2f);
+        GameManager.Instance.fadeManager.PlayFlash(Color.white, 0.2f);
+        yield return new WaitForSeconds(0.2f);
+        GameManager.Instance.fadeManager.PlayFadeOut(Color.black,0);
+        yield return new WaitForSeconds(0.2f);
+        GameManager.Instance.fadeManager.PlayFadeOut(Color.white, 0.5f);
         yield return new WaitForSeconds(2);
         
         boss.chargeVfx.Stop();
         chargeAudioSource.Stop();
         boss.sprite.flipX = false;
+        GameManager.Instance.playerController.SetFullStats(false);
         boss.animator.Play(BossController.kaelDefeated);
         boss.transform.position = kaelProposalPosition.position;
         luna.GetComponentInParent<Transform>().position = kaelProposalPosition.position + new Vector3(2,0);
@@ -165,8 +175,11 @@ public class BossEvent : MonoBehaviour
         GameManager.Instance.fadeManager.PlayFadeIn(2f);
         yield return new WaitForSeconds(4);
         propositionBox.gameObject.SetActive(true);
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(1.3f);
+        audioManager.PlaySFX(ringBoxFall);
+        yield return new WaitForSeconds(2.7f);
         propositionBox.Play("RingBoxOpening");
+        audioManager.PlaySFX(ringBoxOpen);
         yield return new WaitForSeconds(2);
         audioManager.FadeInMusic(audioManager.audioPool.Proposal, 2f);
         yield return new WaitForSeconds(6);
@@ -185,6 +198,12 @@ public class BossEvent : MonoBehaviour
             boss.transform.position = Vector3.Lerp(currentPosition, targetPosition, deltaTime / duration);
             yield return null;
         }
+    }
+
+    public void OnClickYesEvent()
+    {
+        proposalCanvas.SetActive(false);
+        levelUpEvent.GoToNextLevel();
     }
 
     void ChangeCamera(CinemachineVirtualCamera currentCamera)

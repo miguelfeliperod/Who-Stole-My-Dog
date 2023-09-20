@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Dark
   m_EditorClassIdentifier: 
   animator: {fileID: 22100000, guid: fbea0f592f381ca4e9b4da864b16093d, type: 2}
-  baseAcceleration: 2
+  baseAcceleration: 1.4
   maxSpeed: 9
   jumpForce: 22
   cooldownAttack: 0.15

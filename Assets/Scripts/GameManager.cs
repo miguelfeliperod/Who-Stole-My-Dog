@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     public Vector2 LastCheckpointPosition => lastCheckpointPosition;
     Vector2 lastCheckpointPosition;
     public EventCheckpoint CurrentEventCheckpoint => currentEventCheckpoint;
-    EventCheckpoint currentEventCheckpoint = EventCheckpoint.Level1;
+    EventCheckpoint currentEventCheckpoint = EventCheckpoint.None;
 
     void Awake()
     {
@@ -52,6 +52,10 @@ public class GameManager : MonoBehaviour
 
     private void OnLevelWasLoaded(int level)
     {
+        if (SceneManager.GetActiveScene().name == "Credits") {
+            audioManager.FadeInMusic(audioManager.GetCurrentLevelMusic(SceneManager.GetActiveScene().name), 1);
+            return;
+        } 
         SingletonCheck();
         if (playerController == null)
             playerController = FindObjectOfType<PlayerController>();
@@ -137,7 +141,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(3);
         fadeManager.PlayFadeOut(Color.black, 2);
         yield return new WaitForSeconds(2);
-
+        StartCoroutine(uiManager.HideDiedImage());
         StartCoroutine(ReloadLevel());
     }
 }

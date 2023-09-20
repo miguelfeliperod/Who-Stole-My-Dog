@@ -4195,10 +4195,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1538821449}
+  m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1232773323
 GameObject:
@@ -5041,7 +5040,7 @@ MonoBehaviour:
     isEnable: 0
   - gameEventType: 0
     TimeToWait: 0
-    text: Oiiii, Luninho! Hehe, te pegando o jeito disso aqui. Mas ainda sem sinal
+    text: Oiiii, Luninho! Hehe, to pegando o jeito disso aqui. Mas ainda sem sinal
       da Luna...
     characterImage: {fileID: 1610715235, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
     characterImageTalking: {fileID: -1881606921, guid: 9357a883942b5dd4a9331e339f1bd3ac, type: 3}
@@ -5321,7 +5320,7 @@ MonoBehaviour:
     characterImageTalking: {fileID: 0}
     audioSound: {fileID: 8300000, guid: e9795bdba0f0b444e98491517e63de58, type: 3}
     isSFX: 0
-    stopMusic: 1
+    stopMusic: 0
     isFadeIn: 0
     color: {r: 0, g: 0, b: 0, a: 0}
     animator: {fileID: 0}
@@ -5352,7 +5351,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1538821448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5387,8 +5386,8 @@ Transform:
   - {fileID: 1737482964}
   - {fileID: 528079161}
   - {fileID: 1802843810}
-  m_Father: {fileID: 1200615409}
-  m_RootOrder: 0
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1566110860
 GameObject:

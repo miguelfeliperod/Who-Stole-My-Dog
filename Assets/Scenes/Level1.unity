@@ -25912,6 +25912,8 @@ MonoBehaviour:
     m_Bits: 8
   nextSceneName: Level2
   moveSound: {fileID: 8300000, guid: 2959b054de3795e4892161a6d0a1bba5, type: 3}
+  applauseSound: {fileID: 8300000, guid: 236d6ca65c2c13049a53e74b9fef5914, type: 3}
+  cheerSound: {fileID: 8300000, guid: bc0bc4585ee765445810c9f5f4e979a4, type: 3}
 --- !u!4 &1467133149
 Transform:
   m_ObjectHideFlags: 0

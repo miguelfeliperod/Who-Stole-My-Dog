@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Hungry
   m_EditorClassIdentifier: 
   animator: {fileID: 22100000, guid: 143e0ba0731c97446971fd2f1c82d878, type: 2}
-  baseAcceleration: 3
+  baseAcceleration: 1.6
   maxSpeed: 12
   jumpForce: 25
   cooldownAttack: 0.5

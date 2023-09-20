@@ -633,7 +633,7 @@ public class PlayerController : MonoBehaviour
         uiManager.UpdateFormUI();
     }
 
-    void RegenHungry(float quantity)
+    public void RegenHungry(float quantity)
     {
         currentHungry = Mathf.Min(currentHungry + quantity, MAX_HUNGRY);
         uiManager.UpdateUIValues();

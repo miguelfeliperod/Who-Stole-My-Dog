@@ -273,6 +273,8 @@ public class AudioManager : MonoBehaviour
                 return audioPool.Level2;
             case "level3":
                 return audioPool.Level3;
+            case "credits":
+                return audioPool.Credits;
             case "Menu":
             default:
                 return audioPool.Menu;

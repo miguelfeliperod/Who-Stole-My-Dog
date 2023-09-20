@@ -470,12 +470,12 @@ public class BossController : BaseEnemy
     {
         isInvencible = true;
         yield return new WaitForSeconds(0.2f);
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 14; i++)
         {
             sprite.color = Color.clear;
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.06f);
             sprite.color = Color.white;
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.06f);
         }
         isInvencible = false;
     }
