@@ -1,0 +1,34 @@
+{
+    "name": "Reset",
+    "maps": [
+        {
+            "name": "Reset",
+            "id": "c49a1310-7f05-47bf-bae2-2fb757df810a",
+            "actions": [
+                {
+                    "name": "Reload",
+                    "type": "Button",
+                    "id": "a68bb435-de61-4f4e-b9b8-9663f968fb6d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "b788624c-6eb3-445d-a965-46841fc9d040",
+                    "path": "<Keyboard>/p",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Reload",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

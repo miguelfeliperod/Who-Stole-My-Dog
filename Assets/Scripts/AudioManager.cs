@@ -141,7 +141,7 @@ public class AudioManager : MonoBehaviour
         {
             deltaTime += Time.deltaTime;
             chargeSfxSource.volume = Mathf.Lerp(0, volume, deltaTime / duration);
-            chargeSfxSource.pitch = Mathf.Lerp(0.2f, 4f, deltaTime / duration);
+            chargeSfxSource.pitch = Mathf.Lerp(0.2f, 1f, deltaTime / duration);
             yield return null;
         }
         chargeSfxSource.volume = volume;

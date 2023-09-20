@@ -20,7 +20,7 @@ public class TutorialController : MonoBehaviour
         OnTutorialButtonClick();
     }
 
-    void Update()
+    void LateUpdate()
     {
         GameManager.Instance.playerController.IsMovementBlocked = true;
         GameManager.Instance.playerController.IsGameplayBlocked = true;

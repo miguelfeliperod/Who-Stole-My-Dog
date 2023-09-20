@@ -101,6 +101,7 @@
     <Compile Include="Assets\Scripts\DialogueEvent.cs" />
     <Compile Include="Assets\Scripts\CocoonEnemy.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Controlls\ResetControlls.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

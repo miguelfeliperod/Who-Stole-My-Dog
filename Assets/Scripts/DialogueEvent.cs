@@ -18,9 +18,10 @@ public class DialogueEvent : MonoBehaviour
     bool isWritting = false;
     bool isEventFinished = false;
     GameManager gameManager;
-    public bool AllEventsEnded => alleventsEndend;
-    bool alleventsEndend = false;
+    public bool AllEventsEnded => allEventsEndend;
+    bool allEventsEndend = false;
 
+    [SerializeField] EventCheckpoint eventCheckpoint;
     [SerializeField] public List<GameEvent> gameEvents;
     [SerializeField] LayerMask playerLayer;
     [SerializeField] float startAwaitTime;
@@ -28,6 +29,8 @@ public class DialogueEvent : MonoBehaviour
 
     void Start()
     {
+        if ((int)GameManager.Instance.CurrentEventCheckpoint >= (int)eventCheckpoint)
+            gameObject.SetActive(false);
         gameManager = GameManager.Instance;
 
         dialogueControlls = new DialogueControlls();
@@ -290,7 +293,8 @@ public class DialogueEvent : MonoBehaviour
         characterFace.gameObject.SetActive(false);
         gameManager.playerController.IsGameplayBlocked = false;
         nextDialogue.Dispose();
-        alleventsEndend = true;
+        allEventsEndend = true;
+        GameManager.Instance.AdvanceEventCheckpoint(eventCheckpoint);
         Destroy(gameObject, 0.5f);
         yield return null;
     }

@@ -338,7 +338,11 @@ public class PlayerController : MonoBehaviour
     {
         GameManager.Instance.audioManager.StopChargeAudioSource();
         if (isMovementBlocked) return;
-        if (!ConsumeMp(currentPlayerForm.attackMPCost)) return;
+
+        if (!ConsumeMp(currentPlayerForm.attackMPCost)) 
+        {
+            isCharging = false; 
+            return; }
         switch (currentForm)
         {
             case Form.Normal:
@@ -357,15 +361,12 @@ public class PlayerController : MonoBehaviour
             case Form.Mahou:
                 StartCoroutine(BlockMovementForTime(currentPlayerForm.cooldownAttack));
                 GameObject shotObject = GetShot();
+
                 if (sprite.flipX)
                     Instantiate(shotObject, leftShotSource.position, leftShotSource.rotation);
                 else
                     Instantiate(shotObject, rightShotSource.position, rightShotSource.rotation);
                 animator.Play("NormalHit");
-                if (shotObject == mahouForm.projectile3)
-                {
-                    ConsumeMp(currentPlayerForm.specialMPCost);
-                }
                 isCharging = false;
                 break;
             case Form.Dark:
@@ -452,10 +453,10 @@ public class PlayerController : MonoBehaviour
     void Charge()
     {
         if (isMovementBlocked) return;
+        if (currentForm != Form.Mahou) return;
         currentChargedTime = 0;
         chargingVFX.SetBool("isCharged", false);
         isCharging = true;
-        if (currentForm != Form.Mahou) return;
         GameManager.Instance.audioManager.FadeInSFXLoop(chargeSound, 1f);
         chargingVFX.Play();
     }
@@ -516,7 +517,10 @@ public class PlayerController : MonoBehaviour
     GameObject GetShot()
     {
         if (currentChargedTime >= shot3MinimumChargeTime && isCharging)
-            return mahouForm.projectile3;
+        {
+            var canShot3 = ConsumeMp(currentPlayerForm.specialMPCost);
+            return canShot3 ? mahouForm.projectile3 : mahouForm.projectile2;
+        }
         else if (currentChargedTime >= shot2MinimumChargeTime && isCharging)
             return mahouForm.projectile2;
         return mahouForm.projectile1;
@@ -633,7 +637,7 @@ public class PlayerController : MonoBehaviour
     {
         if (withAnimation)
         {
-            RegenMp(MAX_HP);
+            RegenHp(MAX_HP);
             RegenMp(MAX_MP);
             RegenHungry(MAX_HUNGRY);
         }
@@ -777,10 +781,10 @@ public class PlayerController : MonoBehaviour
 
     bool IsGrounded()
     {
-        var resultCenter = Physics2D.Raycast(transform.position + new Vector3(0, -characterCollider.size.y / 2 - 0.1f), Vector2.down, 0.4f, groundLayer);
-        var resultLeft = Physics2D.Raycast(transform.position + new Vector3(0.28f, -characterCollider.size.y / 2 - 0.1f), Vector2.down, 0.4f, groundLayer);
-        var resultRight = Physics2D.Raycast(transform.position + new Vector3(-0.28f, -characterCollider.size.y / 2 - 0.1f), Vector2.down, 0.4f, groundLayer);
-        bool isGroundedNewValue = (resultCenter.transform != null || resultLeft.transform != null || resultRight.transform != null) && Mathf.Abs(rigidBody.velocity.y) <= 0.1;
+        var resultCenter = Physics2D.Raycast(transform.position + new Vector3(0, -characterCollider.size.y / 2 - 0.1f), Vector2.down, 0.5f, groundLayer);
+        var resultLeft = Physics2D.Raycast(transform.position + new Vector3(0.28f, -characterCollider.size.y / 2 - 0.1f), Vector2.down, 0.5f, groundLayer);
+        var resultRight = Physics2D.Raycast(transform.position + new Vector3(-0.28f, -characterCollider.size.y / 2 - 0.1f), Vector2.down, 0.5f, groundLayer);
+        bool isGroundedNewValue = (resultCenter.transform != null || resultLeft.transform != null || resultRight.transform != null) && Mathf.Abs(rigidBody.velocity.y) <= 2;
 
         if (!isGroundedLastValue && isGroundedNewValue) landingNormalVFX.Play();
         isGroundedLastValue = isGroundedNewValue;

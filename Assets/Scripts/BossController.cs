@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,16 +12,19 @@ public class BossController : BaseEnemy
     [Space(25.0f)]
     [Header("BOSS STATS")]
     [Space(10.0f)]
+    BossEvent bossEvent;
     [SerializeField] BossPhase bossPhase = BossPhase.Easy;
     [SerializeField] float easyAttackCooldown;
     [SerializeField] float averageAttackCooldown;
     [SerializeField] float hardAttackCooldown;
-    bool isFighting = true; // false;
+    bool isFighting = false;
     public bool IsFighting => isFighting;
     bool isInvencible = false;
     public bool IsInvencible => isInvencible;
 
     bool canAct = true;
+
+    [SerializeField] Form weakness = Form.Normal;
 
     [SerializeField] Transform posX1Y1;
     [SerializeField] Transform posX1Y2;
@@ -63,6 +67,8 @@ public class BossController : BaseEnemy
     [SerializeField] Transform tomatoOriginPoint;
     [SerializeField] float tomatoOriginPointOffset;
 
+    [SerializeField] AudioClip tomatoSfx;
+
     //=================== METRO ====================
     [Space(25.0f)]
     [Header("METRO")]
@@ -75,9 +81,9 @@ public class BossController : BaseEnemy
     [SerializeField] MetroShooter metro2LeftShooter;
     [SerializeField] MetroShooter metro3LeftShooter;
 
-    [SerializeField] float easySpeed;
-    [SerializeField] float averageSpeed;
-    [SerializeField] float hardSpeed;
+    [SerializeField] float metroEasySpeed;
+    [SerializeField] float metroAverageSpeed;
+    [SerializeField] float metroHardSpeed;
 
     List<Vector2> metroTeleportPositions;
 
@@ -109,6 +115,7 @@ public class BossController : BaseEnemy
         sprite = GetComponentsInChildren<SpriteRenderer>()[0];
         shadow = GetComponentsInChildren<SpriteRenderer>()[1];
         currentHp = maxHp;
+        bossEvent = FindObjectOfType<BossEvent>();
     }
     void Start()
     {
@@ -122,7 +129,7 @@ public class BossController : BaseEnemy
         if (!isFighting || !canAct) return;
         canAct = false;
         {
-            var value = Random.Range(0, 20);
+            var value = UnityEngine.Random.Range(0, 20);
             switch (value)
             {
                 case <= 4:
@@ -210,24 +217,85 @@ public class BossController : BaseEnemy
 
     IEnumerator ShootMetro()
     {
-        StartCoroutine(TeleportToPosition(metroTeleportPositions[Random.Range(0, metroTeleportPositions.Count -1)]));
+        int index = UnityEngine.Random.Range(0, metroTeleportPositions.Count);
+        StartCoroutine(TeleportToPosition(metroTeleportPositions[index]));
         IsGravityOn(false);
         yield return new WaitForSeconds(0.5f);
         animator.Play(zeroMetro);
         yield return new WaitForSeconds(1.5f);
 
+        switch (bossPhase)
+        {
+            case BossPhase.Easy:
+                if (index == 0)
+                {
+                    if (UnityEngine.Random.Range(0,2) == 0)
+                        metro3LeftShooter.ShootMetro(GetMetroSpeedByPhase());
+                    else
+                        metro3RightShooter.ShootMetro(GetMetroSpeedByPhase());
+                } else if(index == 1)
+                {
+                    if (UnityEngine.Random.Range(0, 2) == 0)
+                        metro2LeftShooter.ShootMetro(GetMetroSpeedByPhase());
+                    else
+                        metro2RightShooter.ShootMetro(GetMetroSpeedByPhase());
+                }
+                else
+                {
+                    if (UnityEngine.Random.Range(0, 2) == 0)
+                        metro1LeftShooter.ShootMetro(GetMetroSpeedByPhase());
+                    else
+                        metro1RightShooter.ShootMetro(GetMetroSpeedByPhase());
+                }
+                break;
+            case BossPhase.Average:
+                if (index == 0)
+                {
+                    metro3LeftShooter.ShootMetro(GetMetroSpeedByPhase());
+                    metro3RightShooter.ShootMetro(GetMetroSpeedByPhase());
+                }
+                else if (index == 1)
+                {
+                    metro2LeftShooter.ShootMetro(GetMetroSpeedByPhase());
+                    metro2RightShooter.ShootMetro(GetMetroSpeedByPhase());
+                }
+                else
+                {
+                    metro1LeftShooter.ShootMetro(GetMetroSpeedByPhase());
+                    metro1RightShooter.ShootMetro(GetMetroSpeedByPhase());
+                }
+                break;
+            case BossPhase.Hard:
+            case BossPhase.Impossible:
+            default:
+                if (index == 0)
+                {
+                    metro3LeftShooter.ShootMetro(GetMetroSpeedByPhase());
+                    metro3RightShooter.ShootMetro(GetMetroSpeedByPhase());
+                    metro2LeftShooter.ShootMetro(GetMetroSpeedByPhase());
+                    metro2RightShooter.ShootMetro(GetMetroSpeedByPhase());
+                }
+                else
+                {
+                    metro1LeftShooter.ShootMetro(GetMetroSpeedByPhase());
+                    metro1RightShooter.ShootMetro(GetMetroSpeedByPhase());
+                    metro2LeftShooter.ShootMetro(GetMetroSpeedByPhase());
+                    metro2RightShooter.ShootMetro(GetMetroSpeedByPhase());
+                }
+                break;
+        }
         yield return new WaitForSeconds(GetActionCooldown());
         canAct = true;
     }
 
     IEnumerator SummonCocoon() {
-        StartCoroutine(TeleportToPosition(cocoonTeleportPositions[Random.Range(0, cocoonTeleportPositions.Count - 1)]));
+        StartCoroutine(TeleportToPosition(cocoonTeleportPositions[UnityEngine.Random.Range(0, cocoonTeleportPositions.Count)]));
         IsGravityOn(false);
         yield return new WaitForSeconds(0.5f);
         animator.Play(zeroInvokeButterflyes);
         yield return new WaitForSeconds(1.5f);
 
-        int randomIndex = Random.Range(0, cocoonPositions.Count);
+        int randomIndex = UnityEngine.Random.Range(0, cocoonPositions.Count);
 
         switch (bossPhase)
         {
@@ -253,7 +321,7 @@ public class BossController : BaseEnemy
     
     IEnumerator SummonMath()
     {
-        StartCoroutine(TeleportToPosition(mathTeleportPositions[Random.Range(0, mathTeleportPositions.Count - 1)]));
+        StartCoroutine(TeleportToPosition(mathTeleportPositions[UnityEngine.Random.Range(0, mathTeleportPositions.Count)]));
         IsGravityOn(false);
         yield return new WaitForSeconds(0.5f);
         animator.Play(zeroInvokeNumbers);
@@ -270,10 +338,11 @@ public class BossController : BaseEnemy
     {
         GameObject tomatoShoot;
 
-        sprite.flipX = Random.Range(0, 2) == 0 ? true : false;
+        var flip = UnityEngine.Random.Range(0, 2) == 0 ? true : false;
 
-        StartCoroutine(TeleportToPosition(sprite.flipX ? posX1Y3.position : posX3Y3.position));
+        StartCoroutine(TeleportToPosition(flip ? posX1Y3.position : posX3Y3.position));
         yield return new WaitForSeconds(1.5f);
+        sprite.flipX = flip;
         IsGravityOn(true);
         animator.Play(zeroIdle);
         yield return new WaitForSeconds(0.5f);
@@ -296,15 +365,20 @@ public class BossController : BaseEnemy
                 tomatoHorizontalVelocity *= tomato3Speed;
                 break;
         }
+
+        
         animator.Play("ZeroTomatoShoot");
         yield return new WaitForSeconds(0.3f);
         Instantiate(tomatoShoot, tomatoOriginPoint.position + new Vector3(sprite.flipX ? tomatoOriginPointOffset : -tomatoOriginPointOffset, 0), tomatoOriginPoint.rotation).GetComponent<Tomato>().SetHorizontalVelocity(tomatoHorizontalVelocity);
+        GameManager.Instance.audioManager.PlaySFX(tomatoSfx);
         animator.Play("ZeroTomatoShoot");
         yield return new WaitForSeconds(0.3f);
         Instantiate(tomatoShoot, tomatoOriginPoint.position + new Vector3(sprite.flipX ? tomatoOriginPointOffset : -tomatoOriginPointOffset, 0), tomatoOriginPoint.rotation).GetComponent<Tomato>().SetHorizontalVelocity(tomatoHorizontalVelocity);
+        GameManager.Instance.audioManager.PlaySFX(tomatoSfx);
         animator.Play("ZeroTomatoShoot");
         yield return new WaitForSeconds(0.3f);
         Instantiate(tomatoShoot, tomatoOriginPoint.position + new Vector3(sprite.flipX ? tomatoOriginPointOffset : -tomatoOriginPointOffset, 0), tomatoOriginPoint.rotation).GetComponent<Tomato>().SetHorizontalVelocity(tomatoHorizontalVelocity);
+        GameManager.Instance.audioManager.PlaySFX(tomatoSfx);
 
         yield return new WaitForSeconds(GetActionCooldown());
         canAct = true;
@@ -313,15 +387,25 @@ public class BossController : BaseEnemy
     public override void TakeDamage(int damage, Form damageType = Form.Normal)
     {
         if (isInvencible) return;
+        if (damageType == weakness){
+            damage += 2;
+            StartCoroutine(BlinkShadowColor(Color.red, 0.07f));
+            animator.Play(zeroVulnerable);
+        }
+        else
+        {
+            damage = Math.Max(1, damage-1);
+            StartCoroutine(BlinkShadowColor(Color.grey, 0.05f));
+        }
         print("Receive Damage Called: " + currentHp + " => " + (currentHp - damage));
         currentHp -= damage;
-        StartCoroutine(BlinkShadowColor(Color.red, 0.05f));
         StartCoroutine(TemporaryInvencibility());
         damageVFX.SetInt("DamageValue", damage * 3);
         damageVFX.Play();
-        animator.Play(zeroVulnerable);
         GetCurrentHPBar().fillAmount = ((float)currentHp / (float)maxHp);
 
+
+        // PHASE ADVANCE
         if (currentHp <= 0)
         {
             switch (bossPhase)
@@ -335,7 +419,7 @@ public class BossController : BaseEnemy
                     currentHp = maxHp;
                     break;
                 case BossPhase.Hard:
-                    bossPhase = BossPhase.Hard;
+                    bossPhase = BossPhase.Impossible;
                     StartCoroutine(Die());
                     break;
                 default:
@@ -350,24 +434,20 @@ public class BossController : BaseEnemy
         print("Die Called");
         Color startColor = Color.red;
         GetComponent<Rigidbody2D>().Sleep();
-
-        shadow.color = startColor;
-        sprite.color = Color.clear;
-        Destroy(gameObject, 1f);
-
-        float elapsedTime = 0f;
-        float duration = 1;
-
-        while (elapsedTime < duration)
-        {
-            elapsedTime += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsedTime / duration);
-            shadow.color = Color.Lerp(startColor, Color.clear, t);
-            yield return null;
-        }
-
-        shadow.color = Color.clear;
+        animator.Play(zeroVulnerable);
+        isFighting = false;
+        canAct = false;
+        
         yield return new WaitForSeconds(0.2f);
+        GameManager.Instance.fadeManager.PlayFlash(Color.white, 0.05f);
+        yield return new WaitForSeconds(0.6f);
+        GameManager.Instance.fadeManager.PlayFlash(Color.white, 0.05f);
+        yield return new WaitForSeconds(0.3f);
+        GameManager.Instance.fadeManager.PlayFlash(Color.white, 0.05f);
+        yield return new WaitForSeconds(0.3f);
+        GameManager.Instance.fadeManager.PlayFadeOut(Color.white, 0.05f);
+        GameManager.Instance.AdvanceEventCheckpoint(EventCheckpoint.PosBoss);
+        bossEvent.gameObject.SetActive(true);
     }
 
     public void SetFightStatus(bool status) => isFighting = status;
@@ -385,11 +465,26 @@ public class BossController : BaseEnemy
         for (int i = 0; i < 10; i++)
         {
             sprite.color = Color.clear;
-            yield return new WaitForSeconds(0.06f);
+            yield return new WaitForSeconds(0.05f);
             sprite.color = Color.white;
-            yield return new WaitForSeconds(0.06f);
+            yield return new WaitForSeconds(0.05f);
         }
         isInvencible = false;
+    }
+
+    float GetMetroSpeedByPhase()
+    {
+        switch (bossPhase)
+        {
+            case BossPhase.Easy:
+                return metroEasySpeed;
+            case BossPhase.Average:
+                return metroAverageSpeed;
+            case BossPhase.Hard:
+            case BossPhase.Impossible:
+            default:
+                return metroHardSpeed;
+        }
     }
 }
 

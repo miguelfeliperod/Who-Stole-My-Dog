@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class NumberManager : MonoBehaviour
 {
@@ -19,6 +20,8 @@ public class NumberManager : MonoBehaviour
     [SerializeField] BossController boss;
     [SerializeField] PlayerController player;
 
+    bool canDealDamage = false;
+
     float numberA;
     float numberB;
     float answer;
@@ -34,6 +37,7 @@ public class NumberManager : MonoBehaviour
 
     public void SetTest(BossPhase phase) {
         GameManager.Instance.fadeManager.PlayFlash(Color.white, 0.05f);
+        canDealDamage = true;
         switch (phase)
         {
             case BossPhase.Easy:
@@ -117,9 +121,11 @@ public class NumberManager : MonoBehaviour
     }
 
     public void OnHitButton(float value) {
+        if (!canDealDamage) return;
         SetButtonsColor();
         if (value == answer) OnCorrectAnswer();
         else OnWrongAnswer();
+        canDealDamage = false;
     }
 
     private void OnWrongAnswer()
@@ -132,6 +138,7 @@ public class NumberManager : MonoBehaviour
     private void OnCorrectAnswer()
     {
         SetManagerColor(correctColor);
+        boss.IsGravityOn(true);
         boss.TakeDamage(3);
         GameManager.Instance.audioManager.PlaySFX(rightSfx);
     }

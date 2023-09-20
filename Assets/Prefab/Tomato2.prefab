@@ -141,8 +141,8 @@ MonoBehaviour:
   ignoreLayer:
     serializedVersion: 2
     m_Bits: 224
-  damage: 2
-  horizontalSpeed: 8
+  damage: 3
+  horizontalSpeed: 9
   lifetime: 4
 --- !u!1 &5851023214625063864
 GameObject:

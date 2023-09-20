@@ -14,6 +14,8 @@ public class Metro : MonoBehaviour
     public bool destroyOnContact = true;
     [SerializeField] float aliveTime = 1.2f;
     [SerializeField] Color color;
+    AudioSource audioSource;
+    [SerializeField] AudioClip sfx;
 
     public virtual void Start()
     {
@@ -21,6 +23,7 @@ public class Metro : MonoBehaviour
         smoke = GetComponentInChildren<VisualEffect>();
         sprite = GetComponent<SpriteRenderer>();
         rigidbody2 = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
 
         rigidbody2.velocity = new Vector2(horizontalSpeed, 0);
 
@@ -28,6 +31,8 @@ public class Metro : MonoBehaviour
         sprite.flipX = isFlipped;
         smoke.SetBool("FlipSprite", isFlipped);
         StartCoroutine(AutoDestroy());
+
+        audioSource.PlayOneShot(sfx);
 
         if (horizontalSpeed > 0)
         {

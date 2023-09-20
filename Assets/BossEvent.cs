@@ -4,14 +4,20 @@ using UnityEngine;
 public class BossEvent : MonoBehaviour
 {
     [SerializeField] DialogueEvent meetEvent;
-    [SerializeField] DialogueEvent AfterBattleEvent;
+    [SerializeField] DialogueEvent secondChanceEvent;
+    [SerializeField] DialogueEvent afterBattleEvent;
     [SerializeField] BossController boss;
     [SerializeField] CinemachineVirtualCamera originalCamera;
     [SerializeField] CinemachineVirtualCamera dialogueCamera;
     [SerializeField] CinemachineVirtualCamera battleCamera;
     [SerializeField] LayerMask playerLayer;
-    FinalBattlePhases CurrentPhase = FinalBattlePhases.Meet;
     Collider2D eventCollider;
+
+    private void Awake()
+    {
+        if (GameManager.Instance.CurrentEventCheckpoint >= EventCheckpoint.SecondChance)
+            GameManager.Instance.AdvanceEventCheckpoint(EventCheckpoint.PreBoss);
+    }
 
     private void Start()
     {
@@ -21,6 +27,7 @@ public class BossEvent : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if ((1 << collision.gameObject.layer & playerLayer) == 0) return;
+
         StartEventByPhase();
         eventCollider.enabled = false;
     }
@@ -30,45 +37,45 @@ public class BossEvent : MonoBehaviour
         CheckNextEventStatus();
     }
 
-    void CheckNextEventStatus()
+    private void StartEventByPhase()
     {
-        switch (CurrentPhase)
+        switch (GameManager.Instance.CurrentEventCheckpoint)
         {
-            case FinalBattlePhases.Meet:
-                if (meetEvent.AllEventsEnded)
-                {
-                    ChangeCamera(battleCamera);
-                    boss.SetFightStatus(true);
-                }
+            case <= EventCheckpoint.Level3:
+                ChangeCamera(dialogueCamera);
+                meetEvent.StartEvents();
                 break;
-            case FinalBattlePhases.AfterBattle:
-
+            case EventCheckpoint.PreBoss:
+            case EventCheckpoint.SecondChance:
+                boss.sprite.flipX = false;
+                ChangeCamera(dialogueCamera);
+                secondChanceEvent.StartEvents();
                 break;
-            case FinalBattlePhases.Proposal:
-                break;
-            case FinalBattlePhases.End:
+            case EventCheckpoint.PosBoss:
+                afterBattleEvent.StartEvents();
                 break;
         }
     }
 
-    public void ChangePhase(FinalBattlePhases phase)
+    void CheckNextEventStatus()
     {
-        CurrentPhase = phase;
-    }
-
-    private void StartEventByPhase()
-    {
-        switch (CurrentPhase)
+        switch (GameManager.Instance.CurrentEventCheckpoint)
         {
-            case FinalBattlePhases.Meet:
-                ChangeCamera(dialogueCamera);
-                meetEvent.StartEvents();
+            case <= EventCheckpoint.PreBoss:
+                if (meetEvent.AllEventsEnded)
+                {
+                    ChangeCamera(battleCamera);
+                    boss.SetFightStatus(true);
+                    gameObject.SetActive(false);
+                }
                 break;
-            case FinalBattlePhases.AfterBattle:
-                break;
-            case FinalBattlePhases.Proposal:
-                break;
-            case FinalBattlePhases.End:
+            case EventCheckpoint.SecondChance:
+                if (secondChanceEvent.AllEventsEnded)
+                {
+                    ChangeCamera(battleCamera);
+                    boss.SetFightStatus(true);
+                    gameObject.SetActive(false);
+                }
                 break;
         }
     }
@@ -81,9 +88,4 @@ public class BossEvent : MonoBehaviour
 
         currentCamera.Priority = 2;
     }
-}
-
-public enum FinalBattlePhases
-{
-    Meet, Battle, AfterBattle, Proposal, End
 }

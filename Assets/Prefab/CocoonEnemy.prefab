@@ -182,7 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703f4f65a566c9349afd8abf29d7a6aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 8
+  maxHp: 6
   currentHp: 0
   attackRate: 0
   attackPower: 0
@@ -193,8 +193,10 @@ MonoBehaviour:
   sprite: {fileID: 0}
   shadow: {fileID: 0}
   imunityDamageList: 
-  timeToBorn: 3
+  timeToBorn: 4
   butterflyPrefab: {fileID: 4715913736169999550, guid: 9a755a0e332b4f743af32375245bfb71, type: 3}
+  sushiPrefab: {fileID: 1097625698072165745, guid: 895e3e324d44be646bf1ad3c71a06268, type: 3}
+  sfx: {fileID: 8300000, guid: 20e4b02078f1f5849bb85a4db8ce1246, type: 3}
 --- !u!1 &4715913736661773360
 GameObject:
   m_ObjectHideFlags: 0
