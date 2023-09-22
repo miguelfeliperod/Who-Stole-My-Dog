@@ -13,6 +13,7 @@ public class CreditsController : MonoBehaviour
 
     void Start()
     {
+        GameManager.Instance.fadeManager.PlayFadeIn(0.1f);
         foreach (var creditNode in creditNodes)
         {
             foreach (Image image in creditNode.images)

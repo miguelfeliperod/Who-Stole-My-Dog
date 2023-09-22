@@ -285,7 +285,6 @@ public class PlayerController : MonoBehaviour
         else if (currentHungry > 0 && !isGameplayBlocked && !isTransformationBlocked)
             ConsumeHungry(currentPlayerForm.hungryDepletionRate);
         
-
         if (currentHungry <= 0)
             Starve();
     }
@@ -576,7 +575,7 @@ public class PlayerController : MonoBehaviour
         if (!ConsumeMp(currentPlayerForm.specialMPCost)) return false;
         sushiStock--;
         RegenHp(3, 0.5f);
-        RegenHungry(3);
+        RegenHungry(4);
         return true;
     }
 

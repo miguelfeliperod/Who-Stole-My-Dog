@@ -27,6 +27,9 @@ public class GameManager : MonoBehaviour
     {
         if (DestroyRepeatedSingleton()) return;
 
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 120; //frame rate
+
         fadeManager = FindObjectOfType<FadeManager>();
         audioManager = FindObjectOfType<AudioManager>();
 
