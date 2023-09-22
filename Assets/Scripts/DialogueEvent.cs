@@ -53,7 +53,6 @@ public class DialogueEvent : MonoBehaviour
     public void StartEvents()
     {
         gameManager.playerController.IsGameplayBlocked = true;
-        dialogueText.text = "";
         StartCoroutine(ContinuousBlockStateMovement(2));
         EventHandler();
     }
@@ -207,6 +206,7 @@ public class DialogueEvent : MonoBehaviour
         yield return new WaitForSeconds(startAwaitTime);
         gameManager.dialogueManager.gameObject.SetActive(true);
         characterFace.gameObject.SetActive(false);
+        dialogueText.text = "";
 
         float duration = 0.5f;
         float elapsedTime = 0;

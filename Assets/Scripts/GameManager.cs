@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -24,7 +25,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        SingletonCheck();
+        if (DestroyRepeatedSingleton()) return;
 
         fadeManager = FindObjectOfType<FadeManager>();
         audioManager = FindObjectOfType<AudioManager>();
@@ -42,21 +43,27 @@ public class GameManager : MonoBehaviour
         audioManager.FadeInMusic(audioManager.GetCurrentLevelMusic(SceneManager.GetActiveScene().name), 1);
     }
 
-    void SingletonCheck()
+    bool DestroyRepeatedSingleton()
     {
         if (instance != null && instance != this)
+        {
             Destroy(gameObject);
+            return true;
+        }
         else
+        {
             instance = this;
+            return false;
+        }
     }
 
     private void OnLevelWasLoaded(int level)
     {
+        if (DestroyRepeatedSingleton()) return;
         if (SceneManager.GetActiveScene().name == "Credits") {
             audioManager.FadeInMusic(audioManager.GetCurrentLevelMusic(SceneManager.GetActiveScene().name), 1);
             return;
-        } 
-        SingletonCheck();
+        }
         if (playerController == null)
             playerController = FindObjectOfType<PlayerController>();
         if (lastCheckpointPosition == null)
@@ -117,11 +124,10 @@ public class GameManager : MonoBehaviour
     }
 
 
-    Vector2 GetInitialPositionPerLevel() {
+    public Vector2 GetInitialPositionPerLevel() {
         switch (SceneManager.GetActiveScene().name.ToLower())
         {
             case "level1":
-                return new Vector2(0, 0);
             case "level2":
             case "level3":
             default:
@@ -143,6 +149,11 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(2);
         StartCoroutine(uiManager.HideDiedImage());
         StartCoroutine(ReloadLevel());
+    }
+
+    internal void SetLevelUplPosition()
+    {
+        lastCheckpointPosition = GetInitialPositionPerLevel();
     }
 }
 

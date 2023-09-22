@@ -184,9 +184,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38b7619a2e56da94280451773b586a72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 15
+  maxHp: 18
   currentHp: 0
-  attackRate: 4
+  attackRate: 3
   attackPower: 4
   boxCollider: {fileID: 0}
   rigidbody2d: {fileID: 0}
@@ -197,7 +197,7 @@ MonoBehaviour:
   imunityDamageList: 01000000
   attackPoint: {fileID: 5358545576094889626}
   attackPointHorizontalOffset: 1.4
-  projectileLifetime: 1
+  projectileLifetime: 1.4
   bearProjectile: {fileID: 4897529045712276143, guid: 1e496d45d7129cb439ab10398aa430ff, type: 3}
   isAttackMode: 0
   attackTimer: 0

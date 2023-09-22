@@ -57,6 +57,7 @@ public class LevelUpEvent : MonoBehaviour
         yield return new WaitForSeconds(1);
         if(GameManager.Instance.CurrentEventCheckpoint < EventCheckpoint.Level3)
             gameManager.audioManager.PlaySFX(moveSound);
+        GameManager.Instance.SetLevelUplPosition();
         yield return new WaitForSeconds(2);
         SceneManager.LoadScene(nextSceneName);
     }

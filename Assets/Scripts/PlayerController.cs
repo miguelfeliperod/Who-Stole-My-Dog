@@ -232,6 +232,10 @@ public class PlayerController : MonoBehaviour
         currentForm = Form.Normal;
         currentPlayerForm = normalForm;
         StartCoroutine(SetUIForm(0));
+
+        pause = playerControlls.Game.Pause;
+        pause.Enable();
+        pause.performed += GameManager.Instance.PauseGame;
     }
 
     void Update()
@@ -322,10 +326,6 @@ public class PlayerController : MonoBehaviour
         changeFormDark = playerControlls.Player.ChangeFormDark;
         changeFormDark.Enable();
         changeFormDark.performed += ChangeFormDark;
-
-        pause = playerControlls.Game.Pause;
-        pause.Enable();
-        pause.performed += GameManager.Instance.PauseGame;
     }
 
     void Jump(InputAction.CallbackContext context)

@@ -262,7 +262,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   rotationForce: 400
-  damage: 1
+  damage: 2
 --- !u!50 &4897529045712276140
 Rigidbody2D:
   serializedVersion: 4

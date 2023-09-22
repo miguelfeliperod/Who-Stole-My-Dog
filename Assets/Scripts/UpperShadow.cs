@@ -15,5 +15,6 @@ public class UpperShadow : MonoBehaviour
         upperShadowSprite.sprite = originalSprite.sprite;
         upperShadowSprite.flipX = originalSprite.flipX;
         upperShadowSprite.transform.position= originalSprite.transform.position;
+        upperShadowSprite.transform.localScale = originalSprite.transform.localScale;
     }
 }

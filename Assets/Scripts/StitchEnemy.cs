@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class StitchEnemy : BaseEnemy
@@ -13,11 +12,10 @@ public class StitchEnemy : BaseEnemy
 
     void Start()
     {
-        rigidbody2d.velocity = new Vector2(horizontalSpeed, 0);
+        rigidbody2d.velocity = new Vector2(goingRight ? horizontalSpeed : -horizontalSpeed, 0);
         audioSource = GetComponentInChildren<AudioSource>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         

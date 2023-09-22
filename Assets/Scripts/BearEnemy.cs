@@ -34,8 +34,11 @@ public class BearEnemy : BaseEnemy
         animator.Play("BearAttack");
 
         yield return new WaitForSeconds(1.4f);
-        BearShot projectile = Instantiate(bearProjectile, GetProjectileInitialPosition(), attackPoint.transform.rotation).GetComponent<BearShot>();
-        projectile.Shoot(sprite.flipX, projectileLifetime);
+        if (!isDead)
+        {
+            BearShot projectile = Instantiate(bearProjectile, GetProjectileInitialPosition(), attackPoint.transform.rotation).GetComponent<BearShot>();
+            projectile.Shoot(sprite.flipX, projectileLifetime);
+        }
     }
 
     Vector3 GetProjectileInitialPosition()

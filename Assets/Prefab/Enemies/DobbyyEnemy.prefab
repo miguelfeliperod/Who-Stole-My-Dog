@@ -362,9 +362,9 @@ MonoBehaviour:
   projectileForceRange: 0
   timeBetweenShots: 0.5
   shotsQuantity: 3
-  activateVisionRange: 10
+  activateVisionRange: 15
   prepareSfx: {fileID: 8300000, guid: a8e7bd4039d644044b766bd245fb6e6e, type: 3}
-  shootSfx: {fileID: 8300000, guid: ef489ab1576e8844689d5c01964af61d, type: 3}
+  shootSfx: {fileID: 8300000, guid: c012477d864d9314580a03663dc73e5f, type: 3}
   audioSource: {fileID: 0}
 --- !u!1 &4715913736661773360
 GameObject:

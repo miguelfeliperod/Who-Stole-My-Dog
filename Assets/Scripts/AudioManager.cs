@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
@@ -126,7 +125,7 @@ public class AudioManager : MonoBehaviour
     {
         AudioSource sfxCurrentSource = GetSourceFromPool();
         sfxCurrentSource.clip = audioClip;
-        sfxCurrentSource.loop = loop;
+        sfxCurrentSource.pitch = 1;
         sfxCurrentSource.loop = false;
 
         sfxCurrentSource.PlayOneShot(audioClip);
@@ -135,7 +134,7 @@ public class AudioManager : MonoBehaviour
 
     public void StopChargeAudioSource() => chargeSfxSource.Stop();
 
-    public void FadeInSFXLoop(AudioClip audioClip, float duration = 1, bool randomizePitch = false, float volume = 1f, float pitch = 1f)
+    public void FadeInSFXLoop(AudioClip audioClip, float duration = 1, bool randomizePitch = false, float volume = 0.6f, float pitch = 1f)
     {
         chargeSfxSource.clip = audioClip;
         chargeSfxSource.volume = volume;

@@ -67,6 +67,7 @@
     <Compile Include="Assets\Scripts\Metro.cs" />
     <Compile Include="Assets\Scripts\StitchEnemy.cs" />
     <Compile Include="Assets\Scripts\DummyEnemy.cs" />
+    <Compile Include="Assets\FleeingButton.cs" />
     <Compile Include="Assets\Scripts\DeathZone.cs" />
     <Compile Include="Assets\Scripts\ButterflyEnemy.cs" />
     <Compile Include="Assets\Scripts\Checkpoint.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="Assets\Scripts\PillowEnemy.cs" />
     <Compile Include="Assets\Scripts\UIManager.cs" />
     <Compile Include="Assets\Scripts\SushiController.cs" />
+    <Compile Include="Assets\Controlls\ResetControlls.cs" />
     <Compile Include="Assets\Scripts\OwlEnemy.cs" />
     <Compile Include="Assets\Scripts\TutorialController.cs" />
     <Compile Include="Assets\Scripts\GameEvent.cs" />
@@ -101,8 +103,7 @@
     <Compile Include="Assets\Scripts\DialogueEvent.cs" />
     <Compile Include="Assets\Scripts\CocoonEnemy.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
-    <Compile Include="Assets\Controlls\ResetControlls.cs" />
-    <Compile Include="Assets\FleeingButton.cs" />
+    <Compile Include="Assets\CreditsController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

@@ -103,6 +103,7 @@ public class UIManager : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
+        victoryImage.color = Color.clear;
         yield return null;
     }
 
