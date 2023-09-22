@@ -277,51 +277,18 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if(CurrentHP <= (MAX_HP/4))
-        {
-            heartbeatTimer += Time.deltaTime;
-            if (heartbeatTimer > 0.8f)
-            {
-                GameManager.Instance.audioManager.PlaySFX(heartbeat);
-                heartbeatTimer = 0;
-            }
-        }
-        
-        animator.SetFloat("hSpeed", Mathf.Abs(rigidBody.velocity.x));
-        animator.SetFloat("vSpeed", rigidBody.velocity.y);
-        animator.SetBool("isGrounded", IsGrounded());
-
+        CheckAndPlayHeartbeat();
+        SetAnimationsStatus();
         walkNormalVFX.enabled = move.IsPressed() && IsGrounded() && Mathf.Abs(rigidBody.velocity.x) > 0.01f;
 
         if (IsGameplayBlocked) return;
 
-        if (currentForm == Form.Mahou)
-        {
-            if (isCharging)
-            {
-                currentChargedTime += Time.deltaTime;
-            }
-            else
-            {
-                chargingVFX.Stop();
-                if (charge.IsPressed())
-                    Charge();
-            }
-            chargingVFX.SetBool("isCharged", currentChargedTime >= shot3MinimumChargeTime);
-        }
-
+        SetMahouChargeStatus();
         darkComboTimer += Time.deltaTime;
-        if (MAX_MP > currentMP)
-            RegenMp(currentPlayerForm.manaRegenRate);
+        MpRegenerationCheck();
 
-        if (currentForm == Form.Hungry && currentHP > 0)
-        {
-            CheckEndOfHungry();
-            ConsumeHp(currentPlayerForm.hungryDepletionRate);
-        }
-        else if (currentHungry > 0 && !isGameplayBlocked && !isTransformationBlocked)
-            ConsumeHungry(currentPlayerForm.hungryDepletionRate);
-        
+        SetHungryStatus();
+
         if (currentHungry <= 0)
             Starve();
     }
@@ -682,6 +649,62 @@ public class PlayerController : MonoBehaviour
             isStarving = false;
         }
     }
+
+    private void MpRegenerationCheck()
+    {
+        if (MAX_MP > currentMP)
+            RegenMp(currentPlayerForm.manaRegenRate);
+    }
+
+    private void SetHungryStatus()
+    {
+        if (currentForm == Form.Hungry && currentHP > 0)
+        {
+            CheckEndOfHungry();
+            ConsumeHp(currentPlayerForm.hungryDepletionRate);
+        }
+        else if (currentHungry > 0 && !isGameplayBlocked && !isTransformationBlocked)
+            ConsumeHungry(currentPlayerForm.hungryDepletionRate);
+    }
+
+    private void SetMahouChargeStatus()
+    {
+        if (currentForm == Form.Mahou)
+        {
+            if (isCharging)
+            {
+                currentChargedTime += Time.deltaTime;
+            }
+            else
+            {
+                chargingVFX.Stop();
+                if (charge.IsPressed())
+                    Charge();
+            }
+            chargingVFX.SetBool("isCharged", currentChargedTime >= shot3MinimumChargeTime);
+        }
+    }
+
+    private void SetAnimationsStatus()
+    {
+        animator.SetFloat("hSpeed", Mathf.Abs(rigidBody.velocity.x));
+        animator.SetFloat("vSpeed", rigidBody.velocity.y);
+        animator.SetBool("isGrounded", IsGrounded());
+    }
+
+    private void CheckAndPlayHeartbeat()
+    {
+        if (CurrentHP <= (MAX_HP / 4))
+        {
+            heartbeatTimer += Time.deltaTime;
+            if (heartbeatTimer > 0.8f)
+            {
+                GameManager.Instance.audioManager.PlaySFX(heartbeat);
+                heartbeatTimer = 0;
+            }
+        }
+    }
+
 
     void OnDisable()
     {
