@@ -237,6 +237,43 @@ public class PlayerController : MonoBehaviour
         pause.Enable();
         pause.performed += GameManager.Instance.PauseGame;
     }
+    void OnEnable()
+    {
+        move = playerControlls.Player.Move;
+        move.Enable();
+
+        jump = playerControlls.Player.Jump;
+        jump.Enable();
+        jump.performed += Jump;
+
+        fall = playerControlls.Player.Fall;
+        fall.Enable();
+        fall.performed += Fall;
+
+        attack = playerControlls.Player.Attack;
+        attack.Enable();
+        attack.performed += Attack;
+
+        charge = playerControlls.Player.Charge;
+        charge.Enable();
+        charge.performed += Charge;
+
+        special = playerControlls.Player.Special;
+        special.Enable();
+        special.performed += Special;
+
+        changeFormNormal = playerControlls.Player.ChangeFormNormal;
+        changeFormNormal.Enable();
+        changeFormNormal.performed += ChangeFormNormal;
+
+        changeFormMahou = playerControlls.Player.ChangeFormMahou;
+        changeFormMahou.Enable();
+        changeFormMahou.performed += ChangeFormMahou;
+
+        changeFormDark = playerControlls.Player.ChangeFormDark;
+        changeFormDark.Enable();
+        changeFormDark.performed += ChangeFormDark;
+    }
 
     void Update()
     {
@@ -289,42 +326,17 @@ public class PlayerController : MonoBehaviour
             Starve();
     }
 
-    void OnEnable()
+    void FixedUpdate()
     {
-        move = playerControlls.Player.Move;
-        move.Enable();
+        if (currentForm == Form.Hungry)
+            SetHungryWalkVfx();
 
-        jump = playerControlls.Player.Jump;
-        jump.Enable();
-        jump.performed += Jump;
+        if (isMovementBlocked) { return; }
 
-        fall = playerControlls.Player.Fall;
-        fall.Enable();
-        fall.performed += Fall;
-
-        attack = playerControlls.Player.Attack;
-        attack.Enable();
-        attack.performed += Attack;
-
-        charge = playerControlls.Player.Charge;
-        charge.Enable();
-        charge.performed += Charge;
-
-        special = playerControlls.Player.Special;
-        special.Enable();
-        special.performed += Special;
-
-        changeFormNormal = playerControlls.Player.ChangeFormNormal;
-        changeFormNormal.Enable();
-        changeFormNormal.performed += ChangeFormNormal;
-
-        changeFormMahou = playerControlls.Player.ChangeFormMahou;
-        changeFormMahou.Enable();
-        changeFormMahou.performed += ChangeFormMahou;
-
-        changeFormDark = playerControlls.Player.ChangeFormDark;
-        changeFormDark.Enable();
-        changeFormDark.performed += ChangeFormDark;
+        float movement = move.ReadValue<float>();
+        rigidBody.velocity = (new Vector2(Mathf.Clamp(rigidBody.velocity.x + (movement * horizontalBaseAcceleration), -maxSpeed, maxSpeed), rigidBody.velocity.y));
+        SetSpriteFlipState(movement);
+        walkNormalVFX.SetGradient("GroundDustColor", dustRunGradient);
     }
 
     void Jump(InputAction.CallbackContext context)
@@ -762,19 +774,6 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(delay);
         uiManager.DisableAllFormUI();
         uiManager.EnableFormUI(currentForm);
-    }
-
-    void FixedUpdate()
-    {
-        if (currentForm == Form.Hungry)
-            SetHungryWalkVfx();
-
-        if (isMovementBlocked) { return; }
-
-        float movement = move.ReadValue<float>();
-        rigidBody.velocity = (new Vector2(Mathf.Clamp(rigidBody.velocity.x + (movement * horizontalBaseAcceleration), -maxSpeed, maxSpeed), rigidBody.velocity.y));
-        SetSpriteFlipState(movement);
-        walkNormalVFX.SetGradient("GroundDustColor", dustRunGradient);
     }
 
     void SetHungryWalkVfx()
