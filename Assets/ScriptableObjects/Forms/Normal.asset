@@ -19,7 +19,7 @@ MonoBehaviour:
   cooldownAttack: 0.2
   cooldownSpecial: 2
   manaRegenRate: 0.018
-  hungryDepletionRate: 0.0012
+  hungryDepletionRate: 0.1
   attackMPCost: 2
   specialMPCost: 4
   projectile1: {fileID: 0}
